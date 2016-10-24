@@ -1,0 +1,32 @@
+.request-header {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: 'flex-start';
+  align-items: 'center';
+  line-height: 1.5;
+  min-width: 320px;
+}
+
+.request-header .apiName {
+  display: block;
+  margin-right: 8px;
+  color: hsl(202,9%,44%);
+}
+
+.request-header .method {
+  color: hsl(202,68%,80%);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.request-header .path {
+  color: hsl(202,68%,44%);
+  flex-grow: 1;
+  -webkit-flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

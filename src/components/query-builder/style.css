@@ -1,0 +1,22 @@
+.builder {
+  font-size: 14px;
+  padding: 60px 16px 24px 16px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  border-bottom: 1px solid #eaf1f6;
+}
+
+.builder > div {
+  min-height: 20px;
+  min-width: 50%;
+  max-width: 50%;
+  box-sizing: border-box;
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-self: auto;
+}

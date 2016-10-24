@@ -1,0 +1,28 @@
+.results {
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-self: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-self: auto;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.request {
+  justify-content: 'flex-start';
+  align-items: 'flex-start';
+  cursor: pointer;
+  border-bottom: 1px solid #d5e2ec;
+  padding: 8px 0 8px 16px;
+  background: white;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-self: auto;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.response {
+  background: none;
+}

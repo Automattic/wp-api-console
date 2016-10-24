@@ -1,0 +1,27 @@
+{
+  "name": "api-console",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.6.1"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.11.6",
+    "classnames": "^2.2.5",
+    "lodash": "^4.16.4",
+    "react": "^15.3.2",
+    "react-click-outside": "github:tj/react-click-outside",
+    "react-dom": "^15.3.2",
+    "react-json-tree": "^0.10.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "superagent": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
