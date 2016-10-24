@@ -11,8 +11,8 @@ const parseEndpoints = data => {
       rawEndpoint.methods.forEach(method => {
         // Parsing Query
         const query = {};
-        Object.keys(rawEndpoint.methods).forEach(key => {
-          const arg = rawEndpoint.methods[key];
+        Object.keys(rawEndpoint.args).forEach(key => {
+          const arg = rawEndpoint.args[key];
           query[key] = {
             description: {
               view: arg.description

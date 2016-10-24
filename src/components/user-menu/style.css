@@ -1,0 +1,112 @@
+.user-menu {
+  position: relative;
+  padding: 10px 0;
+  font-size: 14px;
+  color: hsl(201,60%,100%);
+  background-color: hsl(202,68%,44%);
+  cursor: pointer;
+  flex-shrink: 0;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.user-menu .label, .user-menu .extra {
+  vertical-align: middle;
+  line-height: 24px;
+  color: #FFF;
+}
+
+
+.user-menu:active, .user-menu.active {
+  color: hsl(201,60%,70%);
+  background-color: hsl(201,60%,100%);
+}
+
+.user-menu:hover, .user-menu:focus {
+  outline: none;
+  background-color: hsl(201,60%,70%);
+  color: #FFF;
+}
+
+.user-menu .label::before {
+  font-family: Genericons, Noticons;
+  display: inline-block;
+  position: relative;
+  content: '\f427';
+  font-size: 24px;
+  vertical-align: -6px;
+  text-align: center;
+  left: 0px;
+  padding: 0;
+  width: 44px;
+}
+
+.user-menu .img {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+}
+
+.user-menu .img img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  opacity: 0;
+  transition: opacity 200ms 200ms;
+  -webkit-transition: opacity 200ms 200ms;
+  -moz-transition: opacity 200ms 200ms;
+}
+
+.user-menu.authorized .label::before {
+  content: '\f470';
+  left: 0;
+  width: 44px;
+}
+
+.user-menu.authorized .extra {
+  position: relative;
+  left: -3px;
+}
+
+.user-menu.loading {
+  min-width: 88px;
+  justify-content: center;
+  cursor: default;
+}
+
+.user-menu.loading:hover, .user-menu.loading:focus {
+  outline: none;
+  background-color: hsl(201,60%,60%);
+}
+
+.user-menu .extra {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  transition: 200ms 100ms;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.user-menu:hover .extra, .user-menu:focus .extra {
+  opacity: 1;
+  width: 64px;
+}
+
+.user-menu.authorized:hover .extra, .user-menu.authorized:focus .extra {
+  opacity: 1;
+  width: 110px;
+}
+
+.user-menu:hover img, .user-menu:focus img {
+  opacity: 0.9;
+}
+
+.throbber {
+  padding: 0 18px;
+  display: inline-block;
+}
