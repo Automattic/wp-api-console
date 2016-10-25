@@ -3,7 +3,7 @@ import { REQUEST_SET_METHOD,
   REQUEST_UPDATE_URL,
   REQUEST_UPDATE_PATH_PART_VALUE,
   REQUEST_SET_QUERY_PARAM,
-  REQUEST_SET_BODY_PARAM } from '../actions';
+  REQUEST_SET_BODY_PARAM } from '../actions';
 
 const reducer = (state = { method: 'GET', endpoint: false, pathValues: {}, url: '', queryParams: {}, bodyParams: {} }, action) => {
   switch (action.type) {
@@ -15,7 +15,7 @@ const reducer = (state = { method: 'GET', endpoint: false, pathValues: {}, url: 
     case REQUEST_SELECT_ENDPOINT:
       return {
         ...state,
-        endpoint: action.payload,
+        endpoint: action.payload.endpoint,
         pathValues: {},
         queryParams: {},
         bodyParams: {},

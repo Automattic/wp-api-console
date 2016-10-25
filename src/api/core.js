@@ -123,7 +123,7 @@ const parseEndpoints = data => {
         // Parsing path
         const path = {};
         const paramRegex = /\([^\(\)]*\)/g;
-        const parameters = rawpath.match(paramRegex) || [];
+        const parameters = rawpath.match(paramRegex) || [];
         let pathLabel = rawpath;
         let pathFormat = rawpath;
         parameters.forEach(param => {
@@ -162,7 +162,7 @@ const parseEndpoints = data => {
 };
 
 const baseUrl = 'https://public-api.wordpress.com/'
-const api = {
+const api = {
   name: 'WP REST API',
   getDiscoveryUrl: version => baseUrl + version,
   loadVersions: () => new Promise(resolve => resolve({ versions: namespaces })),

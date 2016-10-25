@@ -1,7 +1,7 @@
 import superagent from 'superagent';
 
-import { API_ENDPOINTS_RECEIVE } from '../actions';
-import { get } from '../../api';
+import { API_ENDPOINTS_RECEIVE } from '../actions';
+import { get } from '../../api';
 
 const receiveEndpoints = (apiName, version, endpoints) => {
   return {

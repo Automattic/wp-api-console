@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { groupBy, noop } from 'lodash';
+import { connect } from 'react-redux';
+import { groupBy, noop } from 'lodash';
 
 import './style.css';
 
 import { getSelectedVersion, getSelectedApi } from '../../state/ui/selectors';
 import { getEndpoints } from '../../state/endpoints/selectors';
+import { getRecentEndpoints } from '../../state/history/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
 
 class EndpointSelector extends Component {
@@ -20,7 +21,7 @@ class EndpointSelector extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if ( (newProps.api !== this.props.api || this.props.version !== newProps.version) &&
+    if ( (newProps.api !== this.props.api || this.props.version !== newProps.version) &&
       ! newProps.endpoints.length &&
       newProps.version
     ) {
@@ -28,26 +29,34 @@ class EndpointSelector extends Component {
     }
   }
 
+  renderEndpoints(endpoints) {
+    const { onSelect } = this.props;
+
+    return endpoints.map((endpoint, index) =>
+      <li key={ index } onClick={ () => onSelect(endpoint) }>
+        <span>{ endpoint.method }</span>
+        <code>{ endpoint.path_labeled }</code>
+        <strong>{ endpoint.group }</strong>
+        <em>{ endpoint.description }</em>
+      </li>
+    );
+  }
+
   render() {
-    const { api, endpoints, onSelect, version} = this.props;
+    const { endpoints, recentEndpoints } = this.props;
     const groupedEndpoints = groupBy(endpoints, 'group');
 
     return (
       <div className="endpoint-selector">
+        { recentEndpoints.length > 0 && <div>
+            <div className="group history">Recent</div>
+            <ul>{ this.renderEndpoints(recentEndpoints) }</ul>
+          </div>
+        }
         { Object.keys(groupedEndpoints).map(group =>
-          <div key={ group }>
+          <div key={ group }>
             <div className="group">{ group }</div>
-            <ul>
-              { groupedEndpoints[group].map((endpoint, index) =>
-                  <li key={ `${api}-${version}-${index}` } onClick={ () => onSelect(endpoint) }>
-                    <span>{ endpoint.method }</span>
-                    <code>{ endpoint.path_labeled }</code>
-                    <strong>{ endpoint.group }</strong>
-                    <em>{ endpoint.description }</em>
-                  </li>
-                )
-              }
-            </ul>
+            <ul>{ this.renderEndpoints(groupedEndpoints[group]) }</ul>
           </div>
         )}
       </div>
@@ -60,11 +69,13 @@ export default connect(
     const api = getSelectedApi(state);
     const version = getSelectedVersion(state, api);
     const endpoints = getEndpoints(state, api, version);
+    const recentEndpoints = getRecentEndpoints(state, api, version);
 
     return {
       api,
       version,
-      endpoints
+      endpoints,
+      recentEndpoints
     }
   },
   { loadEndpoints }

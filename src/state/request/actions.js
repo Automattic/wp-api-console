@@ -3,12 +3,12 @@ import { REQUEST_SET_METHOD,
   REQUEST_UPDATE_URL,
   REQUEST_UPDATE_PATH_PART_VALUE,
   REQUEST_SET_QUERY_PARAM,
-  REQUEST_SET_BODY_PARAM } from '../actions';
+  REQUEST_SET_BODY_PARAM } from '../actions';
 
-export const selectEndpoint = endpoint => {
+export const selectEndpoint = (apiName, version, endpoint) => {
   return {
     type: REQUEST_SELECT_ENDPOINT,
-    payload: endpoint
+    payload: { apiName, version, endpoint }
   };
 };
 

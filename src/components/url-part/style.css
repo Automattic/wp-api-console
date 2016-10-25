@@ -36,3 +36,10 @@
 .lookup-container .parts .url-part:focus {
   outline: none;
 }
+
+.lookup-container .parts .url-part input {
+  background: none;
+  border: none;
+  color: hsl(202,68%,44%) !important;
+  font-size: 14px;
+}

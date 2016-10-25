@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './style.css';
 
 import { isReady, isLoggedin, getUser } from '../../state/security/selectors';
-import { login, logout } from '../../state/security/actions';
+import { login, logout } from '../../state/security/actions';
 
 const UserMenu = ({ isReady, isLoggedin, login, logout, user }) => {
   if (! isReady) {

@@ -1,10 +1,10 @@
 import superagent from 'superagent';
 
-import { REQUEST_RESULTS_RECEIVE } from '../actions';
+import { REQUEST_RESULTS_RECEIVE } from '../actions';
 import { getMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
-import { getToken } from '../security/selectors';
+import { getToken } from '../security/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
-import { get } from '../../api';
+import { get } from '../../api';
 
 const receiveResults = (id, version, apiName, method, path, status, body, error, duration) => {
   return {

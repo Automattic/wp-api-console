@@ -1,10 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 import './style.css';
 
-import { getSelectedEndpoint, getQueryParams, getBodyParams } from '../../state/request/selectors';
-import { setQueryParam, setBodyParam } from '../../state/request/actions';
+import { getSelectedEndpoint, getQueryParams, getBodyParams } from '../../state/request/selectors';
+import { setQueryParam, setBodyParam } from '../../state/request/actions';
 import ParamBuilder from '../param-builder';
 
 const QueryBuilder = ({ bodyParams, endpoint, queryParams, setBodyParam, setQueryParam }) => {

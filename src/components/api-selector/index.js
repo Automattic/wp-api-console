@@ -1,9 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { apis } from '../../api';
 import { getSelectedApi } from '../../state/ui/selectors';
-import { selectApi } from '../../state/ui/actions';
+import { selectApi } from '../../state/ui/actions';
 import OptionSelector from '../option-selector';
 
 const ApiSelector = ({ value, selectApi }) => {
