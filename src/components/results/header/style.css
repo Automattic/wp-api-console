@@ -1,6 +1,5 @@
 .request-header {
   display: flex;
-  display: -webkit-flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: 'flex-start';
@@ -25,8 +24,61 @@
 .request-header .path {
   color: hsl(202,68%,44%);
   flex-grow: 1;
-  -webkit-flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.request-header .duration {
+  display: inline-block;
+  color: gray;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.request-header .duration:before {
+  font-family: Genericons, Noticons;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  content: '\f303';
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.request-header .download {
+  padding: 2px 3px 0;
+  font-size: 12px;
+  border-radius: 2px;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2px 0 2px 8px;
+  border: 1px solid #95b7d0;
+  color: #95b7d0;
+}
+
+.request-header .download:before {
+  content: "\2B07\FE0E";
+}
+
+.request-header .error {
+  white-space: nowrap;
+  font-size: 12px;
+  color: red;
+  margin-right: 8px;
+}
+
+.request-header .error:before {
+  font-family: Genericons, Noticons;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+  margin-right: 8px;
+  content: '\f414';
 }

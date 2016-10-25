@@ -6,10 +6,10 @@ import { getToken } from '../security/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
 
-const receiveResults = (version, apiName, method, path, status, results) => {
+const receiveResults = (id, version, apiName, method, path, status, body, error, duration) => {
   return {
     type: REQUEST_RESULTS_RECEIVE,
-    payload: { version, apiName, method, path, status, results }
+    payload: { id, version, apiName, method, path, status, body, error, duration }
   };
 };
 
@@ -22,6 +22,7 @@ export const request = () => (dispatch, getState) => {
   const api = get(apiName);
   const body = getBodyParams(state);
   const token = getToken(state);
+  const start = new Date().getTime();
 
   const request = superagent(method, `${api.baseUrl}${version}${path}`)
     .send(body)
@@ -31,7 +32,10 @@ export const request = () => (dispatch, getState) => {
     request.set('Authorization', `BEARER ${token}`);
   }
 
-  return request.then(res => {
-    dispatch(receiveResults(version, apiName, method, path, res.status, res.body));
-  });
+  return request
+    .end((err, res) => {
+      console.log(res);
+      const end = new Date().getTime();
+      dispatch(receiveResults(start, version, apiName, method, path, res.status, res.body, res.error, end - start));
+    });
 }

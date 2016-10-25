@@ -2,7 +2,7 @@ import superagent from 'superagent';
 
 const baseUrl = 'https://public-api.wordpress.com/rest/'
 const api = {
-  name: '.COM API',
+  name: 'WP.COM API',
   getDiscoveryUrl: version => baseUrl + version + '/help',
   parseEndpoints: data => data,
   loadVersions: () => {
