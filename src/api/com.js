@@ -1,8 +1,8 @@
 import superagent from 'superagent';
 
 const baseUrl = 'https://public-api.wordpress.com/rest/'
-const api = {
-  name: '.COM API',
+const api = {
+  name: 'WP.COM API',
   getDiscoveryUrl: version => baseUrl + version + '/help',
   parseEndpoints: data => data,
   loadVersions: () => {
@@ -14,6 +14,15 @@ const api = {
           current: `v${res.body.current_version}`
         };
       })
+  },
+  buildRequest: (version, method, path, body) => {
+    return {
+      url: baseUrl + version + path,
+      apiVersion: version.substr(1),
+      method,
+      path,
+      body
+    };
   },
   baseUrl
 }

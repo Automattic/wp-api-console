@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import './style.css';
 
-import { request } from '../../state/results/actions';
+import { request } from '../../state/results/actions';
 
-const Submit = ({ request }) => {
+const Submit = ({ request }) => {
   return <div id="submit" onClick={request}></div>
 };
 
-export default connect(undefined, { request })(Submit);
+export default connect(undefined, { request })(Submit);

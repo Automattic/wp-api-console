@@ -1,15 +1,13 @@
-import superagent from 'superagent';
-
-import { REQUEST_RESULTS_RECEIVE } from '../actions';
+import { REQUEST_RESULTS_RECEIVE } from '../actions';
 import { getMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
-import { getToken } from '../security/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
-import { get } from '../../api';
+import { get } from '../../api';
+import authProvider from '../../auth';
 
-const receiveResults = (version, apiName, method, path, status, results) => {
+const receiveResults = (id, version, apiName, method, path, status, body, error, duration) => {
   return {
     type: REQUEST_RESULTS_RECEIVE,
-    payload: { version, apiName, method, path, status, results }
+    payload: { id, version, apiName, method, path, status, body, error, duration }
   };
 };
 
@@ -21,17 +19,12 @@ export const request = () => (dispatch, getState) => {
   const path = getCompleteQueryUrl(state);
   const api = get(apiName);
   const body = getBodyParams(state);
-  const token = getToken(state);
+  const start = new Date().getTime();
+  const request = api.buildRequest(version, method, path, body);
 
-  const request = superagent(method, `${api.baseUrl}${version}${path}`)
-    .send(body)
-    .set('accept', 'application/json');
-
-  if (token) {
-    request.set('Authorization', `BEARER ${token}`);
-  }
-
-  return request.then(res => {
-    dispatch(receiveResults(version, apiName, method, path, res.status, res.body));
-  });
+  return authProvider.request(request)
+    .then(({ status, body, error }) => {
+      const end = new Date().getTime();
+      dispatch(receiveResults(start, version, apiName, method, path, status, body, error, end - start));
+    });
 }

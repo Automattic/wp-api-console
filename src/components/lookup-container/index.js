@@ -7,8 +7,9 @@ import './style.css';
 import OptionSelector from '../option-selector';
 import UrlPart from '../url-part';
 import EndpointSelector from '../endpoint-selector';
+import { getSelectedApi, getSelectedVersion } from '../../state/ui/selectors';
 import { updateMethod, selectEndpoint, updateUrl, updatePathValue } from '../../state/request/actions';
-import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathParts } from '../../state/request/selectors';
+import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathParts } from '../../state/request/selectors';
 
 class LookupContainer extends Component {
   state = {
@@ -28,18 +29,19 @@ class LookupContainer extends Component {
     this.setState({ showEndpoints: false });
   };
 
-  selectEndpoint = endpoint => {
+  selectEndpoint = endpoint => {
+    const { apiName, version } = this.props;
     this.hideEndpoints();
-    this.props.selectEndpoint(endpoint);
+    this.props.selectEndpoint(apiName, version, endpoint);
   };
 
   resetEndpoint = () => {
     this.selectEndpoint(false);
     this.setState({ showEndpoints: true });
-  }
+  };
 
   renderEndpointPath() {
-    const { pathParts } = this.props;
+    const { pathParts } = this.props;
     const getParamValue = param => this.props.pathValues[param] ? this.props.pathValues[param] : '';
 
     return pathParts.map((part, index) =>
@@ -47,7 +49,8 @@ class LookupContainer extends Component {
         ? <UrlPart key={ index }
             value={ getParamValue(part) }
             defaultValue={ part }
-            onChange={ event => this.props.updatePathValue(part, event.target.value) } />
+            onChange={ event => this.props.updatePathValue(part, event.target.value) }
+            autosize />
         : <div key={ index } className="url-segment">{ part }</div>
     )
   }
@@ -55,12 +58,13 @@ class LookupContainer extends Component {
   render() {
     const { method, endpoint, url, updateMethod } = this.props;
     const { showEndpoints } = this.state;
+    const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
 
     return (
       <div className="lookup-container">
         <OptionSelector
           value={ endpoint ? endpoint.method : method }
-          choices={ endpoint ? [ endpoint.method ] : ['GET', 'POST'] }
+          choices={ endpoint ? [ endpoint.method ] : methods }
           onChange={ updateMethod } />
         <div className="parts">
           { ! endpoint && <UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } /> }
@@ -83,6 +87,8 @@ class LookupContainer extends Component {
 export default connect(
   state => {
     return {
+      apiName: getSelectedApi(state),
+      version: getSelectedVersion(state),
       endpoint: getSelectedEndpoint(state),
       url: getUrl(state),
       pathValues: getPathValues(state),

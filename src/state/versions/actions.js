@@ -1,6 +1,6 @@
-import { API_VERSIONS_RECEIVE } from '../actions';
-import { get } from '../../api';
-import { selectVersion } from '../ui/actions';
+import { API_VERSIONS_RECEIVE } from '../actions';
+import { get } from '../../api';
+import { selectVersion } from '../ui/actions';
 
 const receiveVersions = (apiName, versions) => {
   return {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import JSONTree from 'react-json-tree';
 
 import './style.css';
@@ -32,10 +33,12 @@ const Results = ({ results }) => {
   return (
     <div className="results">
       { results.map((result, index) =>
-        <div key={index} className="request">
-          <RequestHeader request={result.request} />
+        <div key={result.id} className={ classnames('request', { error: !! result.response.error }) }>
+          <RequestHeader request={ result.request } response={ result.response } />
           <div className="response">
-            <JSONTree theme={ jsonTheme } data={result.response.results} />
+            { !! result.response.body &&
+              <JSONTree theme={ jsonTheme } data={ result.response.body } shouldExpandNode={() => false} />
+            }
           </div>
         </div>
       )}

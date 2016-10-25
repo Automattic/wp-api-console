@@ -105,10 +105,13 @@
   margin-top: 0;
 }
 
-.endpoint-selector .group::before {
+.endpoint-selector .history.group::before {
+  font-family: Genericons, Noticons;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   margin-right: 4px;
   font-size: 16px;
   font-weight: normal;
-  @extend %genericon;
   vertical-align: text-bottom;
+  content: '\f303';
 }

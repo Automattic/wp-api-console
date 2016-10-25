@@ -7,7 +7,7 @@ const ParamBuilder = ({ title, params, values = {}, onChange }) => {
 
   return (
     <div className="param-builder">
-      <div className="title">{ title }</div>
+      <div className="title">{ title }</div>
       { hasParams && <div className="scroller">
           <table>
             <tbody>

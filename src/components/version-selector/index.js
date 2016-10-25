@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { getSelectedVersion, getSelectedApi } from '../../state/ui/selectors';
 import { getVersions } from '../../state/versions/selectors';
-import { selectVersion } from '../../state/ui/actions';
+import { selectVersion } from '../../state/ui/actions';
 import { loadVersions } from '../../state/versions/actions';
 import OptionSelector from '../option-selector';
 
