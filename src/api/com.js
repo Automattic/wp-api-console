@@ -15,6 +15,15 @@ const api = {
         };
       })
   },
+  buildRequest: (version, method, path, body) => {
+    return {
+      url: baseUrl + version + path,
+      apiVersion: version.substr(1),
+      method,
+      path,
+      body
+    };
+  },
   baseUrl
 }
 

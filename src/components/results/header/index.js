@@ -14,7 +14,7 @@ const RequestHeader = ({ request: { path, method, apiName, version, duration }, 
       <code className="apiName">{ apiName }</code>
       <code className="method">{ method }</code>
       <code className="path">{ `${version}${path}` }</code>
-      { !! error && <span className="error">{ `${status} - ${error.message}` }</span> }
+      { !! error && <span className="error">{ `${status} - ${error}` }</span> }
       <span className="duration">{ `${duration}ms` }</span>
       { !! body &&
         <a className="download" title="Download" target="_blank" download={ filename }

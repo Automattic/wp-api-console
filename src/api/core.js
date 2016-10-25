@@ -166,6 +166,15 @@ const api = {
   name: 'WP REST API',
   getDiscoveryUrl: version => baseUrl + version,
   loadVersions: () => new Promise(resolve => resolve({ versions: namespaces })),
+  buildRequest: (version, method, path, body) => {
+    return {
+      url: baseUrl + version + path,
+      apiNamespace: version,
+      method,
+      path,
+      body
+    };
+  },
   baseUrl,
   parseEndpoints
 }

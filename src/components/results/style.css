@@ -27,6 +27,6 @@
   background: #ffe4e4;
 }
 
-.response {
-  background: none;
+.response ul {
+  background: none !important;
 }
