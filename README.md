@@ -19,6 +19,41 @@ To get up and running:
 
 Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Configure
+
+To use with Wordpress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
+
+Copy `src/config.sample.json` to `src/config.json` and use your WordPress.com App ID and Redirect URI for the values.
+
+You will also need to add your host to the CORS whitelist in the Application's settings.
+
+```json
+{
+  "wordpress.com": {
+    "client_id": "33333",
+    "redirect_uri": "http://localhost:3000"
+  }
+}
+```
+
+You can also use this console with your Wordpress.org installation but make sure to install the WP REST API - OAuth 1.0a Server first, create an app on it and then edit the `src/config.json` like this:
+
+```json
+{
+  "wordpress.org": [
+    {
+      "name": "Dev",
+      "url": "http://src.wordpress-develop.dev",
+      "publicKey": "PwQXbJdBYrXq",
+      "secretKey": "XB9oidFfxr3guKhFcSOvwOamFlOQnauPbEcN6krtKix9MBVb",
+      "callbackUrl": "http://localhost:3000"
+    }
+  ]
+}
+```
+
+Note that your application should not be on localhost to work.
+
 ## Building
 
 To create a static package you can use anywhere (e.g. Github pages):

@@ -11,8 +11,8 @@ import Submit from '../submit';
 const Header = () => {
   return (
     <div id="header">
-      <UserMenu />
       <ApiSelector />
+      <UserMenu />
       <VersionSelector />
       <LookupContainer />
       <Submit />

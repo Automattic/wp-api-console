@@ -27,4 +27,9 @@ const api = {
   baseUrl
 }
 
-export default api;
+const createApi = authProvider => ({
+  authProvider,
+  ...api
+});
+
+export default createApi;

@@ -2,7 +2,6 @@ import { REQUEST_RESULTS_RECEIVE } from '../actions';
 import { getMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
-import authProvider from '../../auth';
 
 const receiveResults = (id, version, apiName, method, path, status, body, error, duration) => {
   return {
@@ -22,7 +21,7 @@ export const request = () => (dispatch, getState) => {
   const start = new Date().getTime();
   const request = api.buildRequest(version, method, path, body);
 
-  return authProvider.request(request)
+  return api.authProvider.request(request)
     .then(({ status, body, error }) => {
       const end = new Date().getTime();
       dispatch(receiveResults(start, version, apiName, method, path, status, body, error, end - start));
