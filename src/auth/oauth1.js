@@ -65,10 +65,11 @@ const createOauth1Provider = (name, baseUrl, callbackURL, publicKey, secretKey) 
     if (! accessToken) {
       return Promise.reject();
     }
-    return oauthRequest('GET', `${baseUrl}/wp-json/wp/v2/users/1`, null, accessToken).then(({ body }) => {
+    return oauthRequest('GET', `${baseUrl}/wp-json/wp/v2/users/me?_envelope`, null, accessToken).then(({ body }) => {
+      const user = body.body;
       return {
-        ...body,
-        avatar_URL: body.avatar_urls ? Object.values(body.avatar_urls)[0] : ''
+        ...user,
+        avatar_URL: user.avatar_urls ? Object.values(user.avatar_urls)[0] : ''
       };
     });
   }
