@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { apis } from '../../api';
 import { getSelectedApi } from '../../state/ui/selectors';
 import { selectApi } from '../../state/ui/actions';
+import { boot } from '../../state/security/actions';
 import OptionSelector from '../option-selector';
 
-const ApiSelector = ({ value, selectApi }) => {
-  return (
-    <OptionSelector value={value} choices={apis} onChange={selectApi} isHeader />
-  );
+class ApiSelector extends Component {
+  componentDidMount() {
+    this.props.boot(this.props.value);
+  }
+
+  selectApi = newApi => {
+    this.props.boot(newApi);
+    this.props.selectApi(newApi);
+  };
+
+  render() {
+    const { value } = this.props;
+    return (
+      <OptionSelector value={ value } choices={ apis } onChange={ this.selectApi } isHeader />
+    );
+  }
 }
 
 export default connect(
@@ -19,5 +32,5 @@ export default connect(
       choices: apis
     }
   },
-  { selectApi }
+  { selectApi, boot }
 )(ApiSelector);

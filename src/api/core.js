@@ -1,5 +1,3 @@
-const namespaces = ['wp/v2', 'wpcom/v2'];
-
 const guessEndpointDocumentation = (method, namespace, computedPath) => {
   // Try to guess some info about the endpoints
   let group = '';
@@ -106,7 +104,7 @@ const parseEndpoints = data => {
   Object.keys(data.routes).forEach(url => {
     const route = data.routes[url];
     // Drop the /wp/v2
-    const rawpath = url.substr(data.namespace.length + 1);
+    const rawpath = data.namespace ? url.substr(data.namespace.length + 1) : url;
     route.endpoints.forEach(rawEndpoint => {
       rawEndpoint.methods.forEach(method => {
         // Parsing Query
@@ -161,22 +159,22 @@ const parseEndpoints = data => {
   return endpoints;
 };
 
-const baseUrl = 'https://public-api.wordpress.com/'
-const api = {
-  name: 'WP REST API',
-  getDiscoveryUrl: version => baseUrl + version,
+const createApi = (authProvider, name, url, namespaces = ['wp/v2']) => ({
+  getDiscoveryUrl: version => url + version,
   loadVersions: () => new Promise(resolve => resolve({ versions: namespaces })),
   buildRequest: (version, method, path, body) => {
     return {
-      url: baseUrl + version + path,
+      url: url + version + path,
       apiNamespace: version,
       method,
       path,
       body
     };
   },
-  baseUrl,
+  baseUrl: url,
+  authProvider,
+  name,
   parseEndpoints
-}
+});
 
-export default api;
+export default createApi;
