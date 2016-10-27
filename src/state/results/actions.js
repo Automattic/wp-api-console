@@ -1,5 +1,5 @@
 import { REQUEST_RESULTS_RECEIVE } from '../actions';
-import { getMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
+import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
 
@@ -14,7 +14,7 @@ export const request = () => (dispatch, getState) => {
   const state = getState();
   const apiName = getSelectedApi(state);
   const version = getSelectedVersion(state);
-  const method = getMethod(state);
+  const method = getRequestMethod(state);
   const path = getCompleteQueryUrl(state);
   const api = get(apiName);
   const body = getBodyParams(state);

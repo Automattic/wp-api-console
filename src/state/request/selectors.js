@@ -32,6 +32,7 @@ export const getCompleteQueryUrl = state => {
   const queryString = Object.keys(queryParams).length === 0
     ? ''
     : '?' + Object.keys(queryParams)
+        .filter(param => !! queryParams[param])
         .map(param => `${param}=${queryParams[param]}`)
         .join('&');
 
@@ -39,4 +40,10 @@ export const getCompleteQueryUrl = state => {
     return url +
       ( part[0] === '$' ? values[part] || '' : part )
   }, '') + queryString;
+}
+
+export const getRequestMethod = state => {
+  const endpoint = getSelectedEndpoint(state);
+
+  return endpoint ? endpoint.method : getMethod(state);
 }
