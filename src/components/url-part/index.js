@@ -3,16 +3,25 @@ import AutosizeInput from 'react-input-autosize';
 
 import './style.css';
 
+import ParamTooltip from '../param-tooltip';
+
 const UrlPart = props => {
-  const { autosize = false, defaultValue = '', value, ...remainingProps } = props;
+  const { parameter = false, autosize = false, name = '', value, ...remainingProps } = props;
 
   if (autosize) {
-    return <AutosizeInput className="url-part" value={ value } placeholder={ defaultValue } { ...remainingProps }
-      inputStyle={{ fontSize: 14 }}/>
+
+    return <div className="url-part">
+      <AutosizeInput value={ value }
+        placeholder={ name }
+        inputStyle={{ fontSize: 14 }}
+        data-tip data-for={ `url-part-${name}` }
+        { ...remainingProps } />
+      { parameter && <ParamTooltip parameter={ parameter } id={ `url-part-${name}` } name={name} /> }
+    </div>
   }
 
   return (
-    <input value={value} className="url-part" placeholder={ defaultValue } { ...remainingProps } />
+      <input value={value} className="url-part" { ...remainingProps } />
   );
 }
 

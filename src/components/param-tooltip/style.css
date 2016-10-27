@@ -1,0 +1,36 @@
+.param-tooltip header {
+  position: relative;
+  padding: 8px;
+  z-index: 1;
+}
+
+.param-tooltip code {
+    color: hsl(0,0%,100%);
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.param-tooltip em {
+  color: hsl(195,75%,100%);
+  display: inline-block;
+  float: right;
+}
+
+.param-tooltip ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 1;
+}
+
+.param-tooltip ul code {
+  color: hsl(195,75%,60%);
+}
+
+.param-tooltip li {
+  padding: 8px;
+  border-top: 1px solid hsla(0,0%,100%,0.1);
+  max-width: 300px;
+  line-height: 1.3em;
+}

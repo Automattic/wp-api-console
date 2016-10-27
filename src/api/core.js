@@ -112,9 +112,7 @@ const parseEndpoints = data => {
         Object.keys(rawEndpoint.args).forEach(key => {
           const arg = rawEndpoint.args[key];
           query[key] = {
-            description: {
-              view: arg.description
-            }
+            description: arg.description
           };
         });
 

@@ -28,7 +28,7 @@
   align-self: auto;
 }
 
-.lookup-container .parts div {
+.lookup-container .parts > div {
   font-size: 16px;
   font-family: Inconsolata, monospace;
   padding: 3px 1px 3px 1px;
