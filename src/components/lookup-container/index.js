@@ -41,18 +41,25 @@ class LookupContainer extends Component {
   };
 
   renderEndpointPath() {
-    const { pathParts } = this.props;
+    const { pathParts, endpoint } = this.props;
     const getParamValue = param => this.props.pathValues[param] ? this.props.pathValues[param] : '';
 
-    return pathParts.map((part, index) =>
-      part[0] === '$'
-        ? <UrlPart key={ index }
+    return pathParts.map((part, index) => {
+      if (part[0] !== '$') {
+        return <div key={ index } className="url-segment">{ part }</div>
+      }
+
+      const pathParameter = endpoint.request.path[part];
+
+      return (
+        <UrlPart key={ index }
             value={ getParamValue(part) }
-            defaultValue={ part }
+            name={ part }
             onChange={ event => this.props.updatePathValue(part, event.target.value) }
+            parameter={ pathParameter }
             autosize />
-        : <div key={ index } className="url-segment">{ part }</div>
-    )
+        );
+    });
   }
 
   render() {
