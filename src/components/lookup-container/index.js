@@ -10,15 +10,30 @@ import EndpointSelector from '../endpoint-selector';
 import { getSelectedApi, getSelectedVersion } from '../../state/ui/selectors';
 import { updateMethod, selectEndpoint, updateUrl, updatePathValue } from '../../state/request/actions';
 import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathParts } from '../../state/request/selectors';
+import { request } from '../../state/results/actions';
 
 class LookupContainer extends Component {
   state = {
     showEndpoints: false
   };
 
+  inputs = [];
+
   setUrl = event => {
     this.props.updateUrl(event.target.value);
   };
+
+  bindInput = (ref, index = 0) => {
+    this.inputs[index] = ref;
+  }
+
+  onSubmitInput = (index, last) => {
+    if (last) {
+      this.props.request();
+    } else if ((index + 1) in this.inputs){
+      this.inputs[index + 1].focus();
+    }
+  }
 
   showEndpoints = event => {
     event.stopPropagation();
@@ -43,6 +58,8 @@ class LookupContainer extends Component {
   renderEndpointPath() {
     const { pathParts, endpoint } = this.props;
     const getParamValue = param => this.props.pathValues[param] ? this.props.pathValues[param] : '';
+    const pathParameterKeys = pathParts.filter(part => part[0] === '$');
+    const countInputs = pathParameterKeys.length;
 
     return pathParts.map((part, index) => {
       if (part[0] !== '$') {
@@ -50,20 +67,24 @@ class LookupContainer extends Component {
       }
 
       const pathParameter = endpoint.request.path[part];
+      const inputIndex = pathParameterKeys.indexOf(part);
+      const last = inputIndex === countInputs - 1;
 
       return (
         <UrlPart key={ index }
             value={ getParamValue(part) }
             name={ part }
-            onChange={ event => this.props.updatePathValue(part, event.target.value) }
             parameter={ pathParameter }
+            onChange={ event => this.props.updatePathValue(part, event.target.value) }
+            onSubmit={ () => this.onSubmitInput(inputIndex, last) }
+            ref={ ref => this.bindInput(ref, inputIndex) }
             autosize />
         );
     });
   }
 
   render() {
-    const { method, endpoint, url, updateMethod } = this.props;
+    const { request, method, endpoint, url, updateMethod } = this.props;
     const { showEndpoints } = this.state;
     const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
 
@@ -74,7 +95,9 @@ class LookupContainer extends Component {
           choices={ endpoint ? [ endpoint.method ] : methods }
           onChange={ updateMethod } />
         <div className="parts">
-          { ! endpoint && <UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } /> }
+          { ! endpoint &&
+              <UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } onSubmit={ request } />
+          }
           { endpoint && this.renderEndpointPath() }
         </div>
         { endpoint
@@ -103,5 +126,5 @@ export default connect(
       pathParts: getEndpointPathParts(state)
     };
   },
-  { updateMethod, selectEndpoint, updateUrl, updatePathValue }
+  { updateMethod, selectEndpoint, updateUrl, updatePathValue, request }
 )(LookupContainer);

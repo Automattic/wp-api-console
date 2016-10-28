@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AutosizeInput from 'react-input-autosize';
 
 import './style.css';
 
 import ParamTooltip from '../param-tooltip';
 
-const UrlPart = props => {
-  const { parameter = false, autosize = false, name = '', value, ...remainingProps } = props;
-
-  if (autosize) {
-
-    return <div className="url-part">
-      <AutosizeInput value={ value }
-        placeholder={ name }
-        inputStyle={{ fontSize: 14 }}
-        data-tip data-for={ `url-part-${name}` }
-        { ...remainingProps } />
-      { parameter && <ParamTooltip parameter={ parameter } id={ `url-part-${name}` } name={name} /> }
-    </div>
+class UrlPart extends Component {
+  bindInput = ref => {
+    this.input = ref;
   }
 
-  return (
-      <input value={value} className="url-part" { ...remainingProps } />
-  );
+  focus = () => {
+    this.input.focus();
+  };
+
+  render() {
+    const { parameter = false, autosize = false, name = '', value, onSubmit, ...remainingProps } = this.props;
+
+    const onKeyPress = event => {
+      if (event.key === 'Enter') {
+        onSubmit();
+      }
+    }
+
+    if (autosize) {
+
+      return <div className="url-part">
+        <AutosizeInput value={ value }
+          placeholder={ name }
+          inputStyle={ { fontSize: 14 } }
+          data-tip data-for={ `url-part-${name}` }
+          onKeyPress={ onKeyPress }
+          ref={ this.bindInput }
+          { ...remainingProps } />
+        { parameter && <ParamTooltip parameter={ parameter } id={ `url-part-${name}` } name={name} /> }
+      </div>
+    }
+
+    return (
+      <input value={value} className="url-part"
+        onKeyPress={ onKeyPress }
+        ref={ this.bindInput }
+        { ...remainingProps }
+      />
+    );
+  }
 }
 
 export default UrlPart;
