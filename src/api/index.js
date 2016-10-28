@@ -21,9 +21,9 @@ if (config['wordpress.com']) {
     ? proxy
     : createOauth2Provider(oauth2Config.id, oauth2Config.baseUrl, oauth2Config.userUrl, oauth2Config.redirectUrl, oauth2Config.clientId);
 
-  const hasOrgWebsites = !! config['wordpress.com'] && !! Object.keys(config['wordpress.com']).length
+  const hasOrgWebsites = !! config['wordpress.org'] && !! Object.keys(config['wordpress.org']).length
   const dotComWPApi = {
-    name: hasOrgWebsites ? 'WP REST API' : 'WP.COM WP REST API',
+    name: hasOrgWebsites ? 'WP.COM WP REST API' : 'WP REST API',
     baseUrl: 'https://public-api.wordpress.com/',
     namespaces: ['wp/v2', 'wpcom/v2']
   };
