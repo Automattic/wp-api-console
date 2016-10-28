@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
-import { REQUEST_RESULTS_RECEIVE } from '../../actions';
+import { REQUEST_RESULTS_RECEIVE } from '../../actions';
 
 const result = {
   id: '1',

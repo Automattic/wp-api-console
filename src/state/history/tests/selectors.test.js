@@ -1,4 +1,4 @@
-import { getRecentEndpoints } from '../selectors';
+import { getRecentEndpoints } from '../selectors';
 
 const endpoints = [
   { path_labeled: 'myEndpoint' }

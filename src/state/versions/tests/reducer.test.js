@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
-import { API_VERSIONS_RECEIVE } from '../../actions';
+import { API_VERSIONS_RECEIVE } from '../../actions';
 
 const versions = [ 'v1' ];
 const state = deepFreeze({

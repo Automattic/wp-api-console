@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './style.css';
 
-import { getSelectedApi } from '../../state/ui/selectors';
+import { getSelectedApi } from '../../state/ui/selectors';
 import { isReady, isLoggedin, getUser } from '../../state/security/selectors';
 import { login, logout } from '../../state/security/actions';
 

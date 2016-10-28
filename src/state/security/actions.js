@@ -1,18 +1,18 @@
 import { get } from '../../api';
 import { SECURITY_RECEIVE_USER, SECURITY_CHECK_FAILED, SECURITY_LOGOUT } from '../actions';
-import { isReady } from './selectors';
+import { isReady } from './selectors';
 
 const receiveUser = (apiName, user) => {
   return {
     type: SECURITY_RECEIVE_USER,
-    payload: { user, apiName }
+    payload: { user, apiName }
   };
 };
 
 const secyrityCheckFailed = apiName => {
   return {
     type: SECURITY_CHECK_FAILED,
-    payload: { apiName }
+    payload: { apiName }
   };
 };
 

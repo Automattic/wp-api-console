@@ -1,4 +1,4 @@
-import { 
+import {
   getSelectedEndpoint,
   getUrl,
   getPathValues,
@@ -7,7 +7,8 @@ import { 
   getBodyParams,
   getEndpointPathParts,
   getCompleteQueryUrl,
-  getRequestMethod
+  getRequestMethod,
+  filterEndpoints
 } from '../selectors';
 
 it('getSelectedEndpoint should return the selected endpoint', () => {
@@ -120,5 +121,33 @@ describe('getRequestMethod', () => {
     };
 
     expect(getRequestMethod(state)).toEqual('POST');
+  });
+});
+
+describe('filterEndpoints', () => {
+  it('should filter based on path', () => {
+    const state = {
+      request: { url: 'Comments' }
+    };
+    const endpoints = [
+      { path_labeled: '/sites/me', description: '' },
+      { path_labeled: '/comments', description: '' }
+    ];
+
+    expect(filterEndpoints(state, endpoints))
+      .toEqual([ { path_labeled: '/comments', description: '' } ]);
+  });
+
+  it('should filter based on description', () => {
+    const state = {
+      request: { url: 'current' }
+    };
+    const endpoints = [
+      { path_labeled: '/sites/me', description: 'Current User' },
+      { path_labeled: '/comments', description: '' }
+    ];
+
+    expect(filterEndpoints(state, endpoints))
+      .toEqual([ { path_labeled: '/sites/me', description: 'Current User' } ]);
   });
 });

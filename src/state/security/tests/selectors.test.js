@@ -1,4 +1,4 @@
-import { isReady, isLoggedin, getUser } from '../selectors';
+import { isReady, isLoggedin, getUser } from '../selectors';
 
 const user = { username: 'lydia' };
 

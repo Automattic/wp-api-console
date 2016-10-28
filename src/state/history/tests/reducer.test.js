@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
-import { REQUEST_SELECT_ENDPOINT } from '../../actions';
+import { REQUEST_SELECT_ENDPOINT } from '../../actions';
 
 const endpoint = { path_labeled: 'myEndpoint' };
 const state = deepFreeze({

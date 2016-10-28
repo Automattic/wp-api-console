@@ -1,4 +1,4 @@
-import { getSelectedApi, getSelectedVersion } from '../selectors';
+import { getSelectedApi, getSelectedVersion } from '../selectors';
 
 const state = {
   ui: {

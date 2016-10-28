@@ -1,4 +1,4 @@
-import { getResults } from '../selectors';
+import { getResults } from '../selectors';
 
 const results = [
   { status: 200 }

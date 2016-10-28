@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
-import { API_ENDPOINTS_RECEIVE } from '../../actions';
+import { API_ENDPOINTS_RECEIVE } from '../../actions';
 
 const endpoints = [
   { path_labeled: 'myEndpoint' }
