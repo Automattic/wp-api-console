@@ -1,6 +1,6 @@
-# Wordpress.com API Console v3
+# WordPress.com API Console v3
 
-This is a WIP rewrite in React for the Wordpress.com API Console.
+This is a WIP rewrite in React for the WordPress.com API Console.
 
 ## Development
 
@@ -21,7 +21,7 @@ Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Configure
 
-To use with Wordpress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
+To use with WordPress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
 
 Copy `src/config.sample.json` to `src/config.json` and use your WordPress.com App ID and Redirect URI for the values.
 
@@ -36,7 +36,7 @@ You will also need to add your host to the CORS whitelist in the Application's s
 }
 ```
 
-You can also use this console with your Wordpress.org installation but make sure to install the WP REST API - OAuth 1.0a Server first, create an app on it and then edit the `src/config.json` like this:
+You can also use this console with your WordPress.org installation but make sure to install the WP REST API - OAuth 1.0a Server first, create an app on it and then edit the `src/config.json` like this:
 
 ```json
 {
