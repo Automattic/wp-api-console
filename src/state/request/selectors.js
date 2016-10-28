@@ -1,4 +1,4 @@
-import { get, compact } from 'lodash';
+import { compact } from 'lodash';
 
 export const getSelectedEndpoint = state => state.request.endpoint;
 
