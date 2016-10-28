@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { apis } from '../../api';
 import { getSelectedApi } from '../../state/ui/selectors';
 import { selectApi } from '../../state/ui/actions';
-import { boot } from '../../state/security/actions';
+import { boot } from '../../state/security/actions';
 import OptionSelector from '../option-selector';
 
 class ApiSelector extends Component {

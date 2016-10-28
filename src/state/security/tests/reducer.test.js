@@ -23,7 +23,7 @@ it('should return old stateon unknown actions', () => {
 
 describe('Receive User', () => {
   it('should update api state on login success', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_RECEIVE_USER,
       payload: {
@@ -42,7 +42,7 @@ describe('Receive User', () => {
   });
 
   it('should append new api state on login success', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_RECEIVE_USER,
       payload: {
@@ -69,7 +69,7 @@ describe('Receive User', () => {
 
 describe('Security check failed', () => {
   it('should update api state', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_CHECK_FAILED,
       payload: {
@@ -87,7 +87,7 @@ describe('Security check failed', () => {
   });
 
   it('should append new api state', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_CHECK_FAILED,
       payload: {
@@ -112,7 +112,7 @@ describe('Security check failed', () => {
 
 describe('Logout success', () => {
   it('should update api state', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_LOGOUT,
       payload: {
@@ -130,7 +130,7 @@ describe('Logout success', () => {
   });
 
   it('should append new api state', () => {
-    const user = { username: 'manil' };
+    const user = { username: 'manil' };
     const action = {
       type: SECURITY_LOGOUT,
       payload: {

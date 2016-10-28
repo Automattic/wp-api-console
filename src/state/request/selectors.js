@@ -49,3 +49,12 @@ export const getRequestMethod = state => {
 
   return endpoint ? endpoint.method : getMethod(state);
 }
+
+export const filterEndpoints = (state, endpoints) => {
+  const url = getUrl(state).toLowerCase();
+
+  return endpoints.filter(endpoint =>
+    endpoint.path_labeled.toLowerCase().indexOf(url) !== -1 ||
+    endpoint.description.toLowerCase().indexOf(url) !== -1
+  );
+}

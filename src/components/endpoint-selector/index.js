@@ -7,6 +7,7 @@ import './style.css';
 import { getSelectedVersion, getSelectedApi } from '../../state/ui/selectors';
 import { getEndpoints } from '../../state/endpoints/selectors';
 import { getRecentEndpoints } from '../../state/history/selectors';
+import { filterEndpoints } from '../../state/request/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
 
 class EndpointSelector extends Component {
@@ -68,8 +69,8 @@ export default connect(
   state => {
     const api = getSelectedApi(state);
     const version = getSelectedVersion(state, api);
-    const endpoints = getEndpoints(state, api, version);
-    const recentEndpoints = getRecentEndpoints(state, api, version);
+    const endpoints = filterEndpoints(state, getEndpoints(state, api, version));
+    const recentEndpoints = filterEndpoints(state, getRecentEndpoints(state, api, version));
 
     return {
       api,

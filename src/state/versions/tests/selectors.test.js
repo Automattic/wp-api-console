@@ -1,4 +1,4 @@
-import { getVersions } from '../selectors';
+import { getVersions } from '../selectors';
 
 const versions = [ 'v1', 'v2' ];
 const state = {

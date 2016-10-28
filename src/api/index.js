@@ -48,5 +48,5 @@ if (config['wordpress.org']) {
 export const apis = APIs.map(api => api.name);
 export const getDefault = () => APIs[0];
 export const get = name => {
-  return APIs.find(api => api.name === name) || getDefault();
+  return APIs.find(api => api.name === name) || getDefault();
 };
