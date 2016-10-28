@@ -28,5 +28,36 @@
 }
 
 .response ul {
+  line-height: 18px;
+  font-family: monospace;
+  font-size: 13px;
   background: none !important;
+}
+
+.response li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  white-space: nowrap;
+    color: rgb(92, 129, 21);
+}
+
+.collapsed-content {
+  display: inline;
+}
+
+.collapsed-content .key {
+  color: hsl(296,77%,32%);
+}
+
+.collapsed-content .string {
+  color: rgb(92, 129, 21);
+}
+
+.collapsed-content .number {
+  color: rgb(246, 103, 30);
+}
+
+.expanded .collapsed-content .content {
+  display: none;
 }
