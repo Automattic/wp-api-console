@@ -1,16 +1,14 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import { REQUEST_SELECT_ENDPOINT } from '../../actions';
 
 const endpoint = { path_labeled: 'myEndpoint' };
-
-const state = {
+const state = deepFreeze({
   wpcom: {
     v1: [ endpoint ]
   }
-};
-deepfreeze(state);
+});
 
 it('should return old stateon unknown actions', () => {
   const action = { type: 'test' };

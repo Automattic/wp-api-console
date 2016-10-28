@@ -1,4 +1,4 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import { REQUEST_RESULTS_RECEIVE } from '../../actions';
@@ -18,9 +18,7 @@ const result = {
     error: false
   }
 };
-
-const state = [ result ];
-deepfreeze(state);
+const state = deepFreeze([ result ]);
 
 it('should return old stateon unknown actions', () => {
   const action = { type: 'test' };

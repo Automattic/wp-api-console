@@ -1,4 +1,4 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import {
@@ -11,15 +11,14 @@ import {
 } from '../../actions';
 
 const endpoint = { path_labeled: '/$site/posts' };
-const state = {
+const state = deepFreeze({
   endpoint,
   method: 'GET',
   queryParams: { context: 'view' },
   bodyParams: { a: 'b' },
   pathValues: { $site: 'mySite' },
   url: '/help'
-};
-deepfreeze(state);
+});
 
 it('should return old stateon unknown actions', () => {
   const action = { type: 'test' };

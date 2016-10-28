@@ -1,4 +1,4 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import { API_ENDPOINTS_RECEIVE } from '../../actions';
@@ -6,15 +6,13 @@ import { API_ENDPOINTS_RECEIVE } from '../../actions';
 const endpoints = [
   { path_labeled: 'myEndpoint' }
 ];
-
-const state = {
+const state = deepFreeze({
   wpcom: {
     v1: endpoints
   }
-};
-deepfreeze(state);
+});
 
-it('should return old stateon unknown actions', () => {
+it('should return old state on unknown actions', () => {
   const action = { type: 'test' };
 
   expect(reducer(state, action)).toEqual(state);

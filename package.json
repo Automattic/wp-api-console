@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "deepfreeze": "^2.0.0",
+    "deep-freeze": "0.0.1",
     "react-scripts": "0.6.1",
     "surge": "^0.18.0"
   },

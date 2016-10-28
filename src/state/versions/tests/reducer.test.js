@@ -1,13 +1,12 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import { API_VERSIONS_RECEIVE } from '../../actions';
 
 const versions = [ 'v1' ];
-const state = {
+const state = deepFreeze({
   wpcom: versions
-};
-deepfreeze(state);
+});
 
 it('should return old stateon unknown actions', () => {
   const action = { type: 'test' };

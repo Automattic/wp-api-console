@@ -1,3 +1,5 @@
+import { get, compact } from 'lodash';
+
 export const getSelectedEndpoint = state => state.request.endpoint;
 
 export const getUrl = state => state.request.url;
@@ -18,7 +20,7 @@ export const getEndpointPathParts = state => {
   const pathRegex = /\$[^/]*|([^$]*)/g;
   const pathParts = endpoint.path_labeled.match(pathRegex);
 
-  return pathParts.filter(part => !! part);
+  return compact(pathParts);
 }
 
 export const getCompleteQueryUrl = state => {

@@ -1,4 +1,4 @@
-import deepfreeze from 'deepfreeze';
+import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import {
@@ -7,14 +7,13 @@ import {
   SECURITY_LOGOUT
 } from '../../actions';
 
-const state = {
+const state = deepFreeze({
   wpcom: {
     ready: false,
     isLoggedin: false,
     user: false
   }
-};
-deepfreeze(state);
+});
 
 it('should return old stateon unknown actions', () => {
   const action = { type: 'test' };
