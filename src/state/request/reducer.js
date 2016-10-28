@@ -1,9 +1,11 @@
-import { REQUEST_SET_METHOD,
+import {
+  REQUEST_SET_METHOD,
   REQUEST_SELECT_ENDPOINT,
   REQUEST_UPDATE_URL,
   REQUEST_UPDATE_PATH_PART_VALUE,
   REQUEST_SET_QUERY_PARAM,
-  REQUEST_SET_BODY_PARAM } from '../actions';
+  REQUEST_SET_BODY_PARAM
+} from '../actions';
 
 const reducer = (state = { method: 'GET', endpoint: false, pathValues: {}, url: '', queryParams: {}, bodyParams: {} }, action) => {
   switch (action.type) {
