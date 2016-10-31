@@ -1,4 +1,4 @@
-import { compact } from 'lodash';
+import { compact, isArray } from 'lodash';
 
 export const getSelectedEndpoint = state => state.request.endpoint;
 
@@ -70,11 +70,19 @@ export const getCompleteQueryUrl = state => {
   const parts = getEndpointPathParts(state);
   const values = getPathValues(state);
   const queryParams = getQueryParams(state);
+  const buildParamUrl = (param, value) => {
+    if (isArray(value)) {
+      return value.map(subvalue => `${param}[]=${subvalue}`)
+        .join('&');
+    }
+
+    return `${param}=${value}`;
+  }
   const queryString = Object.keys(queryParams).length === 0
     ? ''
     : '?' + Object.keys(queryParams)
         .filter(param => !! queryParams[param])
-        .map(param => `${param}=${queryParams[param]}`)
+        .map(param => buildParamUrl(param, queryParams[param]))
         .join('&');
 
   return parts.reduce((url, part) => {
