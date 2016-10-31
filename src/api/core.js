@@ -1,4 +1,4 @@
-const guessEndpointDocumentation = (method, namespace, computedPath) => {
+export const guessEndpointDocumentation = (method, namespace, computedPath) => {
   // Try to guess some info about the endpoints
   let group = '';
   let groupPlural = '';
@@ -98,7 +98,7 @@ const guessEndpointDocumentation = (method, namespace, computedPath) => {
   };
 }
 
-const parseEndpoints = data => {
+export const parseEndpoints = data => {
   var endpoints = [];
 
   Object.keys(data.routes).forEach(url => {
