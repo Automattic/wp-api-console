@@ -18,9 +18,6 @@ const reducer = (state = { method: 'GET', endpoint: false, pathValues: {}, url: 
       return {
         ...state,
         endpoint: action.payload.endpoint,
-        pathValues: {},
-        queryParams: {},
-        bodyParams: {},
         url: ''
       };
     case REQUEST_UPDATE_URL:

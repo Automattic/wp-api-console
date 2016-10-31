@@ -4,13 +4,52 @@ export const getSelectedEndpoint = state => state.request.endpoint;
 
 export const getUrl = state => state.request.url;
 
-export const getPathValues = state => state.request.pathValues;
+export const getPathValues = state => {
+  const endpoint = getSelectedEndpoint(state);
+  if (! endpoint) {
+    return {};
+  }
+  const pathArgs = Object.keys(endpoint.request.path);
+
+  return pathArgs.reduce((ret, arg) => {
+     return {
+       ...ret,
+       [arg]: state.request.pathValues[arg]
+     };
+  }, {});
+};
 
 export const getMethod = state => state.request.method;
 
-export const getQueryParams = state => state.request.queryParams;
+export const getQueryParams = state => {
+  const endpoint = getSelectedEndpoint(state);
+  if (! endpoint) {
+    return {};
+  }
+  const queryArgs = Object.keys(endpoint.request.query);
 
-export const getBodyParams = state => state.request.bodyParams;
+  return queryArgs.reduce((ret, arg) => {
+     return {
+       ...ret,
+       [arg]: state.request.queryParams[arg]
+     };
+  }, {});
+};
+
+export const getBodyParams = state => {
+  const endpoint = getSelectedEndpoint(state);
+  if (! endpoint) {
+    return {};
+  }
+  const bodyArgs = Object.keys(endpoint.request.body);
+
+  return bodyArgs.reduce((ret, arg) => {
+     return {
+       ...ret,
+       [arg]: state.request.bodyParams[arg]
+     };
+  }, {});
+};
 
 export const getEndpointPathParts = state => {
   const endpoint = getSelectedEndpoint(state);

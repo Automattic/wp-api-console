@@ -52,9 +52,9 @@ it('should select a new endpoint and reset some params', () => {
   expect(reducer(state, action)).toEqual({
     endpoint: newEndpoint,
     method: 'GET',
-    queryParams: {},
-    bodyParams: {},
-    pathValues: {},
+    queryParams: { context: 'view' },
+    bodyParams: { a: 'b' },
+    pathValues: { $site: 'mySite' },
     url: ''
   });
 });
