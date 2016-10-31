@@ -30,12 +30,21 @@ it('getUrl should return the defined url', () => {
 });
 
 it('getPathValues should return the defined pathValues', () => {
-  const pathValues = { '$site': 'mysite' };
+  const pathValues = { '$site': 'mysite', 'toto': 'tata' };
   const state = {
-    request: { pathValues }
+    request: {
+      endpoint: {
+        request: {
+          path: {
+            $site: {}
+          }
+        }
+      },
+      pathValues
+    }
   };
 
-  expect(getPathValues(state)).toEqual(pathValues);
+  expect(getPathValues(state)).toEqual({ '$site': 'mysite' });
 });
 
 it('getMethod should return the selected method', () => {
@@ -48,21 +57,39 @@ it('getMethod should return the selected method', () => {
 });
 
 it('getQueryParams should return the defined queryParams', () => {
-  const queryParams = { 'context': 'view' };
+  const queryParams = { 'context': 'view', 'toto': 'tata'  };
   const state = {
-    request: { queryParams }
+    request: {
+      endpoint: {
+        request: {
+          query: {
+            context: {}
+          }
+        }
+      },
+      queryParams
+    }
   };
 
-  expect(getQueryParams(state)).toEqual(queryParams);
+  expect(getQueryParams(state)).toEqual({ 'context': 'view' });
 });
 
 it('getBodyParams should return the defined bodyParams', () => {
-  const bodyParams = { 'context': 'view' };
+  const bodyParams = { 'context': 'view', 'toto': 'tata' };
   const state = {
-    request: { bodyParams }
+    request: {
+      endpoint: {
+        request: {
+          body: {
+            context: {}
+          }
+        }
+      },
+      bodyParams
+    }
   };
 
-  expect(getBodyParams(state)).toEqual(bodyParams);
+  expect(getBodyParams(state)).toEqual({ 'context': 'view' });
 });
 
 it('getEndpointPathParts should explode the endpoint path correctly', () => {
@@ -87,7 +114,13 @@ describe('getCompleteQueryUrl', () => {
   it('should use the endpoint path, pathParts and queryParams if an endpoint is selected', () => {
     const state = {
       request: {
-        endpoint: { path_labeled: '/site/$site/posts/slug:$slug' },
+        endpoint: {
+          path_labeled: '/site/$site/posts/slug:$slug',
+          request: {
+            path: { $site: {}, $slug: {} },
+            query: { context: {}, page: {} }
+          }
+        },
         pathValues: {
           $site: 'testsite.wordpress.com',
           $slug: '10'
