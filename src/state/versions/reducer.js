@@ -1,16 +1,12 @@
+import { createReducer } from '../../lib/redux/create-reducer';
 import { API_VERSIONS_RECEIVE } from '../actions';
+import schema from './schema';
 
-const versions = (state = {}, action) => {
-  switch (action.type) {
-    case API_VERSIONS_RECEIVE:
-      const { apiName, versions } = action.payload;
-      return {
-        ...state,
-        [apiName]: versions
-      };
-    default:
-      return state;
-  }
-};
+const versions = createReducer({}, {
+  [API_VERSIONS_RECEIVE]: (state, { payload: { apiName, versions }}) => ({
+    ...state,
+    [apiName]: versions
+  })
+}, schema);
 
 export default versions;
