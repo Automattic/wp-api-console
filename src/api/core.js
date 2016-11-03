@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 export const guessEndpointDocumentation = (method, namespace, computedPath) => {
   // Try to guess some info about the endpoints
   let group = '';
@@ -99,7 +101,8 @@ export const guessEndpointDocumentation = (method, namespace, computedPath) => {
 }
 
 export const parseEndpoints = data => {
-  var endpoints = [];
+  const endpoints = [];
+  const contentRelatedMethods = [ 'PUT', 'PATCH', 'POST' ];
 
   Object.keys(data.routes).forEach(url => {
     const route = data.routes[url];
@@ -110,10 +113,11 @@ export const parseEndpoints = data => {
         // Parsing Query
         const query = {};
         Object.keys(rawEndpoint.args).forEach(key => {
-          const arg = rawEndpoint.args[key];
-          query[key] = {
-            description: arg.description
-          };
+          const { description = '' } = rawEndpoint.args[key];
+          const type = contentRelatedMethods.includes(method)
+            ? get(route, ['schema', 'properties', key, 'type'], 'string')
+            : 'string';
+          query[key] = { type, description };
         });
 
         // Parsing path
@@ -158,7 +162,7 @@ export const parseEndpoints = data => {
 };
 
 const createApi = (authProvider, name, url, namespaces = ['wp/v2']) => ({
-  getDiscoveryUrl: version => url + version,
+  getDiscoveryUrl: version => `${url}${version}?context=help`,
   loadVersions: () => new Promise(resolve => resolve({ versions: namespaces })),
   buildRequest: (version, method, path, body) => {
     return {

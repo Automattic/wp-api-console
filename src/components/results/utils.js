@@ -1,4 +1,4 @@
-import { isArray, isPlainObject, isString, toPairs } from 'lodash';
+import { isArray, isPlainObject, isString, toPairs, toString } from 'lodash';
 
 const MAX_LENGTH = 60;
 
@@ -38,7 +38,7 @@ const recursiveStringify = (data, max = MAX_LENGTH) => {
   }
 
   return {
-    length: data.toString().length,
+    length: toString(data).length,
     output: '<span class="' + (typeof data) + '">' + data + '</span>'
   };
 }

@@ -7,7 +7,7 @@ import './style.css';
 
 import RequestHeader from './header';
 import { getResults } from '../../state/results/selectors';
-import { stringify } from './utils';
+import { stringify } from './utils';
 
 const Results = ({ results }) => {
   const jsonTheme = {

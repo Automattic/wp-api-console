@@ -65,3 +65,21 @@
 .param-builder td input:focus {
   outline: none;
 }
+
+.param-builder .react-tagsinput {
+  border: none;
+  padding: 0;
+}
+
+.param-builder .react-tagsinput input {
+  width: auto;
+  margin: 0;
+}
+
+.param-builder .react-tagsinput-tag {
+  margin-right: 0;
+  margin-left: 5px;
+  color: hsl(202,68%,44%);
+  background: hsl(205,38%,94%);
+  border-color: hsl(202,68%,44%);
+}
