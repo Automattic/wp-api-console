@@ -73,3 +73,21 @@ it('should merge endpoints for the same api and version', () => {
     }
   });
 });
+
+it('should not merge duplicate endpoints for the same api and version', () => {
+  const newEndpoint = { path_labeled: 'mynewEndpoint' };
+  const action = {
+    type: REQUEST_SELECT_ENDPOINT,
+    payload: {
+      apiName: 'wpcom',
+      version: 'v1',
+      endpoint: endpoint
+    }
+  };
+
+  expect(reducer(state, action)).toEqual({
+    wpcom: {
+      v1: [ endpoint ]
+    }
+  });
+});
