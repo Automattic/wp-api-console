@@ -75,7 +75,6 @@ it('should merge endpoints for the same api and version', () => {
 });
 
 it('should not merge duplicate endpoints for the same api and version', () => {
-  const newEndpoint = { path_labeled: 'mynewEndpoint' };
   const action = {
     type: REQUEST_SELECT_ENDPOINT,
     payload: {
@@ -88,6 +87,29 @@ it('should not merge duplicate endpoints for the same api and version', () => {
   expect(reducer(state, action)).toEqual({
     wpcom: {
       v1: [ endpoint ]
+    }
+  });
+});
+
+it('should put duplicate endpoints at the front of the history', () => {
+  const newEndpoint = { path_labeled: 'mynewEndpoint' };
+  const state2 = deepFreeze({
+    wpcom: {
+      v1: [ newEndpoint, endpoint ]
+    }
+  });
+  const action = {
+    type: REQUEST_SELECT_ENDPOINT,
+    payload: {
+      apiName: 'wpcom',
+      version: 'v1',
+      endpoint: endpoint
+    }
+  };
+
+  expect(reducer(state2, action)).toEqual({
+    wpcom: {
+      v1: [ endpoint, newEndpoint ]
     }
   });
 });
