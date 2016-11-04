@@ -29,10 +29,13 @@ export const getQueryParams = state => {
   const queryArgs = Object.keys(endpoint.request.query);
 
   return queryArgs.reduce((ret, arg) => {
-     return {
-       ...ret,
-       [arg]: state.request.queryParams[arg]
-     };
+    if (! state.request.queryParams[arg]) {
+      return ret;
+    }
+    return {
+      ...ret,
+      [arg]: state.request.queryParams[arg]
+    };
   }, {});
 };
 
@@ -44,10 +47,10 @@ export const getBodyParams = state => {
   const bodyArgs = Object.keys(endpoint.request.body);
 
   return bodyArgs.reduce((ret, arg) => {
-     return {
-       ...ret,
-       [arg]: state.request.bodyParams[arg]
-     };
+    return {
+      ...ret,
+      [arg]: state.request.bodyParams[arg]
+    };
   }, {});
 };
 
@@ -81,7 +84,6 @@ export const getCompleteQueryUrl = state => {
   const queryString = Object.keys(queryParams).length === 0
     ? ''
     : '?' + Object.keys(queryParams)
-        .filter(param => !! queryParams[param])
         .map(param => buildParamUrl(param, queryParams[param]))
         .join('&');
 
