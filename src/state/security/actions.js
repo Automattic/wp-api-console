@@ -27,7 +27,7 @@ export const boot = apiName => (dispatch, getState) => {
     .catch(() => dispatch(secyrityCheckFailed(apiName)));
 };
 
-export const login = apiName => {
+export const login = apiName => () => {
   const api = get(apiName);
   api.authProvider.login();
 }
