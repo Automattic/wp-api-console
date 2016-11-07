@@ -4,22 +4,23 @@ This is a WIP rewrite in React for the WordPress.com API Console.
 
 ## Development
 
-Hacking requires node.js, install node.js for your system. (e.g. `brew install node`).
-
 To get up and running:
 
-1. Clone the repository
-    `git clone git@github.com:youknowriad/wp-api-console.git`
+1. Clone the repository `git clone git@github.com:youknowriad/wp-api-console.git`
 
-2. Install dependencies
-    `npm install`
+2. Install dependencies `npm install`
 
-3. Run the dev server
-    `npm start`
+3. Edit the `src/config.json` (see the "Configuration" section bellow)
+
+3. Run the dev server `npm start`
 
 Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Configure
+Checkout the [this documentation](./DOC.md) for more technical details.
+
+## Configuration
+
+### Using with Wordpress.com APIs
 
 To use with WordPress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
 
@@ -36,31 +37,36 @@ You will also need to add your host to the CORS whitelist in the Application's s
 }
 ```
 
-You can also use this console with your WordPress.org installation but make sure to install the WP REST API - OAuth 1.0a Server first, create an app on it and then edit the `src/config.json` like this:
+### Using with your self hosted WordPress
 
-```json
+You can also use this console with your WordPress.org installation but make sure to install the [WP REST API - OAuth 1.0a Server](https://oauth1.wp-api.org/) first, create an app on it and then edit the `src/config.json` like this:
+
+```javascript
 {
   "wordpress.org": [
     {
-      "name": "Dev",
-      "url": "http://src.wordpress-develop.dev",
-      "publicKey": "PwQXbJdBYrXq",
-      "secretKey": "XB9oidFfxr3guKhFcSOvwOamFlOQnauPbEcN6krtKix9MBVb",
-      "callbackUrl": "http://localhost:3000"
+      "name": "Dev",  // Name to display on the API selector
+      "url": "http://src.wordpress-develop.dev", // Base URL of your WordPress website
+      "publicKey": "PwQXbJdBYrXq", // Public Key of your application
+      "secretKey": "XB9oidFfxr3guKhFcSOvwOamFlOQnauPbEcN6krtKix9MBVb", // Secrent Key of your application
+      "callbackUrl": "http://localhost:3000" // Callback URL: should reflect the public url of the console
     }
   ]
 }
 ```
 
-Note that your application should not be on localhost to work.
+Note that your application should not be on `localhost` to work.
 
 ## Building
 
-To create a static package you can use anywhere (e.g. Github pages):
-    `npm run build`
+To create a static package you can use anywhere (e.g. Github pages): `npm run build`
 
 The static site is located in `build`
 
+
+## Deploying
+
+You want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`
 
 ## License
 
