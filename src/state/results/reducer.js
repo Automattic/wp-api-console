@@ -1,13 +1,21 @@
 import { createReducer } from '../../lib/redux/create-reducer';
-import { REQUEST_RESULTS_RECEIVE } from '../actions';
+import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
 
-const reducer = createReducer([], {
-  [REQUEST_RESULTS_RECEIVE]: (state, action) => {
-    const { id, version, apiName, method, path, status, body, error, duration } = action.payload;
-    return [
-      { id, request: { version, apiName, method, path, duration }, response: { status, body, error } },
-      ...state
-    ];
+const reducer = createReducer({}, {
+  [REQUEST_TRIGGER]: (state, { payload: { id, version, apiName, method, path } }) => ({
+    ...state,
+    [id]: { id, loading: true, request: { version, apiName, method, path } }
+  }),
+  [REQUEST_RESULTS_RECEIVE]: (state, { payload: { id, status, body, error, duration } }) => {
+    return {
+      ...state,
+      [id]: {
+        ...state[id],
+        loading: false,
+        response: { status, body, error },
+        duration
+      }
+    };
   }
 });
 

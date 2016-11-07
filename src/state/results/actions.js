@@ -1,4 +1,4 @@
-import { REQUEST_RESULTS_RECEIVE } from '../actions';
+import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
 import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
@@ -15,9 +15,16 @@ const receiveResults = (id, version, apiName, method, path, status, body, error,
   recordResponse({ version, apiName, method, path, status, body, error, duration });
   return {
     type: REQUEST_RESULTS_RECEIVE,
-    payload: { id, version, apiName, method, path, status, body, error, duration }
+    payload: { id, status, body, error, duration }
   };
 };
+
+const triggerRequest = (id, version, apiName, method, path) => {
+  return {
+    type: REQUEST_TRIGGER,
+    payload: { id, version, apiName, method, path }
+  };
+}
 
 export const request = () => (dispatch, getState) => {
   const state = getState();
@@ -29,6 +36,7 @@ export const request = () => (dispatch, getState) => {
   const body = getBodyParams(state);
   const start = new Date().getTime();
   const request = api.buildRequest(version, method, path, body);
+  dispatch(triggerRequest(start, version, apiName, method, path));
 
   return api.authProvider.request(request)
     .then(({ status, body, error }) => {
