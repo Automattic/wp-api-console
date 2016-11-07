@@ -5,10 +5,21 @@ import {
   REQUEST_UPDATE_URL,
   REQUEST_UPDATE_PATH_PART_VALUE,
   REQUEST_SET_QUERY_PARAM,
-  REQUEST_SET_BODY_PARAM
+  REQUEST_SET_BODY_PARAM,
+  UI_SELECT_API,
+  UI_SELECT_VERSION
 } from '../actions';
 
-const reducer = createReducer({ method: 'GET', endpoint: false, pathValues: {}, url: '', queryParams: {}, bodyParams: {} }, {
+const defaultState = {
+  method: 'GET',
+  endpoint: false,
+  pathValues: {},
+  url: '',
+  queryParams: {},
+  bodyParams: {}
+};
+
+const reducer = createReducer(defaultState, {
   [REQUEST_SET_METHOD]: (state, { payload }) => ({
     ...state,
     method: payload
@@ -42,7 +53,13 @@ const reducer = createReducer({ method: 'GET', endpoint: false, pathValues: {}, 
       ...state.queryParams,
       [param]: value
     }
-  })
+  }),
+  [UI_SELECT_VERSION]: (state, { payload: { param, value } }) => ({
+    ...state,
+    endpoint: false,
+    url: ''
+  }),
+  [UI_SELECT_API]: (state, { payload: { param, value } }) => defaultState
 });
 
 export default reducer;
