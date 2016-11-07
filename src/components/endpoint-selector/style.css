@@ -55,6 +55,11 @@
   width: 45px;
 }
 
+.endpoint-selector li > span.method {
+  display: inline-block;
+  width: 56px;
+}
+
 .endpoint-selector li > em, .endpoint-selector li > strong {
   font-size: 14px;
   font-weight: 100;
