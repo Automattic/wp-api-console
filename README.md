@@ -57,6 +57,32 @@ You can also use this console with your WordPress.org installation but make sure
 
 Note that your console should not be running on `localhost` to work: the OAuth1 plugin prohibits local URLs by default.
 
+You can also install the
+[Application Passwords plugin](https://github.com/georgestephanis/application-passwords/)
+and use basic authentication to communicate with your site.  Make sure that
+your site is running over https, otherwise this is insecure.  Here are the
+config settings for basic auth:
+
+```javascript
+{
+  "wordpress.org": [
+    {
+      "name": "Dev (basic)",                 // Name to display on the API selector
+      "url": "http://wordpress.dev",         // Base URL of your WordPress website
+      "authType": "basic",
+      "authHeader": "Basic bWU6bXlwYSBzc3dvIHJk"
+    }
+  ]
+}
+```
+
+You can generate the base64-encoded portion of the `authHeader` as follows:
+
+```sh
+$ echo -n 'me:mypa sswo rd' | base64
+bWU6bXlwYSBzc3dvIHJk
+```
+
 ## Building
 
 To create a static package you can use anywhere (e.g. Github pages): `npm run build`
