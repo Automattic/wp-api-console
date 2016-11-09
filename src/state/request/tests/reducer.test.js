@@ -7,7 +7,9 @@ import {
   REQUEST_UPDATE_URL,
   REQUEST_UPDATE_PATH_PART_VALUE,
   REQUEST_SET_QUERY_PARAM,
-  REQUEST_SET_BODY_PARAM
+  REQUEST_SET_BODY_PARAM,
+  UI_SELECT_API,
+  UI_SELECT_VERSION
 } from '../../actions';
 
 const endpoint = { path_labeled: '/$site/posts' };
@@ -120,5 +122,37 @@ it('should set body param', () => {
     bodyParams: { a: 'b', title: 'my title' },
     pathValues: { $site: 'mySite' },
     url: '/help'
+  });
+});
+
+it('should reset the endpoint/url when switching versions', () => {
+  const action = {
+    type: UI_SELECT_VERSION,
+    payload: 'v1'
+  };
+
+  expect(reducer(state, action)).toEqual({
+    endpoint: false,
+    method: 'GET',
+    queryParams: { context: 'view' },
+    bodyParams: { a: 'b' },
+    pathValues: { $site: 'mySite' },
+    url: ''
+  });
+});
+
+it('should reset the state when switching APIs', () => {
+  const action = {
+    type: UI_SELECT_API,
+    payload: 'api1'
+  };
+
+  expect(reducer(state, action)).toEqual({
+    endpoint: false,
+    method: 'GET',
+    queryParams: {},
+    bodyParams: {},
+    pathValues: {},
+    url: ''
   });
 });
