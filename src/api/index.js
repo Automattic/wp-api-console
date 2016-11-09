@@ -3,19 +3,21 @@ import createCoreApi from './core';
 import createDotComApi from './com';
 import createOauth2Provider from '../auth/oauth2';
 import createOauth1Provider from '../auth/oauth1';
+import createBasicAuthProvider from '../auth/basic';
 import * as proxy from '../auth/proxy';
 
 
 let APIs = [];
 
 // Loading WP.com APIs
-if (config['wordpress.com']) {
+const wpcomConfig = config['wordpress.com'];
+if (wpcomConfig) {
   const oauth2Config = {
     id: 'WPCOM',
     baseUrl: `https://public-api.wordpress.com/oauth2`,
     userUrl: `https://public-api.wordpress.com/rest/v1.1/me`,
-    redirectUrl: config['wordpress.com'].redirect_uri,
-    clientId: config['wordpress.com'].client_id
+    redirectUrl: wpcomConfig.redirectUrl || wpcomConfig.redirect_uri,
+    clientId: wpcomConfig.clientID || wpcomConfig.clientId || wpcomConfig.client_id,
   }
   const authProvider = config['wordpress.com'].auth === 'proxy'
     ? proxy
@@ -37,10 +39,20 @@ if (config['wordpress.com']) {
 // Loading WP.org APIs
 if (config['wordpress.org']) {
   APIs = APIs.concat(
-    config['wordpress.org'].map(({ name, url, callbackUrl, publicKey, secretKey }) => {
-      const oauth1Provider = createOauth1Provider(name, url, callbackUrl, publicKey, secretKey);
-
-      return createCoreApi(oauth1Provider, name, `${url}/wp-json/`);
+    config['wordpress.org'].map(site => {
+      let authProvider;
+      const { name, url, authType } = site;
+      if ( authType === 'basic' ) {
+        authProvider = createBasicAuthProvider(name, url, site.authHeader);
+      } else { // OAuth1
+        authProvider = createOauth1Provider(
+          name, url,
+          site.callbackUrl,
+          site.publicKey || site.clientKey,
+          site.secretKey,
+        );
+      }
+      return createCoreApi(authProvider, name, `${url}/wp-json/`);
     })
   );
 }
