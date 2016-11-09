@@ -41,7 +41,8 @@ if (config['wordpress.org']) {
   APIs = APIs.concat(
     config['wordpress.org'].map(site => {
       let authProvider;
-      const { name, url, authType } = site;
+      const { name, authType } = site;
+      let url = site.url.replace(/\/+$/, '');
       if ( authType === 'basic' ) {
         authProvider = createBasicAuthProvider(name, url, site.authHeader);
       } else { // OAuth1
