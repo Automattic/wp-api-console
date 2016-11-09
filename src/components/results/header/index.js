@@ -2,7 +2,7 @@ import React from 'react';
 
 import './style.css';
 
-const RequestHeader = ({ request: { path, method, apiName, version, duration }, response: { status, body, error } }) => {
+const RequestHeader = ({ result: { loading, request: { path, method, apiName, version }, duration, response } }) => {
   let filename = path;
   if (filename.indexOf("/") === 0) {
     filename = filename.slice(1);
@@ -14,12 +14,13 @@ const RequestHeader = ({ request: { path, method, apiName, version, duration }, 
       <code className="apiName">{ apiName }</code>
       <code className="method">{ method }</code>
       <code className="path">{ `${version}${path}` }</code>
-      { !! error && <span className="error">{ `${status} - ${error}` }</span> }
-      <span className="duration">{ `${duration}ms` }</span>
-      { !! body &&
+      { response && !! response.error && <span className="error">{ `${response.status} - ${response.error}` }</span> }
+      { duration && <span className="duration">{ `${duration}ms` }</span> }
+      { response && !! duration.body &&
         <a className="download" title="Download" target="_blank" download={ filename }
-          href={ 'data:application/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(body, null, "\t")) }></a>
+          href={ 'data:application/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(response.body, null, "\t")) }></a>
       }
+      { loading && <div className="throbber"><div /></div> }
     </div>
   );
 };

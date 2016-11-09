@@ -106,22 +106,10 @@
   opacity: 0.9;
 }
 
-.throbber {
+.uesr-menu .throbber {
   padding: 5px 18px;
-  display: inline-block;
 }
 
-.throbber div {
-  border-radius: 100%;
-  border: 1px solid white;
-  box-sizing: border-box;
-  width: 14px;
-  height: 14px;
-  animation: throbber ease-out 0.7s infinite;
-}
-
-@keyframes throbber {
-  0%   { opacity: 0; transform: scale(0,0); border-width: 7px; }
-  50%  { opacity: 1; border-width: 7px;}
-  100% { opacity: 0; transform: scale(1,1); border-width: 0px; }
+.user-menu .throbber div {
+  border-color: white;
 }

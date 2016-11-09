@@ -22,10 +22,10 @@ const Results = ({ results }) => {
   return (
     <div className="results">
       { results.map((result, index) =>
-        <div key={result.id} className={ classnames('request', { error: !! result.response.error }) }>
-          <RequestHeader request={ result.request } response={ result.response } />
-          <div className="response">
-            { !! result.response.body &&
+        <div key={result.id} className={ classnames('request', { error: result.response && !! result.response.error }) }>
+          <RequestHeader result={ result } />
+          { result.response && result.response.body &&
+            <div className="response">
               <JSONTree
                 theme={ jsonTheme }
                 data={ result.response.body }
@@ -35,8 +35,8 @@ const Results = ({ results }) => {
                     dangerouslySetInnerHTML={{ __html: `${itemString} <span class="content">${stringify(data)}</span>` }} />
                 }
               />
-            }
-          </div>
+            </div>
+          }
         </div>
       )}
     </div>
