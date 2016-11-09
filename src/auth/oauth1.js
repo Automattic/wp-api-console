@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import OAuth from 'oauth-1.0a';
 import crypto from 'crypto';
 
-const createOauth1Provider = (name, baseUrl, callbackURL, publicKey, secretKey) => {
+const createOauth1Provider = (name, baseUrl, callbackUrl, publicKey, secretKey) => {
   const TOKEN_STORAGE_KEY = `${name}__OAUTH1CCESSTOKEN`;
   const REQUEST_TOKEN_STORAGE_KEY = `${name}__REQUESTOAUTH1CCESSTOKEN`;
 
@@ -75,17 +75,17 @@ const createOauth1Provider = (name, baseUrl, callbackURL, publicKey, secretKey) 
   }
 
   const login = () => {
-    const requestUrl = `${baseUrl}/oauth1/request?callback_url=${callbackURL}`;
+    const requestUrl = `${baseUrl}/oauth1/request?callback_url=${callbackUrl}`;
     oauthRequest('POST', requestUrl)
       .then(({ body }) => {
         localStorage.setItem(REQUEST_TOKEN_STORAGE_KEY, JSON.stringify({
   				secret: body.oauth_token_secret,
   			}));
-        const redirectURL = baseUrl + '/oauth1/authorize?' + querystring.stringify({
+        const redirectUrl = baseUrl + '/oauth1/authorize?' + querystring.stringify({
   				oauth_token: body.oauth_token,
-  				oauth_callback: callbackURL,
+					oauth_callback: callbackUrl,
   			});
-        window.location = redirectURL;
+        window.location = redirectUrl;
       });
   }
 
