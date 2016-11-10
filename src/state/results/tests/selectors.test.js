@@ -1,13 +1,13 @@
 import { getResults } from '../selectors';
 
 const results = {
-  1: { status: 200 }
+	1: { status: 200 },
 };
 
 const state = {
-  results
+	results,
 };
 
-it('should return the results', () => {
-  expect(getResults(state)).toEqual([ { status: 200 } ]);
-});
+it( 'should return the results', () => {
+	expect( getResults( state ) ).toEqual( [ { status: 200 } ] );
+} );

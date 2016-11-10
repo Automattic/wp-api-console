@@ -1,85 +1,85 @@
 .param-builder {
-  padding: 10px;
+	padding: 10px;
 }
 
 .param-builder table {
-  width: 100%;
-  max-width: 100%;
-  border-collapse: collapse;
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
 }
 
 .param-builder .scroller {
-  position: relative;
-  max-height: 222px;
-  overflow-y: scroll;
+	position: relative;
+	max-height: 222px;
+	overflow-y: scroll;
 }
 
 .param-builder th, .param-builder td {
-  vertical-align: top;
-  border-bottom: 1px solid hsl(205,38%,94%);
-  padding: 0;
+	vertical-align: top;
+	border-bottom: 1px solid hsl(205,38%,94%);
+	padding: 0;
 }
 
 .param-builder tbody tr:last-child td, .param-builder tbody tr:last-child th {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 .param-builder th {
-  width: 30%;
-  padding: 8px;
-  font-weight: normal;
-  background: hsl(204,33%,97%);
-  text-align: left;
-  color: hsl(200,100%,38%);
-  font-size: 14px;
-  cursor: default;
+	width: 30%;
+	padding: 8px;
+	font-weight: normal;
+	background: hsl(204,33%,97%);
+	text-align: left;
+	color: hsl(200,100%,38%);
+	font-size: 14px;
+	cursor: default;
 }
 
 .param-builder .title {
-  background: #f5f8fa;
-  color: #8ebedc;
-  padding: 8px;
-  font-weight: normal;
-  font-size: 14px;
-  text-transform: uppercase;
-  border-bottom: 1px solid #eaf1f6;
+	background: #f5f8fa;
+	color: #8ebedc;
+	padding: 8px;
+	font-weight: normal;
+	font-size: 14px;
+	text-transform: uppercase;
+	border-bottom: 1px solid #eaf1f6;
 }
 
 .param-builder td input {
-  padding: 8px;
-  font-size: 16px;
-  max-width: 100%;
-  min-height: 36px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  word-break: break-word;
-  background: hsl(240,100%,100%);
-  font-family: Inconsolata, monospace;
-  color: hsl(202,68%,44%);
-  box-sizing: border-box;
-  width: 100%;
-  border: none;
+	padding: 8px;
+	font-size: 16px;
+	max-width: 100%;
+	min-height: 36px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-all;
+	word-break: break-word;
+	background: hsl(240,100%,100%);
+	font-family: Inconsolata, monospace;
+	color: hsl(202,68%,44%);
+	box-sizing: border-box;
+	width: 100%;
+	border: none;
 }
 
 .param-builder td input:focus {
-  outline: none;
+	outline: none;
 }
 
 .param-builder .react-tagsinput {
-  border: none;
-  padding: 0;
+	border: none;
+	padding: 0;
 }
 
 .param-builder .react-tagsinput input {
-  width: auto;
-  margin: 0;
+	width: auto;
+	margin: 0;
 }
 
 .param-builder .react-tagsinput-tag {
-  margin-right: 0;
-  margin-left: 5px;
-  color: hsl(202,68%,44%);
-  background: hsl(205,38%,94%);
-  border-color: hsl(202,68%,44%);
+	margin-right: 0;
+	margin-left: 5px;
+	color: hsl(202,68%,44%);
+	background: hsl(205,38%,94%);
+	border-color: hsl(202,68%,44%);
 }

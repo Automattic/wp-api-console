@@ -1,91 +1,91 @@
 .lookup-container {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  flex-grow: 1;
-  flex-shrink: 1;
-  align-self: auto;
-  padding: 8px 8px 6px;
-  background: white;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	flex-grow: 1;
+	flex-shrink: 1;
+	align-self: auto;
+	padding: 8px 8px 6px;
+	background: white;
 }
 
 .lookup-container .parts {
-  position: relative;
-  overflow: visible;
-  background: white;
-  padding: 0 8px;
-  line-height: 22px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  flex-grow: 1;
-  flex-shrink: 1;
-  align-self: auto;
+	position: relative;
+	overflow: visible;
+	background: white;
+	padding: 0 8px;
+	line-height: 22px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: center;
+	flex-grow: 1;
+	flex-shrink: 1;
+	align-self: auto;
 }
 
 .lookup-container .parts > div {
-  font-size: 16px;
-  font-family: Inconsolata, monospace;
-  padding: 3px 1px 3px 1px;
-  line-height: 16px;
-  min-height: 16px;
-  color: #7290a1;
-  overflow: hidden;
-  flex-grow: 0;
-  flex-shrink: 0;
-  align-self: auto;
+	font-size: 16px;
+	font-family: Inconsolata, monospace;
+	padding: 3px 1px 3px 1px;
+	line-height: 16px;
+	min-height: 16px;
+	color: #7290a1;
+	overflow: hidden;
+	flex-grow: 0;
+	flex-shrink: 0;
+	align-self: auto;
 }
 
 
 .lookup-container .right-icon {
-  padding: 0;
-  width: 24px;
-  text-align: right;
-  cursor: pointer;
-  background: none;
-  position: relative;
-  flex-grow: 0;
-  flex-shrink: 0;
-  align-self: auto;
+	padding: 0;
+	width: 24px;
+	text-align: right;
+	cursor: pointer;
+	background: none;
+	position: relative;
+	flex-grow: 0;
+	flex-shrink: 0;
+	align-self: auto;
 }
 
 .lookup-container .right-icon a {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translate(-50%,-50%);
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-  display: inline-block;
-  vertical-align: -2px;
-  content: '';
-  color: #FFF;
-  border-radius: 100%;
-  width: 24px;
-  height: 24px;
-  opacity: 1;
-  overflow: hidden;
-  background: url(res/search-dark-@2x.png) no-repeat center center transparent;
-  background-size: 16px 16px;
-  cursor: default;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-moz-transform: translate(-50%,-50%);
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	display: inline-block;
+	vertical-align: -2px;
+	content: '';
+	color: #FFF;
+	border-radius: 100%;
+	width: 24px;
+	height: 24px;
+	opacity: 1;
+	overflow: hidden;
+	background: url(res/search-dark-@2x.png) no-repeat center center transparent;
+	background-size: 16px 16px;
+	cursor: default;
 }
 
 .lookup-container .right-icon.close a {
-  background-image: url(res/close-dark-@2x.png);;
-  cursor: pointer;
+	background-image: url(res/close-dark-@2x.png);;
+	cursor: pointer;
 }
 
 .lookup-container .right-icon.close a:hover {
-  background-color: hsl(201,60%,60%);
-  background-image: url(res/close-@2x.png);
+	background-color: hsl(201,60%,60%);
+	background-image: url(res/close-@2x.png);
 }
 
 .lookup-container .right-icon.close a:active {
-  background-color: hsl(201,60%,70%);
-  background-image: url(res/close-@2x.png);
+	background-color: hsl(201,60%,70%);
+	background-image: url(res/close-@2x.png);
 }

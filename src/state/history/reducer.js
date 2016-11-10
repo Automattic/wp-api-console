@@ -5,30 +5,30 @@ import filter from 'lodash/filter';
 
 const MAX_HISTORY_ENDPOINTS = 10;
 
-const reducer = createReducer({}, {
-  [REQUEST_SELECT_ENDPOINT]: (state, { payload: { apiName, version, endpoint } }) => {
-    if (! endpoint) {
-      return state;
-    }
-    let currentEndpoints = [];
+const reducer = createReducer( {}, {
+	[REQUEST_SELECT_ENDPOINT]: ( state, { payload: { apiName, version, endpoint } } ) => {
+		if ( ! endpoint ) {
+			return state;
+		}
+		let currentEndpoints = [];
 
-    if ( state[apiName] && state[apiName][version] ) {
-      currentEndpoints = filter( state[apiName][version], ( existingEndpoint ) => {
-        return existingEndpoint.path_labeled !== endpoint.path_labeled;
-      } );
-    }
+		if ( state[apiName] && state[apiName][version] ) {
+			currentEndpoints = filter( state[apiName][version], existingEndpoint =>
+				existingEndpoint.path_labeled !== endpoint.path_labeled
+			);
+		}
 
-    return {
-      ...state,
-      [apiName]: {
-        ...state[apiName],
-        [version]: [
-          endpoint,
-          ...currentEndpoints
-        ].slice(0, MAX_HISTORY_ENDPOINTS)
-      }
-    };
-  }
-}, schema);
+		return {
+			...state,
+			[apiName]: {
+				...state[apiName],
+				[version]: [
+					endpoint,
+					...currentEndpoints,
+				].slice( 0, MAX_HISTORY_ENDPOINTS ),
+			},
+		};
+	},
+}, schema );
 
 export default reducer;

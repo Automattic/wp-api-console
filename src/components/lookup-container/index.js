@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import ClickOutside from 'react-click-outside';
 
 import './style.css';
@@ -13,118 +14,124 @@ import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathP
 import { request } from '../../state/results/actions';
 
 class LookupContainer extends Component {
-  state = {
-    showEndpoints: false
-  };
+	state = {
+		showEndpoints: false,
+	};
 
-  inputs = [];
+	inputs = [];
 
-  setUrl = event => {
-    this.props.updateUrl(event.target.value);
-  };
+	setUrl = event => {
+		this.props.updateUrl( event.target.value );
+	};
 
-  bindInput = (ref, index = 0) => {
-    this.inputs[index] = ref;
-  }
+	bindInput = ( ref, index = 0 ) => {
+		this.inputs[index] = ref;
+	}
 
-  onSubmitInput = (index, last) => {
-    if (last) {
-      this.props.request();
-    } else if ((index + 1) in this.inputs){
-      this.inputs[index + 1].focus();
-    }
-  }
+	onSubmitInput = ( index, last ) => {
+		if ( last ) {
+			this.props.request();
+		} else if ( ( index + 1 ) in this.inputs ) {
+			this.inputs[index + 1].focus();
+		}
+	}
 
-  showEndpoints = event => {
-    event.stopPropagation();
-    this.setState({ showEndpoints: true });
-  };
+	showEndpoints = event => {
+		event.stopPropagation();
+		this.setState( { showEndpoints: true } );
+	};
 
-  hideEndpoints = event => {
-    this.setState({ showEndpoints: false });
-  };
+	hideEndpoints = event => {
+		this.setState( { showEndpoints: false } );
+	};
 
-  selectEndpoint = endpoint => {
-    const { apiName, version } = this.props;
-    this.hideEndpoints();
-    this.props.selectEndpoint(apiName, version, endpoint);
-  };
+	selectEndpoint = endpoint => {
+		const { apiName, version } = this.props;
+		this.hideEndpoints();
+		this.props.selectEndpoint( apiName, version, endpoint );
+	};
 
-  resetEndpoint = () => {
-    this.selectEndpoint(false);
-    this.setState({ showEndpoints: true });
-  };
+	resetEndpoint = () => {
+		this.selectEndpoint( false );
+		this.setState( { showEndpoints: true } );
+	};
 
-  renderEndpointPath() {
-    const { pathParts, endpoint } = this.props;
-    const getParamValue = param => this.props.pathValues[param] ? this.props.pathValues[param] : '';
-    const pathParameterKeys = pathParts.filter(part => part[0] === '$');
-    const countInputs = pathParameterKeys.length;
+	renderEndpointPath() {
+		const { pathParts, endpoint } = this.props;
+		const getParamValue = param => get( this.props.pathValues, [ param ], '' );
+		const pathParameterKeys = pathParts.filter( part => part[0] === '$' );
+		const countInputs = pathParameterKeys.length;
+		const updateUrlPart = part => event => this.props.updatePathValue( part, event.target.value );
+		const submitUrlPart = ( inputIndex, last ) => () => this.onSubmitInput( inputIndex, last );
+		const bindUrlPartRef = inputIndex => ref => this.bindInput( ref, inputIndex );
 
-    return pathParts.map((part, index) => {
-      if (part[0] !== '$') {
-        return <div key={ index } className="url-segment">{ part }</div>
-      }
+		return pathParts.map( ( part, index ) => {
+			if ( part[0] !== '$' ) {
+				return <div key={ index } className="url-segment">{ part }</div>;
+			}
 
-      const pathParameter = endpoint.request.path[part];
-      const inputIndex = pathParameterKeys.indexOf(part);
-      const last = inputIndex === countInputs - 1;
+			const pathParameter = endpoint.request.path[part];
+			const inputIndex = pathParameterKeys.indexOf( part );
+			const last = inputIndex === countInputs - 1;
 
-      return (
-        <UrlPart key={ index }
-            value={ getParamValue(part) }
-            name={ part }
-            parameter={ pathParameter }
-            onChange={ event => this.props.updatePathValue(part, event.target.value) }
-            onSubmit={ () => this.onSubmitInput(inputIndex, last) }
-            ref={ ref => this.bindInput(ref, inputIndex) }
-            autosize />
-        );
-    });
-  }
+			return (
+				<UrlPart
+					key={ index }
+					value={ getParamValue( part ) }
+					name={ part }
+					parameter={ pathParameter }
+					onChange={ updateUrlPart( part ) }
+					onSubmit={ submitUrlPart( inputIndex, last ) }
+					ref={ bindUrlPartRef( inputIndex ) }
+					autosize
+				/>
+			);
+		} );
+	}
 
-  render() {
-    const { request, method, endpoint, url, updateMethod } = this.props;
-    const { showEndpoints } = this.state;
-    const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
+	render() {
+		const { request, method, endpoint, url, updateMethod } = this.props;
+		const { showEndpoints } = this.state;
+		const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
 
-    return (
-      <div className="lookup-container">
-        <OptionSelector
-          value={ endpoint ? endpoint.method : method }
-          choices={ endpoint ? [ endpoint.method ] : methods }
-          onChange={ updateMethod } />
-        <div className="parts">
-          { ! endpoint &&
-              <UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } onSubmit={ request } />
-          }
-          { endpoint && this.renderEndpointPath() }
-        </div>
-        { endpoint
-            ? <div className="right-icon close"><a onClick={ this.resetEndpoint }></a></div>
-            : <div className="right-icon search"><a></a></div>
-        }
-        { showEndpoints &&
-          <ClickOutside onClickOutside={ this.hideEndpoints }>
-            <EndpointSelector onSelect={ this.selectEndpoint }/>
-          </ClickOutside>
-        }
-      </div>
-    );
-  }
+		return (
+			<div className="lookup-container">
+				<OptionSelector
+					value={ endpoint ? endpoint.method : method }
+					choices={ endpoint ? [ endpoint.method ] : methods }
+					onChange={ updateMethod }
+				/>
+				<div className="parts">
+					{ ! endpoint &&
+					<UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } onSubmit={ request } />
+					}
+					{ endpoint && this.renderEndpointPath() }
+				</div>
+				{ endpoint
+						? <div className="right-icon close"><a onClick={ this.resetEndpoint } /></div>
+						: <div className="right-icon search"><a /></div>
+				}
+				{ showEndpoints &&
+					<ClickOutside onClickOutside={ this.hideEndpoints }>
+						<EndpointSelector onSelect={ this.selectEndpoint } />
+					</ClickOutside>
+				}
+			</div>
+		);
+	}
 }
 
 export default connect(
-  state => {
-    return {
-      apiName: getSelectedApi(state),
-      version: getSelectedVersion(state),
-      endpoint: getSelectedEndpoint(state),
-      url: getUrl(state),
-      pathValues: getPathValues(state),
-      method: getMethod(state),
-      pathParts: getEndpointPathParts(state)
-    };
-  },
-  { updateMethod, selectEndpoint, updateUrl, updatePathValue, request }
-)(LookupContainer);
+	state => {
+		return {
+			apiName: getSelectedApi( state ),
+			version: getSelectedVersion( state ),
+			endpoint: getSelectedEndpoint( state ),
+			url: getUrl( state ),
+			pathValues: getPathValues( state ),
+			method: getMethod( state ),
+			pathParts: getEndpointPathParts( state ),
+		};
+	},
+	{ updateMethod, selectEndpoint, updateUrl, updatePathValue, request }
+)( LookupContainer );

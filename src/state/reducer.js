@@ -8,4 +8,4 @@ import security from './security/reducer';
 import ui from './ui/reducer';
 import versions from './versions/reducer';
 
-export default combineReducers({ endpoints, history, request, results, security, ui, versions });
+export default combineReducers( { endpoints, history, request, results, security, ui, versions } );
