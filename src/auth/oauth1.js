@@ -95,8 +95,20 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 	};
 
 	const request = ( { method, url, body } ) =>
-		new Promise( resolve =>
-			oauthRequest( method, url, body, accessToken ).end( ( err, response = {} ) => {
+		new Promise( resolve => {
+			let req;
+			if ( accessToken ) {
+				req = oauthRequest( method, url, body, accessToken );
+			} else {
+				req = superagent( method, url )
+					.set( 'Accept', 'application/json' );
+
+				if ( body && Object.keys( body ).length > 0 ) {
+					req.send( body );
+				}
+			}
+
+			req.end( ( err, response = {} ) => {
 				let error = err;
 				if ( err && response.body && response.body.error ) {
 					error = response.body.error;
@@ -109,9 +121,8 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 					body: response.body,
 					error,
 				} );
-			} )
-		)
-	;
+			} );
+		} );
 
 	init();
 
