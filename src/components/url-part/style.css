@@ -1,45 +1,45 @@
 .lookup-container .parts .url-part {
-  background: hsl(205,38%,94%);
-  color: hsl(202,68%,44%) !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis "";
-  position: relative;
-  padding-left: 6px;
-  padding-right: 6px;
-  border-radius: 1px;
-  margin: 1px 0;
-  max-width: 25%;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-  border: none;
-  font-size: 14px;
+	background: hsl(205,38%,94%);
+	color: hsl(202,68%,44%) !important;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis "";
+	position: relative;
+	padding-left: 6px;
+	padding-right: 6px;
+	border-radius: 1px;
+	margin: 1px 0;
+	max-width: 25%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow: hidden;
+	border: none;
+	font-size: 14px;
 }
 
 .lookup-container .parts .url-part:only-child {
-  background: hsl(205,38%,100%);
-  padding: 0;
-  background: white;
-  padding: 0;
-  flex-grow: 1;;
-  flex-shrink: 0;
-  align-self: auto;
-  max-width: 100%;
-  max-width: 100%;
+	background: hsl(205,38%,100%);
+	padding: 0;
+	background: white;
+	padding: 0;
+	flex-grow: 1;;
+	flex-shrink: 0;
+	align-self: auto;
+	max-width: 100%;
+	max-width: 100%;
 }
 
 .lookup-container .parts .url-part:last-child {
-  max-width: 100%;
+	max-width: 100%;
 }
 
 .lookup-container .parts .url-part:focus {
-  outline: none;
+	outline: none;
 }
 
 .lookup-container .parts .url-part input {
-  background: none;
-  border: none;
-  color: hsl(202,68%,44%) !important;
-  font-size: 14px;
+	background: none;
+	border: none;
+	color: hsl(202,68%,44%) !important;
+	font-size: 14px;
 }

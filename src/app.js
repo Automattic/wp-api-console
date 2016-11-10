@@ -8,16 +8,16 @@ import QueryBuilder from './components/query-builder';
 import Header from './components/header';
 import Results from './components/results';
 
-const App = () => {
-  return (
-    <Provider store={ store }>
-      <div className="App">
-        <Header />
-        <QueryBuilder />
-        <Results />
-      </div>
-    </Provider>
-  );
-}
+const App = () =>
+	(
+		<Provider store={ store }>
+			<div className="App">
+				<Header />
+				<QueryBuilder />
+				<Results />
+			</div>
+		</Provider>
+	)
+;
 
 export default App;

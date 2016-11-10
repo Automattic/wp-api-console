@@ -6,11 +6,11 @@ import { boot } from './security/actions';
 import { loadInitialState, persistState } from '../lib/redux/cache';
 
 const store = createStore(
-  reducer,
-  loadInitialState({}, reducer),
-  applyMiddleware(thunk)
+	reducer,
+	loadInitialState( {}, reducer ),
+	applyMiddleware( thunk )
 );
-persistState(store, reducer);
-store.dispatch(boot());
+persistState( store, reducer );
+store.dispatch( boot() );
 
 export default store;

@@ -8,29 +8,29 @@ import { boot } from '../../state/security/actions';
 import OptionSelector from '../option-selector';
 
 class ApiSelector extends Component {
-  componentDidMount() {
-    this.props.boot(this.props.value);
-  }
+	componentDidMount() {
+		this.props.boot( this.props.value );
+	}
 
-  selectApi = newApi => {
-    this.props.boot(newApi);
-    this.props.selectApi(newApi);
-  };
+	selectApi = newApi => {
+		this.props.boot( newApi );
+		this.props.selectApi( newApi );
+	};
 
-  render() {
-    const { value } = this.props;
-    return (
-      <OptionSelector value={ value } choices={ apis } onChange={ this.selectApi } isHeader />
-    );
-  }
+	render() {
+		const { value } = this.props;
+		return (
+			<OptionSelector value={ value } choices={ apis } onChange={ this.selectApi } isHeader />
+		);
+	}
 }
 
 export default connect(
-  state => {
-    return {
-      value: getSelectedApi(state),
-      choices: apis
-    }
-  },
-  { selectApi, boot }
-)(ApiSelector);
+	state => {
+		return {
+			value: getSelectedApi( state ),
+			choices: apis,
+		};
+	},
+	{ selectApi, boot }
+)( ApiSelector );

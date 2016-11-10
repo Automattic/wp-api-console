@@ -8,35 +8,35 @@ import { loadVersions } from '../../state/versions/actions';
 import OptionSelector from '../option-selector';
 
 class VersionSelector extends Component {
-  componentDidMount() {
-    this.props.loadVersions(this.props.api);
-  }
+	componentDidMount() {
+		this.props.loadVersions( this.props.api );
+	}
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.api !== this.props.api) {
-      this.props.loadVersions(newProps.api);
-    }
-  }
+	componentWillReceiveProps( newProps ) {
+		if ( newProps.api !== this.props.api ) {
+			this.props.loadVersions( newProps.api );
+		}
+	}
 
-  render() {
-    const { version, versions, selectVersion } = this.props;
-    return (
-      <OptionSelector value={version} choices={versions} onChange={selectVersion} isHeader />
-    );
-  }
+	render() {
+		const { version, versions, selectVersion } = this.props;
+		return (
+			<OptionSelector value={ version } choices={ versions } onChange={ selectVersion } isHeader />
+		);
+	}
 }
 
 export default connect(
-  state => {
-    const api = getSelectedApi(state);
-    const version = getSelectedVersion(state, api);
-    const versions = getVersions(state, api);
+	state => {
+		const api = getSelectedApi( state );
+		const version = getSelectedVersion( state, api );
+		const versions = getVersions( state, api );
 
-    return {
-      api,
-      version,
-      versions
-    }
-  },
-  { selectVersion, loadVersions }
-)(VersionSelector);
+		return {
+			api,
+			version,
+			versions,
+		};
+	},
+	{ selectVersion, loadVersions }
+)( VersionSelector );

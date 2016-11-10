@@ -1,182 +1,186 @@
 import { get } from 'lodash';
 
-export const guessEndpointDocumentation = (method, namespace, computedPath) => {
-  // Try to guess some info about the endpoints
-  let group = '';
-  let groupPlural = '';
-  let groupSingular = '';
-  let description = '';
+export const guessEndpointDocumentation = ( method, namespace, computedPath ) => {
+	// Try to guess some info about the endpoints
+	let group = '';
+	let groupPlural = '';
+	let groupSingular = '';
+	let description = '';
 
-  let verbMatch = computedPath.match(/^(\/?sites\/[\$\w.]+)?\/([\w-]*)(\/|$)/);
+	const verbMatch = computedPath.match( /^(\/?sites\/[$\w.]+)?\/([\w-]*)(\/|$)/ );
 
-  if (verbMatch) {
-    group = verbMatch[2];
-    switch (group) {
-      case 'media':
-        groupPlural = 'media items';
-        break;
-      case 'feedback':
-        groupPlural = 'feedback posts';
-        break;
-      case 'types':
-        groupPlural = 'post types';
-        break;
-      case 'statuses':
-        groupPlural = 'post statuses';
-        break;
-      default:
-        groupPlural = group;
-        break;
-    }
+	if ( verbMatch ) {
+		group = verbMatch[2];
+		switch ( group ) {
+			case 'media':
+				groupPlural = 'media items';
+				break;
+			case 'feedback':
+				groupPlural = 'feedback posts';
+				break;
+			case 'types':
+				groupPlural = 'post types';
+				break;
+			case 'statuses':
+				groupPlural = 'post statuses';
+				break;
+			default:
+				groupPlural = group;
+				break;
+		}
 
-    if (group === 'statuses') {
-      groupSingular = 'post status';
-    } else if (group === 'sites' || computedPath === '/') {
-      group = 'auto-discovery';
-    } else {
-      groupSingular = groupPlural.replace(/ies$/, 'y').replace(/s$/, '');
-    }
+		if ( group === 'statuses' ) {
+			groupSingular = 'post status';
+		} else if ( group === 'sites' || computedPath === '/' ) {
+			group = 'auto-discovery';
+		} else {
+			groupSingular = groupPlural.replace( /ies$/, 'y' ).replace( /s$/, '' );
+		}
 
-    function getDescription() {
-      if (group === 'auto-discovery') {
-        if (computedPath === '/') {
-          return 'List endpoints in the ' + namespace + ' namespace';
-        } else {
-          return 'List endpoints in the ' + namespace + ' namespace (site-specific)';
-        }
-      }
+		function getDescription() {
+			if ( group === 'auto-discovery' ) {
+				if ( computedPath === '/' ) {
+					return 'List endpoints in the ' + namespace + ' namespace';
+				} else {
+					return 'List endpoints in the ' + namespace + ' namespace (site-specific)';
+				}
+			}
 
-      if (namespace === 'wp/v2') {
-        if (group === 'settings') {
-          switch (method) {
-            case 'GET':
-              return 'Get site settings';
-            default:
-              return 'Edit site settings';
-          }
-        }
+			if ( namespace === 'wp/v2' ) {
+				if ( group === 'settings' ) {
+					switch ( method ) {
+						case 'GET':
+							return 'Get site settings';
+						default:
+							return 'Edit site settings';
+					}
+				}
 
-        if (/\/users\/me$/.test(computedPath)) {
-          return 'Get the current user';
-        }
+				if ( /\/users\/me$/.test( computedPath ) ) {
+					return 'Get the current user';
+				}
 
-        if (/\/revisions(\/|$)/.test(computedPath)) {
-          groupPlural = 'revisions of a ' + groupSingular;
-          groupSingular = 'revision of a ' + groupSingular;
-        }
+				if ( /\/revisions(\/|$)/.test( computedPath ) ) {
+					groupPlural = 'revisions of a ' + groupSingular;
+					groupSingular = 'revision of a ' + groupSingular;
+				}
 
-        if (/\$(id|status|taxonomy|type)$/.test(computedPath)) {
-          switch (method) {
-            case 'GET':
-              return 'Get a ' + groupSingular;
-            case 'POST':
-            case 'PUT':
-            case 'PATCH':
-              return 'Edit a ' + groupSingular;
-            case 'DELETE':
-              return 'Delete a ' + groupSingular;
-            default:
-              return '';
-          }
-        } else {
-          switch (method) {
-            case 'GET':
-              return 'List ' + groupPlural;
-            case 'POST':
-              return 'Create a ' + groupSingular;
-            default:
-              return '';
-          }
-        }
-      }
-    }
+				if ( /\$(id|status|taxonomy|type)$/.test( computedPath ) ) {
+					switch ( method ) {
+						case 'GET':
+							return 'Get a ' + groupSingular;
+						case 'POST':
+						case 'PUT':
+						case 'PATCH':
+							return 'Edit a ' + groupSingular;
+						case 'DELETE':
+							return 'Delete a ' + groupSingular;
+						default:
+							return '';
+					}
+				} else {
+					switch ( method ) {
+						case 'GET':
+							return 'List ' + groupPlural;
+						case 'POST':
+							return 'Create a ' + groupSingular;
+						default:
+							return '';
+					}
+				}
+			}
 
-    description = getDescription() || '';
-  }
+			return '';
+		}
 
-  return {
-    group: group,
-    description: description,
-  };
-}
+		description = getDescription() || '';
+	}
 
-export const parseEndpoints = data => {
-  const endpoints = [];
-  const contentRelatedMethods = [ 'PUT', 'PATCH', 'POST' ];
-
-  Object.keys(data.routes).forEach(url => {
-    const route = data.routes[url];
-    // Drop the /wp/v2
-    const rawpath = data.namespace ? url.substr(data.namespace.length + 1) : url;
-    route.endpoints.forEach(rawEndpoint => {
-      rawEndpoint.methods.forEach(method => {
-        // Parsing Query
-        const query = {};
-        Object.keys(rawEndpoint.args).forEach(key => {
-          const { description = '' } = rawEndpoint.args[key];
-          const type = contentRelatedMethods.includes(method)
-            ? get(route, ['schema', 'properties', key, 'type'], 'string')
-            : 'string';
-          query[key] = { type, description };
-        });
-
-        // Parsing path
-        const path = {};
-        const paramRegex = /\([^\(\)]*\)/g;
-        const parameters = rawpath.match(paramRegex) || [];
-        let pathLabel = rawpath;
-        let pathFormat = rawpath;
-        parameters.forEach(param => {
-          const paramDetailsRegex = /[^<]*<([^>]*)>\[([^\]]*)\][^]*/;
-          const explodedParameter = param.match(paramDetailsRegex);
-          const paramName = '$' + explodedParameter[1];
-          path[paramName] = {
-            description: '',
-            type: explodedParameter[2]
-          };
-          pathLabel = pathLabel.replace(param, paramName);
-          pathFormat = pathFormat.replace(param, '%s');
-        });
-
-        const { group, description } = guessEndpointDocumentation(method, data.namespace, pathLabel);
-
-        const endpoint = {
-          path_format: pathFormat || '/',
-          path_labeled: pathLabel || '/',
-          request: {
-            body: [],
-            query,
-            path
-          },
-          description,
-          group,
-          method
-        };
-
-        endpoints.push(endpoint);
-      });
-    });
-  });
-
-  return endpoints;
+	return {
+		group,
+		description,
+	};
 };
 
-const createApi = (authProvider, name, url, namespaces = ['wp/v2']) => ({
-  getDiscoveryUrl: version => `${url}${version}?context=help`,
-  loadVersions: () => new Promise(resolve => resolve({ versions: namespaces })),
-  buildRequest: (version, method, path, body) => {
-    return {
-      url: url + version + path,
-      apiNamespace: version,
-      method,
-      path,
-      body
-    };
-  },
-  baseUrl: url,
-  authProvider,
-  name,
-  parseEndpoints
-});
+export const parseEndpoints = data => {
+	const endpoints = [];
+	const contentRelatedMethods = [ 'PUT', 'PATCH', 'POST' ];
+
+	Object.keys( data.routes ).forEach( url => {
+		const route = data.routes[url];
+		// Drop the /wp/v2
+		const rawpath = data.namespace ? url.substr( data.namespace.length + 1 ) : url;
+		route.endpoints.forEach( rawEndpoint => {
+			rawEndpoint.methods.forEach( method => {
+				// Parsing Query
+				const query = {};
+				Object.keys( rawEndpoint.args ).forEach( key => {
+					const { description = '' } = rawEndpoint.args[key];
+					const type = contentRelatedMethods.includes( method )
+						? get( route, [ 'schema', 'properties', key, 'type' ], 'string' )
+						: 'string';
+					query[key] = { type, description };
+				} );
+
+				// Parsing path
+				const path = {};
+				const paramRegex = /\([^()]*\)/g;
+				const parameters = rawpath.match( paramRegex ) || [];
+				let pathLabel = rawpath;
+				let pathFormat = rawpath;
+				parameters.forEach( param => {
+					const paramDetailsRegex = /[^<]*<([^>]*)>\[([^\]]*)][^]*/;
+					const explodedParameter = param.match( paramDetailsRegex );
+					const paramName = '$' + explodedParameter[1];
+					path[paramName] = {
+						description: '',
+						type: explodedParameter[2],
+					};
+					pathLabel = pathLabel.replace( param, paramName );
+					pathFormat = pathFormat.replace( param, '%s' );
+				} );
+
+				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
+
+				const endpoint = {
+					path_format: pathFormat || '/',
+					path_labeled: pathLabel || '/',
+					request: {
+						body: [],
+						query,
+						path,
+					},
+					description,
+					group,
+					method,
+				};
+
+				endpoints.push( endpoint );
+			} );
+		} );
+	} );
+
+	return endpoints;
+};
+
+const createApi = ( authProvider, name, url, namespaces = [ 'wp/v2' ] ) => {
+	return {
+		getDiscoveryUrl: version => `${ url }${ version }?context=help`,
+		loadVersions: () => new Promise( resolve => resolve( { versions: namespaces } ) ),
+		buildRequest: ( version, method, path, body ) => {
+			return {
+				url: url + version + path,
+				apiNamespace: version,
+				method,
+				path,
+				body,
+			};
+		},
+		baseUrl: url,
+		authProvider,
+		name,
+		parseEndpoints,
+	};
+};
 
 export default createApi;

@@ -1,122 +1,122 @@
 .endpoint-selector {
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  position: absolute;
-  padding: 0;
-  left: 0px;
-  right: 0px;
-  top: 100%;
-  z-index: 3;
-  background: none;
-  overflow-y: auto;
-  max-height: 280px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+	font-family: "Open Sans", sans-serif;
+	font-size: 16px;
+	position: absolute;
+	padding: 0;
+	left: 0px;
+	right: 0px;
+	top: 100%;
+	z-index: 3;
+	background: none;
+	overflow-y: auto;
+	max-height: 280px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .endpoint-selector ul {
-  position: relative;
-  opacity: 0.96;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: hsl(210,33%,100%);
-  position: relative;
-  top: 1px;
+	position: relative;
+	opacity: 0.96;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background: hsl(210,33%,100%);
+	position: relative;
+	top: 1px;
 }
 
 .endpoint-selector li {
-  margin: 0;
-  padding: 8px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: hsl(202,10%,40%);
-  font-weight: 100;
+	margin: 0;
+	padding: 8px;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: hsl(202,10%,40%);
+	font-weight: 100;
 }
 
 .endpoint-selector li.highlight {
-  background-color: hsl(205,38%,94%);
+	background-color: hsl(205,38%,94%);
 }
 
 .endpoint-selector li:last-child {
-  border-bottom: 0;
+	border-bottom: 0;
 }
 
 .endpoint-selector li > code {
-  color: hsl(202,68%,44%);
-  margin-right: 5px;
-  display: inline-block;
+	color: hsl(202,68%,44%);
+	margin-right: 5px;
+	display: inline-block;
 }
 
 .endpoint-selector li > span {
-  font-family: Inconsolata, monospace;
-  color: hsl(202,68%,80%);
-  width: 45px;
+	font-family: Inconsolata, monospace;
+	color: hsl(202,68%,80%);
+	width: 45px;
 }
 
 .endpoint-selector li > span.method {
-  display: inline-block;
-  width: 56px;
+	display: inline-block;
+	width: 56px;
 }
 
 .endpoint-selector li > em, .endpoint-selector li > strong {
-  font-size: 14px;
-  font-weight: 100;
-  font-style: italic;
-  color: hsl(202,10%,40%);
-  margin-right: 5px;
+	font-size: 14px;
+	font-weight: 100;
+	font-style: italic;
+	color: hsl(202,10%,40%);
+	margin-right: 5px;
 }
 
 .endpoint-selector li strong {
-  font-weight: normal;
-  text-transform: capitalize;
+	font-weight: normal;
+	text-transform: capitalize;
 }
 
 .endpoint-selector li.history ::before {
-  content: '\f303';
+	content: '\f303';
 }
 
 .endpoint-selector li.throbber {
-  padding: 0 8px;
+	padding: 0 8px;
 }
 
 .endpoint-selector li div {
-  border-color: hsl(202,68%,44%);
+	border-color: hsl(202,68%,44%);
 }
 
 .endpoint-selector .loading {
-  padding: 32px 0;
-  text-align: center;
+	padding: 32px 0;
+	text-align: center;
 }
 
 .endpoint-selector .group {
-  margin: 8px 0 0;
-  padding: 15px 8px 8px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: hsl(202,10%,40%);
-  font-weight: 100;
-  font-size: 12px;
-  font-weight: bold;
-  border-top: 1px solid hsl(210,33%,100%);
-  background: hsl(210,33%,100%);
+	margin: 8px 0 0;
+	padding: 15px 8px 8px;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: hsl(202,10%,40%);
+	font-weight: 100;
+	font-size: 12px;
+	font-weight: bold;
+	border-top: 1px solid hsl(210,33%,100%);
+	background: hsl(210,33%,100%);
 }
 
 .endpoint-selector .group:first-child {
-  border-top: 0;
-  margin-top: 0;
+	border-top: 0;
+	margin-top: 0;
 }
 
 .endpoint-selector .history.group::before {
-  font-family: Genericons, Noticons;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-right: 4px;
-  font-size: 16px;
-  font-weight: normal;
-  vertical-align: text-bottom;
-  content: '\f303';
+	font-family: Genericons, Noticons;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin-right: 4px;
+	font-size: 16px;
+	font-weight: normal;
+	vertical-align: text-bottom;
+	content: '\f303';
 }

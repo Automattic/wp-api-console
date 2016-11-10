@@ -8,16 +8,16 @@ import VersionSelector from '../version-selector';
 import LookupContainer from '../lookup-container';
 import Submit from '../submit';
 
-const Header = () => {
-  return (
-    <div id="header">
-      <ApiSelector />
-      <UserMenu />
-      <VersionSelector />
-      <LookupContainer />
-      <Submit />
-    </div>
-  );
-}
+const Header = () =>
+	(
+		<div id="header">
+			<ApiSelector />
+			<UserMenu />
+			<VersionSelector />
+			<LookupContainer />
+			<Submit />
+		</div>
+	)
+;
 
 export default Header;

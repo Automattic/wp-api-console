@@ -16,63 +16,64 @@ import warn from './warn';
  *                                   validation
  * @return {Function}                Reducer function
  */
-export function createReducer(initialState = null, customHandlers = {}, schema = null) {
+export function createReducer( initialState = null, customHandlers = {}, schema = null ) {
 	// Define default handlers for serialization actions. If no schema is
 	// provided, always return the initial state. Otherwise, allow for
 	// serialization and validate on deserialize.
 	let defaultHandlers;
-	if (schema) {
+	if ( schema ) {
 		defaultHandlers = {
 			[SERIALIZE]: state => state,
 			[DESERIALIZE]: state => {
-				if (isValidStateWithSchema(state, schema)) {
+				if ( isValidStateWithSchema( state, schema ) ) {
 					return state;
 				}
 
-				warn('state validation failed - check schema used for:', customHandlers);
+				warn( 'state validation failed - check schema used for:', customHandlers );
 
 				return initialState;
-			}
+			},
 		};
 	} else {
 		defaultHandlers = {
 			[SERIALIZE]: () => initialState,
-			[DESERIALIZE]: () => initialState
+			[DESERIALIZE]: () => initialState,
 		};
 	}
 
 	const handlers = {
 		...defaultHandlers,
-		...customHandlers
+		...customHandlers,
 	};
 
 	// When custom serialization behavior is provided, we assume that it may
 	// involve heavy logic (mapping, converting from Immutable instance), so
 	// we cache the result and only regenerate when state has changed.
-	if (customHandlers[SERIALIZE]) {
-		let lastState, lastSerialized;
-		handlers[SERIALIZE] = (state, action) => {
-			if (state === lastState) {
+	if ( customHandlers[SERIALIZE] ) {
+		let lastState;
+		let lastSerialized;
+		handlers[SERIALIZE] = ( state, action ) => {
+			if ( state === lastState ) {
 				return lastSerialized;
 			}
 
-			const serialized = customHandlers[SERIALIZE](state, action);
+			const serialized = customHandlers[SERIALIZE]( state, action );
 			lastState = state;
 			lastSerialized = serialized;
 			return serialized;
 		};
 	}
 
-	return (state = initialState, action) => {
+	return ( state = initialState, action ) => {
 		const { type } = action;
 
-		if ('production' !== process.env.NODE_ENV && 'type' in action && ! type) {
-			throw new TypeError('Reducer called with undefined type.' +
-				' Verify that the action type is defined in state/action-types.js');
+		if ( 'production' !== process.env.NODE_ENV && 'type' in action && ! type ) {
+			throw new TypeError( 'Reducer called with undefined type.' +
+				' Verify that the action type is defined in state/action-types.js' );
 		}
 
-		if (handlers.hasOwnProperty(type)) {
-			return handlers[type](state, action);
+		if ( {}.hasOwnProperty.call( handlers, type ) ) {
+			return handlers[type]( state, action );
 		}
 
 		return state;

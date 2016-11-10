@@ -5,8 +5,6 @@ import './style.css';
 
 import { request } from '../../state/results/actions';
 
-const Submit = ({ request }) => {
-  return <div id="submit" onClick={request}></div>
-};
+const Submit = ( { request } ) => <div id="submit" onClick={ request } />;
 
-export default connect(undefined, { request })(Submit);
+export default connect( undefined, { request } )( Submit );

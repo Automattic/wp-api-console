@@ -1,112 +1,112 @@
 .option-selector {
-  font-weight: 100;
-  font-size: 14px;
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 1px;
-  overflow: visible;
-  background: hsl(205,38%,94%);
-  color: hsl(201,60%,60%);
-  padding: 2px 20px 0 4px;
-  line-height: 24px;
+	font-weight: 100;
+	font-size: 14px;
+	position: relative;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 1px;
+	overflow: visible;
+	background: hsl(205,38%,94%);
+	color: hsl(201,60%,60%);
+	padding: 2px 20px 0 4px;
+	line-height: 24px;
 }
 
 .option-selector span {
-  display: inline-block;
-  border-radius: 4px;
+	display: inline-block;
+	border-radius: 4px;
 }
 
 .option-selector:hover, .option-selector:active, .option-selector:focus {
-  outline: none;
-  color: hsl(205,38%,98%);
-  background: hsl(201,60%,60%);
+	outline: none;
+	color: hsl(205,38%,98%);
+	background: hsl(201,60%,60%);
 }
 
 .option-selector::after {
-  content: '\25BE';
-  font-family: "Open Sans", sans-serif;
-  display: inline-block;
-  position: absolute;
-  right: 6px;
-  top: 0px;
+	content: '\25BE';
+	font-family: "Open Sans", sans-serif;
+	display: inline-block;
+	position: absolute;
+	right: 6px;
+	top: 0px;
 }
 
 .option-selector.disabled {
-  padding-right: 4px;
-  cursor: default;
-  background: transparent;
+	padding-right: 4px;
+	cursor: default;
+	background: transparent;
 }
 
 .option-selector.disabled::after {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 .option-selector.disabled:hover, .option-selector.disabled:active, .option-selector.disabled:focus {
-  outline: none;
-  color: hsl(205,38%,98%);
-  background: transparent;
-  color: hsl(201,60%,60%);
+	outline: none;
+	color: hsl(205,38%,98%);
+	background: transparent;
+	color: hsl(201,60%,60%);
 }
 
 .option-selector .options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 100%;
-  z-index: 2;
-  vertical-align: text-bottom;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 100%;
+	z-index: 2;
+	vertical-align: text-bottom;
 }
 
 .option-selector .options ul {
-  border-radius: 1px;
-  position: relative;
-  top: 1px;
-  margin: 0;
-  padding: 4px 0;
-  list-style: none;
-  background: hsl(201,60%,70%);
-  color: hsl(201,60%,97%);
+	border-radius: 1px;
+	position: relative;
+	top: 1px;
+	margin: 0;
+	padding: 4px 0;
+	list-style: none;
+	background: hsl(201,60%,70%);
+	color: hsl(201,60%,97%);
 }
 
 .option-selector .options li {
-  padding: 3px 18px 1px 8px;
-  white-space: nowrap;
-  position: relative;
+	padding: 3px 18px 1px 8px;
+	white-space: nowrap;
+	position: relative;
 }
 
 .option-selector .options li.selected::after {
-  font-size: 12px;
-  content: " \2713";
-  position: absolute;
-  right: 4px;
+	font-size: 12px;
+	content: " \2713";
+	position: absolute;
+	right: 4px;
 }
 
 .option-selector .options li:hover {
-  background: $highlight;
-  color: #2487bc;
+	background: $highlight;
+	color: #2487bc;
 }
 
 .option-selector .options li.highlight {
-  background: hsl(201,60%,60%);
-  color: hsl(201,60%,97%);
+	background: hsl(201,60%,60%);
+	color: hsl(201,60%,97%);
 }
 
 .option-selector.is-header {
-  top: 0;
-  background: #2487bc;
-  color: white;
-  padding: 8px 24px 6px 8px;
+	top: 0;
+	background: #2487bc;
+	color: white;
+	padding: 8px 24px 6px 8px;
 }
 
 .option-selector.is-header > span {
-  display: inline-block;
-  vertical-align: -2px;
+	display: inline-block;
+	vertical-align: -2px;
 }
 
 .option-selector.is-header::after {
-  font-style: Inconsolata, monospace;
-  font-size: 16px;
-  right: 8px;
-  top: 8px;
+	font-style: Inconsolata, monospace;
+	font-size: 16px;
+	right: 8px;
+	top: 8px;
 }
