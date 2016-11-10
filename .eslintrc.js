@@ -1,13 +1,12 @@
 module.exports = {
-	ecmaFeatures : {
-		jsx     : true,
-		modules : true,
+	parserOptions: {
+		ecmaVersion: 6
 	},
 	env : {
 		browser : true,
 		node    : true,
 		mocha   : true,
-		"es6": true,
+		es6     : true,
 	},
 	parser : 'babel-eslint',
 	rules  : {
