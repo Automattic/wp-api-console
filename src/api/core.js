@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 export const guessEndpointDocumentation = ( method, namespace, computedPath ) => {
 	// Try to guess some info about the endpoints
 	let group = '';
@@ -104,7 +102,6 @@ export const guessEndpointDocumentation = ( method, namespace, computedPath ) =>
 
 export const parseEndpoints = data => {
 	const endpoints = [];
-	const contentRelatedMethods = [ 'PUT', 'PATCH', 'POST' ];
 
 	Object.keys( data.routes ).forEach( url => {
 		const route = data.routes[url];
@@ -115,10 +112,7 @@ export const parseEndpoints = data => {
 				// Parsing Query
 				const query = {};
 				Object.keys( rawEndpoint.args ).forEach( key => {
-					const { description = '' } = rawEndpoint.args[key];
-					const type = contentRelatedMethods.includes( method )
-						? get( route, [ 'schema', 'properties', key, 'type' ], 'string' )
-						: 'string';
+					const { description = '', type = 'string' } = rawEndpoint.args[key];
 					query[key] = { type, description };
 				} );
 
