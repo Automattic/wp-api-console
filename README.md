@@ -1,6 +1,6 @@
 # WordPress.com API Console v3
 
-This is a WIP rewrite in React of [https://github.com/Automattic/rest-api-console2](the WordPress.com API Console).
+This is a WIP rewrite in React of [the WordPress.com API Console](https://github.com/Automattic/rest-api-console2).
 
 ## Development
 
