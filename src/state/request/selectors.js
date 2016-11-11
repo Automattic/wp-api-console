@@ -29,7 +29,12 @@ export const getQueryParams = state => {
 	const queryArgs = Object.keys( endpoint.request.query );
 
 	return queryArgs.reduce( ( ret, arg ) => {
-		if ( ! state.request.queryParams[ arg ] ) {
+		if (
+			! state.request.queryParams[ arg ] || (
+				isArray( state.request.queryParams[ arg ] ) &&
+				! state.request.queryParams[ arg ].length
+			)
+		) {
 			return ret;
 		}
 		return {
