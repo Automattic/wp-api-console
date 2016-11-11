@@ -25,8 +25,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 	const oauthRequest = ( method, url, body = null, token = null ) => {
 		const requestData = {
 			url,
-			method,
-			data: body,
+			method
 		};
 
 		const req = superagent( method, url )

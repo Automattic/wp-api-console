@@ -122,12 +122,14 @@ export const parseEndpoints = data => {
 		const rawpath = data.namespace ? url.substr( data.namespace.length + 1 ) : url;
 		route.endpoints.forEach( rawEndpoint => {
 			rawEndpoint.methods.forEach( method => {
-				// Parsing Query
-				const query = {};
-				Object.keys( rawEndpoint.args ).forEach( key => {
-					const { description = '', type = 'string' } = rawEndpoint.args[ key ];
-					query[ key ] = { type, description };
-				} );
+				// Parsing Arguments
+				const args = Object.keys( rawEndpoint.args ).reduce( ( memo, key ) => {
+					const { description = '', type = 'string' } = rawEndpoint.args[key];
+					return {
+						...memo,
+						[ key ]: { type, description }
+					};
+				}, {} );
 
 				// Parsing path
 				const path = {};
@@ -153,8 +155,8 @@ export const parseEndpoints = data => {
 					pathFormat: pathFormat || '/',
 					pathLabeled: pathLabel || '/',
 					request: {
-						body: [],
-						query,
+						body: method !== 'GET' ? args : {},
+						query: method === 'GET' ? args : {},
 						path,
 					},
 					description,
