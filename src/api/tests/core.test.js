@@ -53,7 +53,7 @@ describe( 'parseEndpoints', () => {
 		);
 	} );
 
-	it( 'should extract the types from the schema', () => {
+	it( 'should extract the types from the args', () => {
 		const discoveryData = {
 			namespace: 'wp/v2',
 			routes: {
@@ -65,18 +65,12 @@ describe( 'parseEndpoints', () => {
 							methods: [ 'POST' ],
 							args: {
 								posts: {
+									type: 'array',
 									description: 'Posts related to this category',
 								},
 							},
 						},
 					],
-					schema: {
-						properties: {
-							posts: {
-								type: 'array',
-							},
-						},
-					},
 				},
 			},
 		};
