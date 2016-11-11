@@ -1,12 +1,12 @@
 # WordPress.com API Console v3
 
-This is a WIP rewrite in React for the WordPress.com API Console.
+This is a WIP rewrite in React of [https://github.com/Automattic/rest-api-console2](the WordPress.com API Console).
 
 ## Development
 
 To get up and running:
 
-1. Clone the repository `git clone git@github.com:youknowriad/wp-api-console.git`
+1. Clone the repository `git clone git@github.com:Automattic/wp-api-console.git`
 
 2. Install dependencies `npm install`
 
@@ -37,7 +37,7 @@ You will also need to add your host to the CORS whitelist in the Application's s
 }
 ```
 
-### Using with your self hosted WordPress
+### Using with your self-hosted WordPress site
 
 You can also use this console with your WordPress.org installation but make sure to install the [WP REST API - OAuth 1.0a Server](https://oauth1.wp-api.org/) first, create an app on it and then edit the `src/config.json` like this:
 
@@ -55,12 +55,12 @@ You can also use this console with your WordPress.org installation but make sure
 }
 ```
 
-Note that your console should not be running on `localhost` to work: the OAuth1 plugin prohibits local URLs by default.
+Note that this setup won't work if your console is running on `localhost`: the OAuth1 plugin prohibits local URLs by default.
 
 You can also install the
 [Application Passwords plugin](https://github.com/georgestephanis/application-passwords/)
 and use basic authentication to communicate with your site.  Make sure that
-your site is running over https, otherwise this is insecure.  Here are the
+your site is running over HTTPS, otherwise this is insecure.  Here are the
 config settings for basic auth:
 
 ```javascript
