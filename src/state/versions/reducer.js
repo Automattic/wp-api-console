@@ -3,10 +3,10 @@ import { API_VERSIONS_RECEIVE } from '../actions';
 import schema from './schema';
 
 const versions = createReducer( {}, {
-	[API_VERSIONS_RECEIVE]: ( state, { payload: { apiName, versions } } ) => {
+	[ API_VERSIONS_RECEIVE ]: ( state, { payload: { apiName, versions } } ) => {
 		return ( {
 			...state,
-			[apiName]: versions,
+			[ apiName ]: versions,
 		} );},
 }, schema );
 

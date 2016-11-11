@@ -18,7 +18,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 				<table>
 					<tbody>
 						{ Object.keys( params ).map( paramKey => {
-							const parameter = params[paramKey];
+							const parameter = params[ paramKey ];
 							return (
 								<tr key={ paramKey }>
 									<th>{ paramKey }</th>
@@ -27,7 +27,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 											{
 												parameter.type === 'array'
 													? <TagsInput
-														value={ values[paramKey] || [] }
+														value={ values[ paramKey ] || [] }
 														inputProps={ {
 															placeholder: 'Add a value',
 															'data-tip': true,
@@ -36,7 +36,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 														onChange={ changeParamValue( paramKey ) }
 													/>
 													: <input
-														type="text" value={ values[paramKey] || '' }
+														type="text" value={ values[ paramKey ] || '' }
 														data-tip data-for={ `param-${ paramKey }` }
 														onChange={ changeParamEventValue( paramKey, event.target.value ) }
 													/>

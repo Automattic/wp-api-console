@@ -18,7 +18,7 @@ class OptionSelector extends Component {
 	componentDidMount() {
 		const { value, choices, onChange } = this.props;
 		if ( ! value && choices.length ) {
-			onChange( choices[0] );
+			onChange( choices[ 0 ] );
 		}
 	}
 

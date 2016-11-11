@@ -1,1 +1,1 @@
-export const getVersions = ( state, apiName ) => state.versions[apiName] || [];
+export const getVersions = ( state, apiName ) => state.versions[ apiName ] || [];

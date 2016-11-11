@@ -8,7 +8,7 @@ export const guessEndpointDocumentation = ( method, namespace, computedPath ) =>
 	const verbMatch = computedPath.match( /^(\/?sites\/[$\w.]+)?\/([\w-]*)(\/|$)/ );
 
 	if ( verbMatch ) {
-		group = verbMatch[2];
+		group = verbMatch[ 2 ];
 		switch ( group ) {
 			case 'media':
 				groupPlural = 'media items';
@@ -104,7 +104,7 @@ export const parseEndpoints = data => {
 	const endpoints = [];
 
 	Object.keys( data.routes ).forEach( url => {
-		const route = data.routes[url];
+		const route = data.routes[ url ];
 		// Drop the /wp/v2
 		const rawpath = data.namespace ? url.substr( data.namespace.length + 1 ) : url;
 		route.endpoints.forEach( rawEndpoint => {
@@ -112,8 +112,8 @@ export const parseEndpoints = data => {
 				// Parsing Query
 				const query = {};
 				Object.keys( rawEndpoint.args ).forEach( key => {
-					const { description = '', type = 'string' } = rawEndpoint.args[key];
-					query[key] = { type, description };
+					const { description = '', type = 'string' } = rawEndpoint.args[ key ];
+					query[ key ] = { type, description };
 				} );
 
 				// Parsing path
@@ -125,10 +125,10 @@ export const parseEndpoints = data => {
 				parameters.forEach( param => {
 					const paramDetailsRegex = /[^<]*<([^>]*)>\[([^\]]*)][^]*/;
 					const explodedParameter = param.match( paramDetailsRegex );
-					const paramName = '$' + explodedParameter[1];
-					path[paramName] = {
+					const paramName = '$' + explodedParameter[ 1 ];
+					path[ paramName ] = {
 						description: '',
-						type: explodedParameter[2],
+						type: explodedParameter[ 2 ],
 					};
 					pathLabel = pathLabel.replace( param, paramName );
 					pathFormat = pathFormat.replace( param, '%s' );

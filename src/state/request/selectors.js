@@ -14,7 +14,7 @@ export const getPathValues = state => {
 	return pathArgs.reduce( ( ret, arg ) => {
 		return {
 			...ret,
-			[arg]: state.request.pathValues[arg],
+			[ arg ]: state.request.pathValues[ arg ],
 		};
 	}, {} );
 };
@@ -29,12 +29,12 @@ export const getQueryParams = state => {
 	const queryArgs = Object.keys( endpoint.request.query );
 
 	return queryArgs.reduce( ( ret, arg ) => {
-		if ( ! state.request.queryParams[arg] ) {
+		if ( ! state.request.queryParams[ arg ] ) {
 			return ret;
 		}
 		return {
 			...ret,
-			[arg]: state.request.queryParams[arg],
+			[ arg ]: state.request.queryParams[ arg ],
 		};
 	}, {} );
 };
@@ -49,7 +49,7 @@ export const getBodyParams = state => {
 	return bodyArgs.reduce( ( ret, arg ) => {
 		return {
 			...ret,
-			[arg]: state.request.bodyParams[arg],
+			[ arg ]: state.request.bodyParams[ arg ],
 		};
 	}, {} );
 };
@@ -84,12 +84,12 @@ export const getCompleteQueryUrl = state => {
 	const queryString = Object.keys( queryParams ).length === 0
 		? ''
 		: '?' + Object.keys( queryParams )
-				.map( param => buildParamUrl( param, queryParams[param] ) )
+				.map( param => buildParamUrl( param, queryParams[ param ] ) )
 				.join( '&' );
 
 	return parts.reduce( ( url, part ) =>
 		url +
-			( part[0] === '$' ? values[part] || '' : part )
+			( part[ 0 ] === '$' ? values[ part ] || '' : part )
 	, '' ) + queryString;
 };
 

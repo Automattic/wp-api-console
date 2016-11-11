@@ -16,7 +16,7 @@ export const loadVersions = apiName => dispatch => {
 	const api = get( apiName );
 	api.loadVersions()
 		.then( ( { versions, current } ) => {
-			dispatch( selectVersion( current ? current : versions[0] ) );
+			dispatch( selectVersion( current ? current : versions[ 0 ] ) );
 			dispatch( receiveVersions( apiName, versions ) );
 		} );
 };

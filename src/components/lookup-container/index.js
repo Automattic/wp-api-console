@@ -25,14 +25,16 @@ class LookupContainer extends Component {
 	};
 
 	bindInput = ( ref, index = 0 ) => {
-		this.inputs[index] = ref;
+		this.inputs[ 0 ] = ref;
 	}
 
 	onSubmitInput = ( index, last ) => {
 		if ( last ) {
 			this.props.request();
+			this.hideEndpoints();
+			this.inputs[ index ].blur();
 		} else if ( ( index + 1 ) in this.inputs ) {
-			this.inputs[index + 1].focus();
+			this.inputs[ index + 1 ].focus();
 		}
 	}
 
@@ -59,18 +61,18 @@ class LookupContainer extends Component {
 	renderEndpointPath() {
 		const { pathParts, endpoint } = this.props;
 		const getParamValue = param => get( this.props.pathValues, [ param ], '' );
-		const pathParameterKeys = pathParts.filter( part => part[0] === '$' );
+		const pathParameterKeys = pathParts.filter( part => part[ 0 ] === '$' );
 		const countInputs = pathParameterKeys.length;
 		const updateUrlPart = part => event => this.props.updatePathValue( part, event.target.value );
 		const submitUrlPart = ( inputIndex, last ) => () => this.onSubmitInput( inputIndex, last );
 		const bindUrlPartRef = inputIndex => ref => this.bindInput( ref, inputIndex );
 
 		return pathParts.map( ( part, index ) => {
-			if ( part[0] !== '$' ) {
+			if ( part[ 0 ] !== '$' ) {
 				return <div key={ index } className="url-segment">{ part }</div>;
 			}
 
-			const pathParameter = endpoint.request.path[part];
+			const pathParameter = endpoint.request.path[ part ];
 			const inputIndex = pathParameterKeys.indexOf( part );
 			const last = inputIndex === countInputs - 1;
 
@@ -90,9 +92,10 @@ class LookupContainer extends Component {
 	}
 
 	render() {
-		const { request, method, endpoint, url, updateMethod } = this.props;
+		const { method, endpoint, url, updateMethod } = this.props;
 		const { showEndpoints } = this.state;
 		const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
+		const submitDefaultInput = () => this.onSubmitInput( 0, true );
 
 		return (
 			<div className="lookup-container">
@@ -103,7 +106,13 @@ class LookupContainer extends Component {
 				/>
 				<div className="parts">
 					{ ! endpoint &&
-					<UrlPart value={ url } onChange={ this.setUrl } onClick={ this.showEndpoints } onSubmit={ request } />
+						<UrlPart
+							ref={ this.bindInput }
+							value={ url }
+							onChange={ this.setUrl }
+							onClick={ this.showEndpoints }
+							onSubmit={ submitDefaultInput }
+						/>
 					}
 					{ endpoint && this.renderEndpointPath() }
 				</div>

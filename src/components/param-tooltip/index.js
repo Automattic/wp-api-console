@@ -16,7 +16,7 @@ const ParamTooltip = ( { parameter, id, name, position = 'bottom' } ) =>
 						? Object.keys( parameter.description ).map( key => (
 							<li key={ key }>
 								<code>{ key }</code>
-								<span>{ parameter.description[key] }</span>
+								<span>{ parameter.description[ key ] }</span>
 							</li>
 							) )
 						: <li><span>{ parameter.description }</span></li>

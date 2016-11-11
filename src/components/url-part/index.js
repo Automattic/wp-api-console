@@ -14,6 +14,10 @@ class UrlPart extends Component {
 		this.input.focus();
 	};
 
+	blur = () => {
+		this.input.blur();
+	};
+
 	render() {
 		const { parameter = false, autosize = false, name = '', value, onSubmit, ...remainingProps } = this.props;
 

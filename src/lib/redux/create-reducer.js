@@ -23,8 +23,8 @@ export function createReducer( initialState = null, customHandlers = {}, schema 
 	let defaultHandlers;
 	if ( schema ) {
 		defaultHandlers = {
-			[SERIALIZE]: state => state,
-			[DESERIALIZE]: state => {
+			[ SERIALIZE ]: state => state,
+			[ DESERIALIZE ]: state => {
 				if ( isValidStateWithSchema( state, schema ) ) {
 					return state;
 				}
@@ -36,8 +36,8 @@ export function createReducer( initialState = null, customHandlers = {}, schema 
 		};
 	} else {
 		defaultHandlers = {
-			[SERIALIZE]: () => initialState,
-			[DESERIALIZE]: () => initialState,
+			[ SERIALIZE ]: () => initialState,
+			[ DESERIALIZE ]: () => initialState,
 		};
 	}
 
@@ -49,15 +49,15 @@ export function createReducer( initialState = null, customHandlers = {}, schema 
 	// When custom serialization behavior is provided, we assume that it may
 	// involve heavy logic (mapping, converting from Immutable instance), so
 	// we cache the result and only regenerate when state has changed.
-	if ( customHandlers[SERIALIZE] ) {
+	if ( customHandlers[ SERIALIZE ] ) {
 		let lastState;
 		let lastSerialized;
-		handlers[SERIALIZE] = ( state, action ) => {
+		handlers[ SERIALIZE ] = ( state, action ) => {
 			if ( state === lastState ) {
 				return lastSerialized;
 			}
 
-			const serialized = customHandlers[SERIALIZE]( state, action );
+			const serialized = customHandlers[ SERIALIZE ]( state, action );
 			lastState = state;
 			lastSerialized = serialized;
 			return serialized;
@@ -73,7 +73,7 @@ export function createReducer( initialState = null, customHandlers = {}, schema 
 		}
 
 		if ( {}.hasOwnProperty.call( handlers, type ) ) {
-			return handlers[type]( state, action );
+			return handlers[ type ]( state, action );
 		}
 
 		return state;
