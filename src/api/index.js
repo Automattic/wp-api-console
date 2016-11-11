@@ -10,7 +10,7 @@ import * as proxy from '../auth/proxy';
 let APIs = [];
 
 // Loading WP.com APIs
-const wpcomConfig = config['wordpress.com'];
+const wpcomConfig = config[ 'wordpress.com' ];
 if ( wpcomConfig ) {
 	const oauth2Config = {
 		id: 'WPCOM',
@@ -19,7 +19,7 @@ if ( wpcomConfig ) {
 		redirectUrl: wpcomConfig.redirectUrl || wpcomConfig.redirect_uri,
 		clientId: wpcomConfig.clientID || wpcomConfig.clientId || wpcomConfig.client_id,
 	};
-	const authProvider = config['wordpress.com'].auth === 'proxy'
+	const authProvider = config[ 'wordpress.com' ].auth === 'proxy'
 		? proxy
 		: createOauth2Provider(
 				oauth2Config.id,
@@ -29,7 +29,7 @@ if ( wpcomConfig ) {
 				oauth2Config.clientId
 			);
 
-	const hasOrgWebsites = !! config['wordpress.org'] && !! Object.keys( config['wordpress.org'] ).length;
+	const hasOrgWebsites = !! config[ 'wordpress.org' ] && !! Object.keys( config[ 'wordpress.org' ] ).length;
 	const dotComWPApi = {
 		name: hasOrgWebsites ? 'WP.COM WP REST API' : 'WP REST API',
 		baseUrl: 'https://public-api.wordpress.com/',
@@ -43,9 +43,9 @@ if ( wpcomConfig ) {
 }
 
 // Loading WP.org APIs
-if ( config['wordpress.org'] ) {
+if ( config[ 'wordpress.org' ] ) {
 	APIs = APIs.concat(
-		config['wordpress.org'].map( site => {
+		config[ 'wordpress.org' ].map( site => {
 			let authProvider;
 			const { name, authType } = site;
 			const url = site.url.replace( /\/+$/, '' );
@@ -65,5 +65,5 @@ if ( config['wordpress.org'] ) {
 }
 
 export const apis = APIs.map( api => api.name );
-export const getDefault = () => APIs[0];
+export const getDefault = () => APIs[ 0 ];
 export const get = name => APIs.find( api => api.name === name ) || getDefault();

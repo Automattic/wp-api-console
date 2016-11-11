@@ -58,7 +58,7 @@ class EndpointSelector extends Component {
 				{ Object.keys( groupedEndpoints ).map( group =>
 					<div key={ group }>
 						<div className="group">{ group }</div>
-						<ul>{ this.renderEndpoints( groupedEndpoints[group] ) }</ul>
+						<ul>{ this.renderEndpoints( groupedEndpoints[ group ] ) }</ul>
 					</div>
 				)}
 			</div>

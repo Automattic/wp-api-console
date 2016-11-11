@@ -108,7 +108,7 @@ module.exports = {
 		'comma-dangle'                  : ['error', 'always-multiline'],
 		'comma-spacing'                 : 'error',
 		'comma-style'                   : 'error',
-		'computed-property-spacing'     : 'error',
+		'computed-property-spacing'     : [ 'error', 'always' ],
 		'consistent-this'               : ['error', 'self'],
 		'eol-last'                      : 'error',
 		'indent'                        : ['error', 'tab', { SwitchCase : 1 }],

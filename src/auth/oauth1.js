@@ -43,7 +43,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 		if ( localStorage.getItem( TOKEN_STORAGE_KEY ) ) {
 			accessToken = JSON.parse( localStorage.getItem( TOKEN_STORAGE_KEY ) );
 		} else if ( window.location.href.indexOf( '?' ) !== -1 && localStorage.getItem( REQUEST_TOKEN_STORAGE_KEY ) ) {
-			const args = querystring.parse( window.location.href.split( '?' )[1] );
+			const args = querystring.parse( window.location.href.split( '?' )[ 1 ] );
 			const token = {
 				...( JSON.parse( localStorage.getItem( REQUEST_TOKEN_STORAGE_KEY ) ) ),
 				key: args.oauth_token,
@@ -69,7 +69,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 			const user = body.body;
 			return {
 				...user,
-				avatar_URL: user.avatar_urls ? Object.values( user.avatar_urls )[0] : '',
+				avatar_URL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
 			};
 		} );
 	};

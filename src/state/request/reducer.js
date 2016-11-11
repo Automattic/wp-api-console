@@ -20,53 +20,53 @@ const defaultState = {
 };
 
 const reducer = createReducer( defaultState, {
-	[REQUEST_SET_METHOD]: ( state, { payload } ) => {
+	[ REQUEST_SET_METHOD ]: ( state, { payload } ) => {
 		return ( {
 			...state,
 			method: payload,
 		} );},
-	[REQUEST_SELECT_ENDPOINT]: ( state, { payload: { endpoint } } ) => {
+	[ REQUEST_SELECT_ENDPOINT ]: ( state, { payload: { endpoint } } ) => {
 		return ( {
 			...state,
 			endpoint,
 			url: '',
 		} );},
-	[REQUEST_UPDATE_URL]: ( state, { payload } ) => {
+	[ REQUEST_UPDATE_URL ]: ( state, { payload } ) => {
 		return ( {
 			...state,
 			url: payload,
 		} );},
-	[REQUEST_UPDATE_PATH_PART_VALUE]: ( state, { payload: { pathPart, value } } ) => {
+	[ REQUEST_UPDATE_PATH_PART_VALUE ]: ( state, { payload: { pathPart, value } } ) => {
 		return ( {
 			...state,
 			pathValues: {
 				...state.pathValues,
-				[pathPart]: value,
+				[ pathPart ]: value,
 			},
 		} );},
-	[REQUEST_SET_BODY_PARAM]: ( state, { payload: { param, value } } ) => {
+	[ REQUEST_SET_BODY_PARAM ]: ( state, { payload: { param, value } } ) => {
 		return ( {
 			...state,
 			bodyParams: {
 				...state.bodyParams,
-				[param]: value,
+				[ param ]: value,
 			},
 		} );},
-	[REQUEST_SET_QUERY_PARAM]: ( state, { payload: { param, value } } ) => {
+	[ REQUEST_SET_QUERY_PARAM ]: ( state, { payload: { param, value } } ) => {
 		return ( {
 			...state,
 			queryParams: {
 				...state.queryParams,
-				[param]: value,
+				[ param ]: value,
 			},
 		} );},
-	[UI_SELECT_VERSION]: ( state, { payload: { param, value } } ) => {
+	[ UI_SELECT_VERSION ]: ( state, { payload: { param, value } } ) => {
 		return ( {
 			...state,
 			endpoint: false,
 			url: '',
 		} );},
-	[UI_SELECT_API]: ( state, { payload: { param, value } } ) => defaultState,
+	[ UI_SELECT_API ]: ( state, { payload: { param, value } } ) => defaultState,
 } );
 
 export default reducer;
