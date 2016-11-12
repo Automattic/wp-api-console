@@ -7,7 +7,7 @@ const HOUR_IN_MS = 3600000;
 const SERIALIZE_THROTTLE = 500;
 const MAX_AGE = 30 * DAY_IN_HOURS * HOUR_IN_MS;
 const STORAGE_KEY = 'REDUX_STATE';
-const SERIALIZED_STATE_VERSION = 3;
+const SERIALIZED_STATE_VERSION = 4;
 
 function serialize( state, reducer ) {
 	const serializedState = reducer( state, { type: SERIALIZE } );
