@@ -5,6 +5,8 @@ export const guessEndpointDocumentation = ( method, namespace, computedPath ) =>
 	let groupSingular = '';
 	let description = '';
 
+	computedPath = computedPath || '/';
+
 	const verbMatch = computedPath.match( /^(\/?sites\/[$\w.]+)?\/([\w-]*)(\/|$)/ );
 
 	if ( verbMatch ) {
