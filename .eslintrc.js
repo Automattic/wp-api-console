@@ -103,10 +103,10 @@ module.exports = {
 		} ],
 		'no-use-before-define' : 'error',
 		// Style
-		'array-bracket-spacing'         : ['error', 'always'],
-		'brace-style'                   : ['error', '1tbs'],
+		'array-bracket-spacing'         : [ 'error', 'always' ],
+		'brace-style'                   : [ 'error', '1tbs' ],
 		//'camelcase'                     : 'error',
-		'comma-dangle'                  : ['error', 'always-multiline'],
+		'comma-dangle'                  : [ 'error', 'always-multiline' ],
 		'comma-spacing'                 : 'error',
 		'comma-style'                   : 'error',
 		'computed-property-spacing'     : [ 'error', 'always' ],
