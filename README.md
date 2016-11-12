@@ -6,17 +6,17 @@ This is a WIP rewrite in React of [the WordPress.com API Console](https://github
 
 To get up and running:
 
-1. Clone the repository `git clone git@github.com:Automattic/wp-api-console.git`
+1. Clone the repository `git clone https://github.com/Automattic/wp-api-console.git`
 
 2. Install dependencies `npm install`
 
-3. Edit the `src/config.json` (see the "Configuration" section bellow)
+3. Edit the `src/config.json` (see the "Configuration" section below)
 
-3. Run the dev server `npm start`
+4. Run the dev server `npm start`
 
 Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-Checkout the [this documentation](./DOC.md) for more technical details.
+Check out the [technical documentation](./DOC.md) for more development details.
 
 ## Configuration
 
@@ -92,7 +92,7 @@ The static site is located in `build`
 
 ## Deploying
 
-You want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`
+If you want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`.
 
 ## License
 
