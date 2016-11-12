@@ -32,7 +32,7 @@
     "wpcom-proxy-request": "^3.1.0"
   },
   "scripts": {
-    "start": "npm run lint && react-scripts start",
+    "start": "react-scripts start",
     "build": "npm run lint && react-scripts build",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
