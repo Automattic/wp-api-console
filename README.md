@@ -20,7 +20,7 @@ Check out the [technical documentation](./DOC.md) for more development details.
 
 ## Configuration
 
-### Using with Wordpress.com APIs
+### Using with WordPress.com APIs
 
 To use with WordPress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
 
