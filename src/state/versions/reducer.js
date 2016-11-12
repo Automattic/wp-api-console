@@ -11,6 +11,4 @@ const versions = createReducer( {}, {
 	},
 }, schema );
 
-export const dummy = { lint_error: true };
-
 export default versions;
