@@ -4,7 +4,7 @@ import reducer from '../reducer';
 import { API_ENDPOINTS_RECEIVE } from '../../actions';
 
 const endpoints = [
-	{ path_labeled: 'myEndpoint' },
+	{ pathLabeled: 'myEndpoint' },
 ];
 const state = deepFreeze( {
 	wpcom: {
@@ -19,7 +19,7 @@ it( 'should return old state on unknown actions', () => {
 } );
 
 it( 'should append endpoint to a new version', () => {
-	const newEndpoints = [ { path_labeled: 'mynewEndpoint' } ];
+	const newEndpoints = [ { pathLabeled: 'mynewEndpoint' } ];
 	const action = {
 		type: API_ENDPOINTS_RECEIVE,
 		payload: {
@@ -38,7 +38,7 @@ it( 'should append endpoint to a new version', () => {
 } );
 
 it( 'should append endpoint to a new api', () => {
-	const newEndpoints = [ { path_labeled: 'mynewEndpoint' } ];
+	const newEndpoints = [ { pathLabeled: 'mynewEndpoint' } ];
 	const action = {
 		type: API_ENDPOINTS_RECEIVE,
 		payload: {
@@ -59,7 +59,7 @@ it( 'should append endpoint to a new api', () => {
 } );
 
 it( 'should replace endpoints for the same api and version', () => {
-	const newEndpoints = [ { path_labeled: 'mynewEndpoint' } ];
+	const newEndpoints = [ { pathLabeled: 'mynewEndpoint' } ];
 	const action = {
 		type: API_ENDPOINTS_RECEIVE,
 		payload: {

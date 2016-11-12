@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import reducer from '../reducer';
 import { REQUEST_SELECT_ENDPOINT } from '../../actions';
 
-const endpoint = { path_labeled: 'myEndpoint' };
+const endpoint = { pathLabeled: 'myEndpoint' };
 const state = deepFreeze( {
 	wpcom: {
 		v1: [ endpoint ],
@@ -17,7 +17,7 @@ it( 'should return old stateon unknown actions', () => {
 } );
 
 it( 'should append endpoint to a new version', () => {
-	const newEndpoint = { path_labeled: 'mynewEndpoint' };
+	const newEndpoint = { pathLabeled: 'mynewEndpoint' };
 	const action = {
 		type: REQUEST_SELECT_ENDPOINT,
 		payload: {
@@ -36,7 +36,7 @@ it( 'should append endpoint to a new version', () => {
 } );
 
 it( 'should append endpoint to a new api', () => {
-	const newEndpoint = { path_labeled: 'mynewEndpoint' };
+	const newEndpoint = { pathLabeled: 'mynewEndpoint' };
 	const action = {
 		type: REQUEST_SELECT_ENDPOINT,
 		payload: {
@@ -57,7 +57,7 @@ it( 'should append endpoint to a new api', () => {
 } );
 
 it( 'should merge endpoints for the same api and version', () => {
-	const newEndpoint = { path_labeled: 'mynewEndpoint' };
+	const newEndpoint = { pathLabeled: 'mynewEndpoint' };
 	const action = {
 		type: REQUEST_SELECT_ENDPOINT,
 		payload: {
@@ -92,7 +92,7 @@ it( 'should not merge duplicate endpoints for the same api and version', () => {
 } );
 
 it( 'should put duplicate endpoints at the front of the history', () => {
-	const newEndpoint = { path_labeled: 'mynewEndpoint' };
+	const newEndpoint = { pathLabeled: 'mynewEndpoint' };
 	const state2 = deepFreeze( {
 		wpcom: {
 			v1: [ newEndpoint, endpoint ],

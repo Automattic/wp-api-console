@@ -105,7 +105,7 @@ module.exports = {
 		// Style
 		'array-bracket-spacing'         : [ 'error', 'always' ],
 		'brace-style'                   : [ 'error', '1tbs' ],
-		//'camelcase'                     : 'error',
+		'camelcase'                     : 'error',
 		'comma-dangle'                  : [ 'error', 'always-multiline' ],
 		'comma-spacing'                 : 'error',
 		'comma-style'                   : 'error',

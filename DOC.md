@@ -66,8 +66,8 @@ const api = {
     /*
      * Should parse the data returned by the discovery request and returns an array of endpoints
      * const { 
-     *  path_format,
-     *  path_labeled,
+     *  pathFormat,
+     *  pathLabeled,
      *  request: {
      *    body: {
      *      param1: { type, description }

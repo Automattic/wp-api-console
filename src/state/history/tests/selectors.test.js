@@ -1,7 +1,7 @@
 import { getRecentEndpoints } from '../selectors';
 
 const endpoints = [
-	{ path_labeled: 'myEndpoint' },
+	{ pathLabeled: 'myEndpoint' },
 ];
 
 const state = {

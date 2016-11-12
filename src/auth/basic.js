@@ -16,7 +16,7 @@ const createBasicAuthProvider = ( name, baseUrl, authHeader ) => {
 				const user = res.body.body;
 				return {
 					...user,
-					avatar_URL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
+					avatarURL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
 				};
 			} );
 	};
