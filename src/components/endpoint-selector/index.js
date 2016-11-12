@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { groupBy, noop } from 'lodash';
+import { groupBy, sortBy, noop } from 'lodash';
 
 import './style.css';
 
@@ -34,14 +34,25 @@ class EndpointSelector extends Component {
 		const { onSelect } = this.props;
 		const onSelectEndpoint = endpoint => () => onSelect( endpoint );
 
-		return endpoints.map( ( endpoint, index ) =>
+		return sortBy( endpoints, 'pathLabeled' ).map( ( endpoint, index ) =>
 			<li key={ index } onClick={ onSelectEndpoint( endpoint ) }>
 				<span className="method">{ endpoint.method }</span>
 				<code>{ endpoint.pathLabeled }</code>
-				<strong>{ endpoint.group }</strong>
+				<strong>{ this.getGroupText( endpoint.group ) }</strong>
 				<em>{ endpoint.description }</em>
 			</li>
 		);
+	}
+
+	getGroupText( group, isHeading = false ) {
+		if ( group === '__do_not_document' ) {
+			return ( isHeading ? '(Undocumented)' : '' );
+		}
+		if ( ! group ) {
+			return ( isHeading ? '(No group)' : '' );
+		}
+		// Add a zero-width space to force 'text-transform: capitalize' to work
+		return ( isHeading ? '' : '\u200b' ) + group;
 	}
 
 	render() {
@@ -57,7 +68,7 @@ class EndpointSelector extends Component {
 				}
 				{ Object.keys( groupedEndpoints ).map( group =>
 					<div key={ group }>
-						<div className="group">{ group }</div>
+						<div className="group">{ this.getGroupText( group, true ) }</div>
 						<ul>{ this.renderEndpoints( groupedEndpoints[ group ] ) }</ul>
 					</div>
 				)}
