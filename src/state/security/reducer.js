@@ -10,7 +10,8 @@ export const reducer = createReducer( {}, {
 				isLoggedin: true,
 				user,
 			},
-		} );},
+		} );
+	},
 	[ SECURITY_CHECK_FAILED ]: ( state, { payload: { apiName } } ) => {
 		return ( {
 			...state,
@@ -19,7 +20,8 @@ export const reducer = createReducer( {}, {
 				ready: true,
 				user: false,
 			},
-		} );},
+		} );
+	},
 	[ SECURITY_LOGOUT ]: ( state, { payload: { apiName } } ) => {
 		return ( {
 			...state,
@@ -28,7 +30,8 @@ export const reducer = createReducer( {}, {
 				ready: true,
 				user: false,
 			},
-		} );},
+		} );
+	},
 } );
 
 export default reducer;

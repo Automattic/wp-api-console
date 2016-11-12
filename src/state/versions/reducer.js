@@ -7,7 +7,8 @@ const versions = createReducer( {}, {
 		return ( {
 			...state,
 			[ apiName ]: versions,
-		} );},
+		} );
+	},
 }, schema );
 
 export default versions;

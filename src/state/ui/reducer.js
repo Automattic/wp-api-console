@@ -7,12 +7,14 @@ const reducer = createReducer( { api: getDefault().name, version: null }, {
 		return ( {
 			version: null,
 			api: payload,
-		} );},
+		} );
+	},
 	[ UI_SELECT_VERSION ]: ( state, { payload } ) => {
 		return ( {
 			...state,
 			version: payload,
-		} );},
+		} );
+	},
 } );
 
 export default reducer;
