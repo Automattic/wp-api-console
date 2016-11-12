@@ -9,6 +9,10 @@ const api = {
 		const undocumented = [];
 		const noGroup = [];
 		data.forEach( endpoint => {
+			endpoint.pathFormat = endpoint.path_format;
+			delete endpoint.path_format;
+			endpoint.pathLabeled = endpoint.path_labeled;
+			delete endpoint.path_labeled;
 			if ( endpoint.group === '__do_not_document' ) {
 				undocumented.push( endpoint );
 			} else if ( endpoint.group ) {
