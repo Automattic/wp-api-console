@@ -1,3 +1,4 @@
+/* eslint-disable quote-props, key-spacing */
 module.exports = {
 	parserOptions: {
 		ecmaVersion: 6
