@@ -14,14 +14,11 @@
 }
 
 .endpoint-selector ul {
-	position: relative;
 	opacity: 0.96;
 	list-style: none;
 	padding: 0;
 	margin: 0;
 	background: hsl(210,33%,100%);
-	position: relative;
-	top: 1px;
 }
 
 .endpoint-selector li {
@@ -103,6 +100,7 @@
 	font-weight: bold;
 	border-top: 1px solid hsl(210,33%,100%);
 	background: hsl(210,33%,100%);
+	border-bottom: 1px solid #e6eff4;
 }
 
 .endpoint-selector .group:first-child {
