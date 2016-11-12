@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { groupBy, noop } from 'lodash';
+import { groupBy, sortBy, noop } from 'lodash';
 
 import './style.css';
 
@@ -34,7 +34,7 @@ class EndpointSelector extends Component {
 		const { onSelect } = this.props;
 		const onSelectEndpoint = endpoint => () => onSelect( endpoint );
 
-		return endpoints.map( ( endpoint, index ) =>
+		return sortBy( endpoints, 'pathLabeled' ).map( ( endpoint, index ) =>
 			<li key={ index } onClick={ onSelectEndpoint( endpoint ) }>
 				<span className="method">{ endpoint.method }</span>
 				<code>{ endpoint.pathLabeled }</code>
