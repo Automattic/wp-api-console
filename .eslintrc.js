@@ -1,4 +1,8 @@
 /* eslint-disable quote-props, key-spacing */
+
+// Debug: what node environment are we getting?
+console.log( process.env );
+
 module.exports = {
 	parserOptions: {
 		ecmaVersion: 6,
