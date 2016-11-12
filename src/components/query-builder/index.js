@@ -10,13 +10,13 @@ import ParamBuilder from '../param-builder';
 const QueryBuilder = ( { bodyParams, endpoint, queryParams, setBodyParam, setQueryParam } ) =>
 	(
 		<div className="builder">
-			{ endpoint && <ParamBuilder
+			{ endpoint && endpoint.request.query && <ParamBuilder
 				title="Query"
 				params={ endpoint.request.query }
 				values={ queryParams }
 				onChange={ setQueryParam }
 			/> }
-			{ endpoint && <ParamBuilder
+			{ endpoint && endpoint.request.body && <ParamBuilder
 				title="Body"
 				params={ endpoint.request.body }
 				values={ bodyParams }
