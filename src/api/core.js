@@ -137,8 +137,8 @@ export const parseEndpoints = data => {
 				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
 
 				const endpoint = {
-					path_format: pathFormat || '/',
-					path_labeled: pathLabel || '/',
+					pathFormat: pathFormat || '/',
+					pathLabeled: pathLabel || '/',
 					request: {
 						body: [],
 						query,

@@ -12,7 +12,7 @@ import {
 } from '../selectors';
 
 it( 'getSelectedEndpoint should return the selected endpoint', () => {
-	const endpoint = { path_labeled: 'myEndpoint' };
+	const endpoint = { pathLabeled: 'myEndpoint' };
 	const state = {
 		request: { endpoint },
 	};
@@ -93,7 +93,7 @@ it( 'getBodyParams should return the defined bodyParams', () => {
 } );
 
 it( 'getEndpointPathParts should explode the endpoint path correctly', () => {
-	const endpoint = { path_labeled: '/site/$site/posts/slug:$slug' };
+	const endpoint = { pathLabeled: '/site/$site/posts/slug:$slug' };
 	const state = {
 		request: { endpoint },
 	};
@@ -115,7 +115,7 @@ describe( 'getCompleteQueryUrl', () => {
 		const state = {
 			request: {
 				endpoint: {
-					path_labeled: '/site/$site/posts/slug:$slug',
+					pathLabeled: '/site/$site/posts/slug:$slug',
 					request: {
 						path: { $site: {}, $slug: {} },
 						query: { context: {}, page: {} },
@@ -163,12 +163,12 @@ describe( 'filterEndpoints', () => {
 			request: { url: 'Comments' },
 		};
 		const endpoints = [
-			{ path_labeled: '/sites/me', description: '' },
-			{ path_labeled: '/comments', description: '' },
+			{ pathLabeled: '/sites/me', description: '' },
+			{ pathLabeled: '/comments', description: '' },
 		];
 
 		expect( filterEndpoints( state, endpoints ) )
-			.toEqual( [ { path_labeled: '/comments', description: '' } ] );
+			.toEqual( [ { pathLabeled: '/comments', description: '' } ] );
 	} );
 
 	it( 'should filter based on description', () => {
@@ -176,11 +176,11 @@ describe( 'filterEndpoints', () => {
 			request: { url: 'current' },
 		};
 		const endpoints = [
-			{ path_labeled: '/sites/me', description: 'Current User' },
-			{ path_labeled: '/comments', description: '' },
+			{ pathLabeled: '/sites/me', description: 'Current User' },
+			{ pathLabeled: '/comments', description: '' },
 		];
 
 		expect( filterEndpoints( state, endpoints ) )
-			.toEqual( [ { path_labeled: '/sites/me', description: 'Current User' } ] );
+			.toEqual( [ { pathLabeled: '/sites/me', description: 'Current User' } ] );
 	} );
 } );

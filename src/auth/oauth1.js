@@ -7,16 +7,19 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 	const TOKEN_STORAGE_KEY = `${ name }__OAUTH1CCESSTOKEN`;
 	const REQUEST_TOKEN_STORAGE_KEY = `${ name }__REQUESTOAUTH1CCESSTOKEN`;
 
+	/* eslint-disable camelcase */
 	const oauth = new OAuth( {
 		consumer: {
 			key: publicKey,
 			secret: secretKey,
 		},
 		signature_method: 'HMAC-SHA1',
-		hash_function: ( base_string, key ) =>
-			crypto.createHmac( 'sha1', key ).update( base_string ).digest( 'base64' )
-		,
+		hash_function( baseString, key ) {
+			return crypto.createHmac( 'sha1', key )
+				.update( baseString ).digest( 'base64' );
+		},
 	} );
+	/* eslint-enable camelcase */
 
 	// Request using oauth headers
 	const oauthRequest = ( method, url, body = null, token = null ) => {
@@ -69,7 +72,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 			const user = body.body;
 			return {
 				...user,
-				avatar_URL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
+				avatarURL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
 			};
 		} );
 	};
@@ -82,8 +85,8 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 					secret: body.oauth_token_secret,
 				} ) );
 				const redirectUrl = baseUrl + '/oauth1/authorize?' + querystring.stringify( {
-					oauth_token: body.oauth_token,
-					oauth_callback: callbackUrl,
+					oauth_token: body.oauth_token, // eslint-disable-line camelcase
+					oauth_callback: callbackUrl, // eslint-disable-line camelcase
 				} );
 				window.location = redirectUrl;
 			} );

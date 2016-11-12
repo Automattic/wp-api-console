@@ -37,7 +37,7 @@ class EndpointSelector extends Component {
 		return endpoints.map( ( endpoint, index ) =>
 			<li key={ index } onClick={ onSelectEndpoint( endpoint ) }>
 				<span className="method">{ endpoint.method }</span>
-				<code>{ endpoint.path_labeled }</code>
+				<code>{ endpoint.pathLabeled }</code>
 				<strong>{ endpoint.group }</strong>
 				<em>{ endpoint.description }</em>
 			</li>

@@ -28,8 +28,8 @@ describe( 'parseEndpoints', () => {
 		expect( parseEndpoints( discoveryData ) ).toEqual(
 			[
 				{
-					path_format: '/sites/%s/categories',
-					path_labeled: '/sites/$wpcom_site/categories',
+					pathFormat: '/sites/%s/categories',
+					pathLabeled: '/sites/$wpcom_site/categories',
 					request: {
 						body: [],
 						query: {
@@ -39,7 +39,7 @@ describe( 'parseEndpoints', () => {
 							},
 						},
 						path: {
-							$wpcom_site: {
+							$wpcom_site: { // eslint-disable-line camelcase
 								description: '',
 								type: 'w.:',
 							},
@@ -78,8 +78,8 @@ describe( 'parseEndpoints', () => {
 		expect( parseEndpoints( discoveryData ) ).toEqual(
 			[
 				{
-					path_format: '/sites/%s/categories',
-					path_labeled: '/sites/$wpcom_site/categories',
+					pathFormat: '/sites/%s/categories',
+					pathLabeled: '/sites/$wpcom_site/categories',
 					request: {
 						body: [],
 						query: {
@@ -89,7 +89,7 @@ describe( 'parseEndpoints', () => {
 							},
 						},
 						path: {
-							$wpcom_site: {
+							$wpcom_site: { // eslint-disable-line camelcase
 								description: '',
 								type: 'w.:',
 							},

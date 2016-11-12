@@ -60,7 +60,7 @@ export const getEndpointPathParts = state => {
 		return [];
 	}
 	const pathRegex = /\$[^/]*|([^$]*)/g;
-	const pathParts = endpoint.path_labeled.match( pathRegex );
+	const pathParts = endpoint.pathLabeled.match( pathRegex );
 
 	return compact( pathParts );
 };
@@ -103,7 +103,7 @@ export const filterEndpoints = ( state, endpoints ) => {
 	const url = getUrl( state ).toLowerCase();
 
 	return endpoints.filter( endpoint =>
-		endpoint.path_labeled.toLowerCase().indexOf( url ) !== -1 ||
+		endpoint.pathLabeled.toLowerCase().indexOf( url ) !== -1 ||
 		endpoint.description.toLowerCase().indexOf( url ) !== -1
 	);
 };

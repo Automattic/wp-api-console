@@ -12,7 +12,7 @@ import {
 	UI_SELECT_VERSION,
 } from '../../actions';
 
-const endpoint = { path_labeled: '/$site/posts' };
+const endpoint = { pathLabeled: '/$site/posts' };
 const state = deepFreeze( {
 	endpoint,
 	method: 'GET',
@@ -45,7 +45,7 @@ it( 'should set the new method', () => {
 } );
 
 it( 'should select a new endpoint and reset some params', () => {
-	const newEndpoint = { path_labeled: '/$site/comments' };
+	const newEndpoint = { pathLabeled: '/$site/comments' };
 	const action = {
 		type: REQUEST_SELECT_ENDPOINT,
 		payload: { endpoint: newEndpoint },

@@ -32,7 +32,7 @@ const UserMenu = ( { apiName, isReady, isLoggedin, login, logout, user } ) => {
 			<span className="label" />
 			<span className="extra">Sign Out</span>
 			<span className="img">
-				<img alt="Avatar" src={ user.avatar_URL } />
+				<img alt="Avatar" src={ user.avatarURL } />
 			</span>
 		</div>
 	);
