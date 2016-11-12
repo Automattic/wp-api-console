@@ -55,7 +55,18 @@ export const guessEndpointDocumentation = ( method, namespace, computedPath ) =>
 				}
 
 				if ( /\/users\/me$/.test( computedPath ) ) {
-					return 'Get the current user';
+					switch ( method ) {
+						case 'GET':
+							return 'Get the current user';
+						case 'POST':
+						case 'PUT':
+						case 'PATCH':
+							return 'Edit the current user';
+						case 'DELETE':
+							return 'Delete the current user';
+						default: // make eslint happy
+							return 'Unknown action with the current user';
+					}
 				}
 
 				if ( /\/revisions(\/|$)/.test( computedPath ) ) {
