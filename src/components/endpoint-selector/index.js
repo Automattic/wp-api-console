@@ -51,7 +51,8 @@ class EndpointSelector extends Component {
 		if ( ! group ) {
 			return ( isHeading ? '(No group)' : '' );
 		}
-		return group;
+		// Add a zero-width space to force 'text-transform: capitalize' to work
+		return ( isHeading ? '' : '\u200b' ) + group;
 	}
 
 	render() {
