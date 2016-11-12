@@ -57,7 +57,6 @@ module.exports = {
 		'no-fallthrough'        : 'error',
 		'no-floating-decimal'   : 'error',
 		'no-implied-eval'       : 'error',
-		//'no-invalid-this'       : 'error',
 		'no-iterator'           : 'error',
 		'no-labels'             : 'error',
 		'no-lone-blocks'        : 'error',
