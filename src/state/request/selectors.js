@@ -26,7 +26,7 @@ export const getQueryParams = state => {
 	if ( ! endpoint ) {
 		return {};
 	}
-	const queryArgs = Object.keys( endpoint.request.query );
+	const queryArgs = Object.keys( endpoint.request.query || {} );
 
 	return queryArgs.reduce( ( ret, arg ) => {
 		if (
@@ -49,7 +49,7 @@ export const getBodyParams = state => {
 	if ( ! endpoint ) {
 		return {};
 	}
-	const bodyArgs = Object.keys( endpoint.request.body );
+	const bodyArgs = Object.keys( endpoint.request.body || {} );
 
 	return bodyArgs.reduce( ( ret, arg ) => {
 		return {
