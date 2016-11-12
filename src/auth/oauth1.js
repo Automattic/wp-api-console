@@ -72,7 +72,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 			const user = body.body;
 			return {
 				...user,
-				avatarURL: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
+				avatarUrl: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
 			};
 		} );
 	};

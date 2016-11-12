@@ -39,7 +39,13 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId ) => 
 			.get( userUrl )
 			.set( 'accept', 'application/json' )
 			.set( 'Authorization', `BEARER ${ accessToken }` )
-			.then( res => res.body );
+			.then( res => {
+				if ( res.body && res.body.avatar_URL ) {
+					res.body.avatarUrl = res.body.avatar_URL;
+					delete res.body.avatar_URL;
+				}
+				return res.body;
+			} );
 	};
 
 	const logout = () => {
