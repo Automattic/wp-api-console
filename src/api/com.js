@@ -4,7 +4,21 @@ const baseUrl = 'https://public-api.wordpress.com/rest/';
 const api = {
 	name: 'WP.COM API',
 	getDiscoveryUrl: version => baseUrl + version + '/help',
-	parseEndpoints: data => data,
+	parseEndpoints: data => {
+		const documented = [];
+		const undocumented = [];
+		const noGroup = [];
+		data.forEach( endpoint => {
+			if ( endpoint.group === '__do_not_document' ) {
+				undocumented.push( endpoint );
+			} else if ( endpoint.group ) {
+				documented.push( endpoint );
+			} else {
+				noGroup.push( endpoint );
+			}
+		} );
+		return documented.concat( noGroup ).concat( undocumented );
+	},
 	loadVersions: () =>
 		superagent.get( baseUrl + 'v1.1/versions?include_dev=true' )
 			.set( 'accept', 'application/json' )

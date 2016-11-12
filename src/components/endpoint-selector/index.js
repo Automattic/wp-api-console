@@ -38,10 +38,20 @@ class EndpointSelector extends Component {
 			<li key={ index } onClick={ onSelectEndpoint( endpoint ) }>
 				<span className="method">{ endpoint.method }</span>
 				<code>{ endpoint.pathLabeled }</code>
-				<strong>{ endpoint.group }</strong>
+				<strong>{ this.getGroupText( endpoint.group ) }</strong>
 				<em>{ endpoint.description }</em>
 			</li>
 		);
+	}
+
+	getGroupText( group, isHeading = false ) {
+		if ( group === '__do_not_document' ) {
+			return ( isHeading ? '(Undocumented)' : '' );
+		}
+		if ( ! group ) {
+			return ( isHeading ? '(No group)' : '' );
+		}
+		return group;
 	}
 
 	render() {
@@ -57,7 +67,7 @@ class EndpointSelector extends Component {
 				}
 				{ Object.keys( groupedEndpoints ).map( group =>
 					<div key={ group }>
-						<div className="group">{ group }</div>
+						<div className="group">{ this.getGroupText( group, true ) }</div>
 						<ul>{ this.renderEndpoints( groupedEndpoints[ group ] ) }</ul>
 					</div>
 				)}
