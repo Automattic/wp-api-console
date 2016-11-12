@@ -151,14 +151,17 @@ export const parseEndpoints = data => {
 
 				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
 
+				const request = { path };
+				if ( method === 'GET' || method === 'DELETE' ) {
+					request.query = args;
+				} else {
+					request.body = args;
+				}
+
 				const endpoint = {
 					pathFormat: pathFormat || '/',
 					pathLabeled: pathLabel || '/',
-					request: {
-						body: method !== 'GET' ? args : {},
-						query: method === 'GET' ? args : {},
-						path,
-					},
+					request,
 					description,
 					group,
 					method,
