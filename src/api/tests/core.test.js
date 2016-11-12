@@ -31,7 +31,6 @@ describe( 'parseEndpoints', () => {
 					pathFormat: '/sites/%s/categories',
 					pathLabeled: '/sites/$wpcom_site/categories',
 					request: {
-						body: [],
 						query: {
 							context: {
 								description: 'Scope under which the request is made; determines fields present in response.',
@@ -81,8 +80,7 @@ describe( 'parseEndpoints', () => {
 					pathFormat: '/sites/%s/categories',
 					pathLabeled: '/sites/$wpcom_site/categories',
 					request: {
-						body: [],
-						query: {
+						body: {
 							posts: {
 								description: 'Posts related to this category',
 								type: 'array',
