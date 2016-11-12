@@ -1,7 +1,7 @@
 /* eslint-disable quote-props, key-spacing */
 module.exports = {
 	parserOptions: {
-		ecmaVersion: 6
+		ecmaVersion: 6,
 	},
 	env : {
 		browser : true,
@@ -19,7 +19,7 @@ module.exports = {
 		'no-dupe-args'             : 'error',
 		'no-dupe-keys'             : 'error',
 		'no-duplicate-case'        : 'error',
-		'no-empty'                 : ['error', { allowEmptyCatch : true }],
+		'no-empty'                 : [ 'error', { allowEmptyCatch : true } ],
 		'no-empty-character-class' : 'error',
 		'no-ex-assign'             : 'error',
 		'no-extra-boolean-cast'    : 'error',
@@ -42,8 +42,8 @@ module.exports = {
 		'accessor-pairs'        : 'error',
 		'array-callback-return' : 'error',
 		'consistent-return'     : 'error',
-		'curly'                 : ['error', 'all'],
-		'dot-location'          : ['error', 'property'],
+		'curly'                 : [ 'error', 'all' ],
+		'dot-location'          : [ 'error', 'property' ],
 		'dot-notation'          : 'error',
 		'eqeqeq'                : 'error',
 		'no-caller'             : 'error',
@@ -61,14 +61,14 @@ module.exports = {
 		'no-labels'             : 'error',
 		'no-lone-blocks'        : 'error',
 		'no-loop-func'          : 'error',
-		'no-multi-spaces'       : ['error', {
+		'no-multi-spaces'       : [ 'error', {
 			exceptions : {
 				Property             : true,
 				VariableDeclarator   : true,
 				AssignmentExpression : true,
 				ImportDeclaration    : true,
 			},
-		}],
+		} ],
 		'no-multi-str'                 : 'error',
 		'no-native-reassign'           : 'error',
 		'no-new-func'                  : 'error',
@@ -93,14 +93,14 @@ module.exports = {
 		'no-warning-comments'          : 'warn',
 		'no-with'                      : 'error',
 		'radix'                        : 'error',
-		'wrap-iife'                    : ['error', 'inside'],
+		'wrap-iife'                    : [ 'error', 'inside' ],
 		// Variables
 		'no-undef'             : 'error',
 		'no-undef-init'        : 'error',
-		'no-unused-vars'       : ['error', {
+		'no-unused-vars'       : [ 'error', {
 			varsIgnorePattern : '^mocha$',
 			args              : 'none',
-		}],
+		} ],
 		'no-use-before-define' : 'error',
 		// Style
 		'array-bracket-spacing'         : ['error', 'always'],
@@ -110,18 +110,18 @@ module.exports = {
 		'comma-spacing'                 : 'error',
 		'comma-style'                   : 'error',
 		'computed-property-spacing'     : [ 'error', 'always' ],
-		'consistent-this'               : ['error', 'self'],
+		'consistent-this'               : [ 'error', 'self' ],
 		'eol-last'                      : 'error',
-		'indent'                        : ['error', 'tab', { SwitchCase : 1 }],
+		'indent'                        : [ 'error', 'tab', { SwitchCase : 1 } ],
 		'jsx-quotes'                    : 'error',
-		'key-spacing'                   : ['error', {
+		'key-spacing'                   : [ 'error', {
 			beforeColon : false,
 			afterColon  : true,
 			mode        : 'minimum',
-		}],
+		} ],
 		'keyword-spacing'               : 'error',
 		'linebreak-style'               : 'error',
-		'max-len'                       : ['warn', 140],
+		'max-len'                       : [ 'warn', 140 ],
 		'max-statements-per-line'       : 'error',
 		'new-cap'                       : 'error',
 		'no-mixed-operators'            : 'error',
@@ -132,17 +132,17 @@ module.exports = {
 		'no-trailing-spaces'            : 'error',
 		'no-unneeded-ternary'           : 'error',
 		'no-whitespace-before-property' : 'error',
-		'object-curly-spacing'          : ['error', 'always'],
-		'one-var'                       : ['error', 'never'],
+		'object-curly-spacing'          : [ 'error', 'always' ],
+		'one-var'                       : [ 'error', 'never' ],
 		'operator-assignment'           : 'error',
-		'operator-linebreak'            : ['error', 'after', {
+		'operator-linebreak'            : [ 'error', 'after', {
 			overrides : {
 				'?' : 'before',
 				':' : 'before',
 			},
-		}],
-		'quote-props'                 : ['error', 'as-needed', { keywords: true }],
-		'quotes'                      : ['error', 'single'],
+		} ],
+		'quote-props'                 : [ 'error', 'as-needed', { keywords: true } ],
+		'quotes'                      : [ 'error', 'single' ],
 		'semi'                        : 'error',
 		'semi-spacing'                : 'error',
 		'space-before-blocks'         : [ 'error', 'always' ],
@@ -151,16 +151,16 @@ module.exports = {
 		'space-infix-ops'             : [ 'error', { int32Hint: false } ],
 		'space-unary-ops'             : [ 'error', {
 			overrides: {
-				'!': true
-			}
+				'!': true,
+			},
 		} ],
 		'spaced-comment'              : 'error',
 		'unicode-bom'                 : 'error',
 		// ES6
-		'arrow-body-style'        : ['error', 'as-needed', {
+		'arrow-body-style'        : [ 'error', 'as-needed', {
 			requireReturnForObjectLiteral : true,
-		}],
-		'arrow-parens'            : ['error', 'as-needed'],
+		} ],
+		'arrow-parens'            : [ 'error', 'as-needed' ],
 		'arrow-spacing'           : 'error',
 		'constructor-super'       : 'error',
 		'no-class-assign'         : 'error',
@@ -181,9 +181,9 @@ module.exports = {
 		'prefer-spread'           : 'error',
 		'require-yield'           : 'error',
 		'rest-spread-spacing'     : 'error',
-		'template-curly-spacing'  : ['error', 'always'],
+		'template-curly-spacing'  : [ 'error', 'always' ],
 		// Miscellaneous
-		'strict' : ['error', 'never'],
+		'strict' : [ 'error', 'never' ],
 		// React
 		'react/no-danger'                 : 'error',
 		'react/no-deprecated'             : 'error',
@@ -198,16 +198,16 @@ module.exports = {
 		//'react/prop-types'                : 'error',
 		'react/react-in-jsx-scope'        : 'error',
 		'react/require-render-return'     : 'error',
-		'react/self-closing-comp'         : ['error', { component : true, html : true }],
+		'react/self-closing-comp'         : [ 'error', { component : true, html : true } ],
 		// JSX
 		'react/jsx-boolean-value'            : 'error',
-		'react/jsx-closing-bracket-location' : ['error', 'line-aligned'],
-		'react/jsx-curly-spacing'            : ['error', 'always'],
+		'react/jsx-closing-bracket-location' : [ 'error', 'line-aligned' ],
+		'react/jsx-curly-spacing'            : [ 'error', 'always' ],
 		'react/jsx-equals-spacing'           : 'error',
 		//'react/jsx-filename-extension'       : 'error',
-		'react/jsx-first-prop-new-line'      : ['error', 'multiline'],
-		'react/jsx-indent'                   : ['error', 'tab'],
-		'react/jsx-indent-props'             : ['error', 'tab'],
+		'react/jsx-first-prop-new-line'      : [ 'error', 'multiline' ],
+		'react/jsx-indent'                   : [ 'error', 'tab' ],
+		'react/jsx-indent-props'             : [ 'error', 'tab' ],
 		'react/jsx-key'                      : 'error',
 		'react/jsx-no-bind'                  : 'error',
 		'react/jsx-no-comment-textnodes'     : 'error',
@@ -225,10 +225,10 @@ module.exports = {
 	],
 	settings : {
 		react : {
-			version : require('./package.json').dependencies.react,
+			version : require( './package.json' ).dependencies.react,
 		},
 	},
 	globals: {
-		expect: true
-	}
+		expect: true,
+	},
 };
