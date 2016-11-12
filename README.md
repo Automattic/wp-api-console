@@ -39,7 +39,11 @@ You will also need to add your host to the CORS whitelist in the Application's s
 
 ### Using with your self-hosted WordPress site
 
-You can also use this console with your WordPress.org installation but make sure to install the [WP REST API - OAuth 1.0a Server](https://oauth1.wp-api.org/) first, create an app on it and then edit the `src/config.json` like this:
+You can also use this console with your WordPress.org installation but make
+sure to install the
+[WP REST API - OAuth 1.0a Server](https://oauth1.wp-api.org/)
+first, create an app (in the Users → Applications screen), and then edit the
+`src/config.json` like this:
 
 ```javascript
 {
@@ -55,7 +59,7 @@ You can also use this console with your WordPress.org installation but make sure
 }
 ```
 
-Note that this setup won't work if your console is running on `localhost`: the OAuth1 plugin prohibits local URLs by default.
+Note that your `callbackUrl` must match the configured value for the application.
 
 You can also install the
 [Application Passwords plugin](https://github.com/georgestephanis/application-passwords/)
