@@ -124,10 +124,10 @@ export const parseEndpoints = data => {
 			rawEndpoint.methods.forEach( method => {
 				// Parsing Arguments
 				const args = Object.keys( rawEndpoint.args ).reduce( ( memo, key ) => {
-					const { description = '', type = 'string' } = rawEndpoint.args[key];
+					const { description = '', type = 'string' } = rawEndpoint.args[ key ];
 					return {
 						...memo,
-						[ key ]: { type, description }
+						[ key ]: { type, description },
 					};
 				}, {} );
 
