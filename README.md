@@ -60,6 +60,9 @@ first, create an app (in the Users → Applications screen), and then edit the
 ```
 
 Note that your `callbackUrl` must match the configured value for the application.
+If you are having an error like "Callback URL is invalid", try putting a trailing
+slash at the end of your callback URL
+([details](https://github.com/WP-API/example-client/issues/5)).
 
 You can also install the
 [Application Passwords plugin](https://github.com/georgestephanis/application-passwords/)
