@@ -68,7 +68,7 @@ config settings for basic auth:
   "wordpress.org": [
     {
       "name": "Dev (basic)",                 // Name to display on the API selector
-      "url": "http://wordpress.dev",         // Base URL of your WordPress website
+      "url": "https://wordpress.dev",        // Base URL of your WordPress website
       "authType": "basic",
       "authHeader": "Basic bWU6bXlwYSBzc3dvIHJk"
     }
