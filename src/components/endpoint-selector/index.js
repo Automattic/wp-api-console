@@ -16,14 +16,13 @@ class EndpointSelector extends Component {
 	}
 
 	componentDidMount() {
-		if ( ! this.props.endpoints.length && this.props.version ) {
+		if ( this.props.version ) {
 			this.props.loadEndpoints( this.props.api, this.props.version );
 		}
 	}
 
 	componentWillReceiveProps( newProps ) {
 		if ( ( newProps.api !== this.props.api || this.props.version !== newProps.version ) &&
-			! newProps.endpoints.length &&
 			newProps.version
 		) {
 			newProps.loadEndpoints( newProps.api, newProps.version );

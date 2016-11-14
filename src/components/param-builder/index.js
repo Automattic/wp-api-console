@@ -38,7 +38,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 													: <input
 														type="text" value={ values[ paramKey ] || '' }
 														data-tip data-for={ `param-${ paramKey }` }
-														onChange={ changeParamEventValue( paramKey, event.target.value ) }
+														onChange={ changeParamEventValue( paramKey ) }
 													/>
 											}
 											<ParamTooltip
