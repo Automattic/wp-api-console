@@ -1,4 +1,5 @@
-import { compact, isArray } from 'lodash';
+import compact from 'lodash/compact';
+import isArray from 'lodash/isArray';
 
 export const getSelectedEndpoint = state => state.request.endpoint;
 

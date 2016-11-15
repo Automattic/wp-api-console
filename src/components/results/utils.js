@@ -1,4 +1,8 @@
-import { isArray, isPlainObject, isString, toPairs, toString } from 'lodash';
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
+import isString from 'lodash/isString';
+import toPairs from 'lodash/toPairs';
+import toString from 'lodash/toString';
 
 const MAX_LENGTH = 60;
 

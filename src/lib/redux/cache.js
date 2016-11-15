@@ -1,4 +1,4 @@
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 
 import { SERIALIZE, DESERIALIZE } from './action-types';
 

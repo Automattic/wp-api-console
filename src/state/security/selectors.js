@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 export const isReady = ( state, apiName ) =>
 	get( state.security, [ apiName, 'ready' ], false );
