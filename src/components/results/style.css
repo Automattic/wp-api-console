@@ -54,6 +54,11 @@
 	color: rgb(92, 129, 21);
 }
 
+.collapsed-content .string,
+.expanded-value {
+	white-space: pre-wrap;
+}
+
 .collapsed-content .number {
 	color: rgb(246, 103, 30);
 }

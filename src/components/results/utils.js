@@ -12,6 +12,21 @@ const escapeHTML = html => {
 	return html.replace( /[&<>]/g, ch => replacements[ ch ] );
 };
 
+const escapeLikeJSON = value => {
+	const replacements = {
+		'\r': '\\r',
+		'\n': '\\n',
+		'\t': '\\t',
+		'"': '\\"',
+	};
+
+	return value
+		// Replace backslashes first to avoid doubling them in other places.
+		.replace( /\\/g, '\\\\' )
+		// Then replace everything else (multiple spaces are handled via CSS).
+		.replace( /\r|\n|\t|"/g, ch => replacements[ ch ] );
+};
+
 const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	if ( isPlainObject( data ) || isArray( data ) ) {
 		const pairs = toPairs( data );
@@ -20,7 +35,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 		let trailing = '';
 		let length = 2;
 		for ( const [ key, value ] of pairs ) {
-			const keyString = escapeHTML( key.toString() );
+			const keyString = escapeLikeJSON( escapeHTML( key.toString() ) );
 			output += trailing;
 			output += '<span class="key">' + keyString + '</span>: ';
 			const recursion = recursiveStringify( value );
@@ -42,7 +57,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	}
 
 	if ( isString( data ) ) {
-		const displayValue = escapeHTML( data ).replace( /"/g, '\\"' );
+		const displayValue = escapeLikeJSON( escapeHTML( data ) );
 		return {
 			length: data.length + 2,
 			output: '<span class="string">"' + displayValue + '"</span>',

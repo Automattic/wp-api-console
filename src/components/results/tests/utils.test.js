@@ -46,3 +46,13 @@ it( 'should encode HTML-like characters in keys and values', () => {
 		'}';
 	expect( stringify( object, 999 ) ).toEqual( expected );
 } );
+
+it( 'should encode whitespace characters in keys and values', () => {
+	const object = {
+		'a\tb\r\nc"d"e\n\\f': 'a\tb\r\nc"d"e\n\\f',
+	};
+	const expected = '{ ' +
+		'<span class="key">a\\tb\\r\\nc\\"d\\"e\\n\\\\f</span>: <span class="string">"a\\tb\\r\\nc\\"d\\"e\\n\\\\f"</span> ' +
+		'}';
+	expect( stringify( object, 999 ) ).toEqual( expected );
+} );
