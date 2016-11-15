@@ -12,6 +12,10 @@ import { escapeLikeJSON, stringify } from './utils';
 const Results = ( { results } ) => {
 	const jsonTheme = {
 		extend: 'default',
+		tree: {
+			MozUserSelect: 'text',
+			WebkitUserSelect: 'text',
+		},
 		nestedNodeItemString: ( node, expandedNodes, type, expanded ) => {
 			return {
 				className: expanded ? 'expanded' : 'collapsed',
