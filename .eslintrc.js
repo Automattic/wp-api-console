@@ -219,9 +219,12 @@ module.exports = {
 		'react/jsx-uses-react'               : 'error',
 		'react/jsx-uses-vars'                : 'error',
 		'react/jsx-wrap-multilines'          : 'error',
+		// Custom rules
+		'wpcalypso/no-lodash-import' : 'error',
 	},
 	plugins : [
 		'react',
+		'eslint-plugin-wpcalypso',
 	],
 	settings : {
 		react : {
