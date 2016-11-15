@@ -6,15 +6,16 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	if ( isPlainObject( data ) || isArray( data ) ) {
 		const pairs = toPairs( data );
 
-		let output = isArray( data ) ? '[' : '{';
+		let output = isArray( data ) ? '[ ' : '{ ';
 		let trailing = '';
-		let length = 1;
+		let length = 2;
 		for ( const [ key, value ] of pairs ) {
+			const keyString = key.toString();
 			output += trailing;
-			output += '<span class="key">"' + key + '"</span>:';
+			output += '<span class="key">' + keyString + '</span>: ';
 			const recursion = recursiveStringify( value );
 			output += recursion.output;
-			length += key.toString().length + 2 + trailing.length + recursion.length;
+			length += keyString.length + trailing.length + recursion.length;
 			trailing = ', ';
 			if ( length > max ) {
 				output += isArray( data ) ? ' …]' : ' …}';
@@ -25,8 +26,8 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 			}
 		}
 		return {
-			output: output + ( isArray( data ) ? ']' : '}' ),
-			length: length + 1,
+			output: output + ( isArray( data ) ? ' ]' : ' }' ),
+			length: length + 2,
 		};
 	}
 
