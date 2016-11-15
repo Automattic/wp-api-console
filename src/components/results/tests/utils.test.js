@@ -32,3 +32,17 @@ it( 'should crop the output if we exceed max', () => {
 	const expected = '{ <span class="key">a23456</span>: <span class="string">"b23456"</span> …}';
 	expect( stringify( object, 5 ) ).toEqual( expected );
 } );
+
+it( 'should encode HTML-like characters in keys and values', () => {
+	const object = {
+		'<': 'some stuff & more stuff',
+		'>': '<_< >_>',
+		'&': 'another "<test>"',
+	};
+	const expected = '{ ' +
+		'<span class="key">&lt;</span>: <span class="string">"some stuff &amp; more stuff"</span>, ' +
+		'<span class="key">&gt;</span>: <span class="string">"&lt;_&lt; &gt;_&gt;"</span>, ' +
+		'<span class="key">&amp;</span>: <span class="string">"another \\"&lt;test&gt;\\""</span> ' +
+		'}';
+	expect( stringify( object, 999 ) ).toEqual( expected );
+} );

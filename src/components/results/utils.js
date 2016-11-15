@@ -2,6 +2,16 @@ import { isArray, isPlainObject, isString, toPairs, toString } from 'lodash';
 
 const MAX_LENGTH = 60;
 
+const escapeHTML = html => {
+	const replacements = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+	};
+
+	return html.replace( /[&<>]/g, ch => replacements[ ch ] );
+};
+
 const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	if ( isPlainObject( data ) || isArray( data ) ) {
 		const pairs = toPairs( data );
@@ -10,7 +20,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 		let trailing = '';
 		let length = 2;
 		for ( const [ key, value ] of pairs ) {
-			const keyString = key.toString();
+			const keyString = escapeHTML( key.toString() );
 			output += trailing;
 			output += '<span class="key">' + keyString + '</span>: ';
 			const recursion = recursiveStringify( value );
@@ -32,9 +42,10 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	}
 
 	if ( isString( data ) ) {
+		const displayValue = escapeHTML( data ).replace( /"/g, '\\"' );
 		return {
 			length: data.length + 2,
-			output: '<span class="string">"' + data.replace( /"/g, '\\"' ) + '"</span>',
+			output: '<span class="string">"' + displayValue + '"</span>',
 		};
 	}
 
