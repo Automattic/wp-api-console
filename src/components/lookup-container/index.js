@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import ClickOutside from 'react-click-outside';
 
 import './style.css';

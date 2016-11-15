@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import isPlainObject from 'lodash/isPlainObject';
+import { isPlainObject } from 'lodash';
 
 import './style.css';
 

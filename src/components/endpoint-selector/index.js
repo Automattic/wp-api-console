@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import groupBy from 'lodash/groupBy';
-import sortBy from 'lodash/sortBy';
-import noop from 'lodash/noop';
+import { groupBy, sortBy, noop } from 'lodash';
 
 import './style.css';
 
