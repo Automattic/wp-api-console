@@ -18,6 +18,7 @@ if ( wpcomConfig ) {
 		userUrl: 'https://public-api.wordpress.com/rest/v1.1/me',
 		redirectUrl: wpcomConfig.redirectUrl || wpcomConfig.redirect_uri,
 		clientId: wpcomConfig.clientID || wpcomConfig.clientId || wpcomConfig.client_id,
+		scope: 'global',
 	};
 	const authProvider = config[ 'wordpress.com' ].auth === 'proxy'
 		? proxy
@@ -26,7 +27,8 @@ if ( wpcomConfig ) {
 				oauth2Config.baseUrl,
 				oauth2Config.userUrl,
 				oauth2Config.redirectUrl,
-				oauth2Config.clientId
+				oauth2Config.clientId,
+				oauth2Config.scope
 			);
 
 	const hasOrgWebsites = !! config[ 'wordpress.org' ] && !! Object.keys( config[ 'wordpress.org' ] ).length;

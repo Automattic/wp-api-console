@@ -1,7 +1,7 @@
 import superagent from 'superagent';
 import querystring from 'querystring';
 
-const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId ) => {
+const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scope = null ) => {
 	const TOKEN_STORAGE_KEY = `${ name }__OAUTH2ACCESSTOKEN`;
 	const REQUEST_TOKEN_STORAGE_KEY = `${ name }__REQUESTOAUTH2ACCESSTOKEN`;
 
@@ -26,7 +26,7 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId ) => 
 		if ( localStorage.getItem( REQUEST_TOKEN_STORAGE_KEY ) ) {
 			localStorage.removeItem( REQUEST_TOKEN_STORAGE_KEY );
 			localStorage.setItem( TOKEN_STORAGE_KEY, token );
-			window.history.replaceState( {}, null, window.location.pathname );
+			window.location = window.location.pathname;
 		}
 	};
 
@@ -56,8 +56,9 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId ) => 
 	const login = () => {
 		localStorage.setItem( REQUEST_TOKEN_STORAGE_KEY, '1' );
 		window.location = `${ baseUrl }/authorize?` +
-			`client_id=${ encodeURIComponent( clientId ) }&response_type=token&` +
-			`redirect_uri=${ redirectUrl }`;
+			`client_id=${ encodeURIComponent( clientId ) }&response_type=token` +
+			( scope ? `&scope=${ scope }` : '' ) +
+			`&redirect_uri=${ redirectUrl }`;
 	};
 
 	const request = ( { method, url, body } ) => {
