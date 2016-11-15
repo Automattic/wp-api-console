@@ -7,7 +7,7 @@ import './style.css';
 
 import RequestHeader from './header';
 import { getResults } from '../../state/results/selectors';
-import { stringify } from './utils';
+import { escapeLikeJSON, stringify } from './utils';
 
 const Results = ( { results } ) => {
 	const jsonTheme = {
@@ -20,14 +20,33 @@ const Results = ( { results } ) => {
 	};
 
 	const expandFalse = () => false;
-	const itemString = ( type, data, itemType, itemString ) => (
-		/* eslint-disable */
+	const getItemString = ( type, data, itemType, itemString ) => (
+		/* eslint-disable react/no-danger */
 		<span
 			className="collapsed-content"
 			dangerouslySetInnerHTML={ { __html: `${ itemString } <span class="content">${ stringify( data ) }</span>` } }
 		/>
-		/* eslint-enable */
+		/* eslint-enable react/no-danger */
 	);
+
+	const valueRenderer = value => {
+		if ( typeof value === 'string' ) {
+			const valueWithoutQuotes = value.replace( /^"|"$/g, '' );
+			let valueEscaped;
+			if ( valueWithoutQuotes === value ) {
+				// Probably a boolean or number
+				valueEscaped = escapeLikeJSON( value );
+			} else {
+				// String
+				valueEscaped = '"' + escapeLikeJSON( valueWithoutQuotes ) + '"';
+			}
+			return (
+				<span className="expanded-value">{ valueEscaped }</span>
+			);
+		}
+
+		return value;
+	};
 
 	return (
 		<div className="results">
@@ -40,7 +59,8 @@ const Results = ( { results } ) => {
 								theme={ jsonTheme }
 								data={ result.response.body }
 								shouldExpandNode={ expandFalse }
-								getItemString={ itemString }
+								getItemString={ getItemString }
+								valueRenderer={ valueRenderer }
 							/>
 						</div>
 					}

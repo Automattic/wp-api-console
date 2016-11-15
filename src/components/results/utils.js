@@ -2,7 +2,7 @@ import { isArray, isPlainObject, isString, toPairs, toString } from 'lodash';
 
 const MAX_LENGTH = 60;
 
-const escapeHTML = html => {
+export const escapeHTML = html => {
 	const replacements = {
 		'&': '&amp;',
 		'<': '&lt;',
@@ -12,7 +12,7 @@ const escapeHTML = html => {
 	return html.replace( /[&<>]/g, ch => replacements[ ch ] );
 };
 
-const escapeLikeJSON = value => {
+export const escapeLikeJSON = value => {
 	const replacements = {
 		'\r': '\\r',
 		'\n': '\\n',
