@@ -34,6 +34,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 		let output = isArray( data ) ? '[ ' : '{ ';
 		let trailing = '';
 		let length = 2;
+		let keysRendered = 0;
 		for ( const [ key, value ] of pairs ) {
 			const keyString = escapeLikeJSON( escapeHTML( key.toString() ) );
 			output += trailing;
@@ -41,8 +42,9 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 			const recursion = recursiveStringify( value );
 			output += recursion.output;
 			length += keyString.length + trailing.length + recursion.length;
+			keysRendered++;
 			trailing = ', ';
-			if ( length > max ) {
+			if ( length > max && keysRendered < pairs.length ) {
 				output += isArray( data ) ? ' …]' : ' …}';
 				return {
 					length: length + 3,

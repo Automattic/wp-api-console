@@ -33,6 +33,14 @@ it( 'should crop the output if we exceed max', () => {
 	expect( stringify( object, 5 ) ).toEqual( expected );
 } );
 
+it( 'should not display an ellipsis if all keys are rendered', () => {
+	const object = {
+		a23456: 'b23456',
+	};
+	const expected = '{ <span class="key">a23456</span>: <span class="string">"b23456"</span> }';
+	expect( stringify( object, 5 ) ).toEqual( expected );
+} );
+
 it( 'should encode HTML-like characters in keys and values', () => {
 	const object = {
 		'<': 'some stuff & more stuff',
