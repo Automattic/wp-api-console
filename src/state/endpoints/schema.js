@@ -37,9 +37,11 @@ export const endpointSchema =  {
 	properties: {
 		pathFormat: {
 			type: 'string',
+			required: true,
 		},
 		pathLabeled: {
 			type: 'string',
+			required: true,
 		},
 		description: {
 			type: 'string',
@@ -49,6 +51,7 @@ export const endpointSchema =  {
 		},
 		method: {
 			type: 'string',
+			required: true,
 		},
 		request: {
 			type: 'object',
