@@ -15,7 +15,7 @@ class Results extends React.Component {
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener( 'click', this.overrideClickIfSelected );
+		document.removeEventListener( 'click', this.overrideClickIfSelected, true );
 	}
 
 	overrideClickIfSelected = event => {
