@@ -9,6 +9,7 @@ import {
 	UI_SELECT_API,
 	UI_SELECT_VERSION,
 } from '../actions';
+import schema from './schema';
 
 const defaultState = {
 	method: 'GET',
@@ -74,6 +75,6 @@ const reducer = createReducer( defaultState, {
 		} );
 	},
 	[ UI_SELECT_API ]: ( state, { payload: { param, value } } ) => defaultState,
-} );
+}, schema );
 
 export default reducer;

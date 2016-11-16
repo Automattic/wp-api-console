@@ -1,3 +1,5 @@
+import { endpointSchema } from '../endpoints/schema';
+
 const schema = {
 	type: 'object',
 	additionalProperties: false,
@@ -10,9 +12,7 @@ const schema = {
 				// Version
 				'.': {
 					type: 'array',
-					items: {
-						type: 'object',
-					},
+					items: endpointSchema,
 				},
 			},
 		},

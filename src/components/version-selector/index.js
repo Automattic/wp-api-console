@@ -20,6 +20,7 @@ class VersionSelector extends Component {
 
 	render() {
 		const { version, versions, selectVersion } = this.props;
+
 		return (
 			<OptionSelector value={ version } choices={ versions } onChange={ selectVersion } isHeader />
 		);
