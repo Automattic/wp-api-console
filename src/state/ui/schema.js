@@ -1,5 +1,6 @@
 const schema = {
 	type: 'object',
+	additionalProperties: false,
 	properties: {
 		version: {
 			oneOf: [
