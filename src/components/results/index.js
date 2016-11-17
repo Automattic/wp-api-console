@@ -7,48 +7,90 @@ import './style.css';
 
 import RequestHeader from './header';
 import { getResults } from '../../state/results/selectors';
-import { stringify } from './utils';
+import { escapeLikeJSON, stringify } from './utils';
 
-const Results = ( { results } ) => {
-	const jsonTheme = {
-		extend: 'default',
-		nestedNodeItemString: ( node, expandedNodes, type, expanded ) => {
-			return {
-				className: expanded ? 'expanded' : 'collapsed',
-			};
-		},
+class Results extends React.Component {
+	componentWillMount() {
+		document.addEventListener( 'click', this.overrideClickIfSelected, true );
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener( 'click', this.overrideClickIfSelected, true );
+	}
+
+	overrideClickIfSelected = event => {
+		if ( window.getSelection().toString().length ) {
+			event.stopPropagation();
+		}
 	};
 
-	const expandFalse = () => false;
-	const itemString = ( type, data, itemType, itemString ) => (
-		/* eslint-disable */
-		<span
-			className="collapsed-content"
-			dangerouslySetInnerHTML={ { __html: `${ itemString } <span class="content">${ stringify( data ) }</span>` } }
-		/>
-		/* eslint-enable */
-	);
+	render() {
+		const { results } = this.props;
 
-	return (
-		<div className="results">
-			{ results.map( ( result, index ) =>
-				<div key={ result.id } className={ classnames( 'request', { error: result.response && !! result.response.error } ) }>
-					<RequestHeader result={ result } />
-					{ result.response && result.response.body &&
-						<div className="response">
-							<JSONTree
-								theme={ jsonTheme }
-								data={ result.response.body }
-								shouldExpandNode={ expandFalse }
-								getItemString={ itemString }
-							/>
-						</div>
-					}
-				</div>
-			)}
-		</div>
-	);
-};
+		const jsonTheme = {
+			extend: 'default',
+			tree: {
+				MozUserSelect: 'text',
+				WebkitUserSelect: 'text',
+			},
+			nestedNodeItemString: ( node, expandedNodes, type, expanded ) => {
+				return {
+					className: expanded ? 'expanded' : 'collapsed',
+				};
+			},
+		};
+
+		const expandFalse = () => false;
+		const getItemString = ( type, data, itemType, itemString ) => (
+			/* eslint-disable react/no-danger */
+			<span
+				className="collapsed-content"
+				dangerouslySetInnerHTML={ { __html: `${ itemString } <span class="content">${ stringify( data ) }</span>` } }
+			/>
+			/* eslint-enable react/no-danger */
+		);
+
+		const valueRenderer = value => {
+			if ( typeof value === 'string' ) {
+				const valueWithoutQuotes = value.replace( /^"|"$/g, '' );
+				let valueEscaped;
+				if ( valueWithoutQuotes === value ) {
+					// Probably a boolean or number
+					valueEscaped = escapeLikeJSON( value );
+				} else {
+					// String
+					valueEscaped = '"' + escapeLikeJSON( valueWithoutQuotes ) + '"';
+				}
+				return (
+					<span className="expanded-value">{ valueEscaped }</span>
+				);
+			}
+
+			return value;
+		};
+
+		return (
+			<div className="results">
+				{ results.map( ( result, index ) =>
+					<div key={ result.id } className={ classnames( 'request', { error: result.response && !! result.response.error } ) }>
+						<RequestHeader result={ result } />
+						{ result.response && result.response.body &&
+							<div className="response">
+								<JSONTree
+									theme={ jsonTheme }
+									data={ result.response.body }
+									shouldExpandNode={ expandFalse }
+									getItemString={ getItemString }
+									valueRenderer={ valueRenderer }
+								/>
+							</div>
+						}
+					</div>
+				)}
+			</div>
+		);
+	}
+}
 
 export default connect(
 	state => {
