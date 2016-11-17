@@ -34,12 +34,15 @@ const argsSchema = {
 
 export const endpointSchema =  {
 	type: 'object',
+	additionalProperties: false,
 	properties: {
 		pathFormat: {
 			type: 'string',
+			required: true,
 		},
 		pathLabeled: {
 			type: 'string',
+			required: true,
 		},
 		description: {
 			type: 'string',
@@ -49,6 +52,7 @@ export const endpointSchema =  {
 		},
 		method: {
 			type: 'string',
+			required: true,
 		},
 		request: {
 			type: 'object',
@@ -57,6 +61,9 @@ export const endpointSchema =  {
 				query: argsSchema,
 				path: argsSchema,
 			},
+		},
+		response: {
+			type: 'object',
 		},
 	},
 };

@@ -7,28 +7,22 @@ const HOUR_IN_MS = 3600000;
 const SERIALIZE_THROTTLE = 500;
 const MAX_AGE = 30 * DAY_IN_HOURS * HOUR_IN_MS;
 const STORAGE_KEY = 'REDUX_STATE';
-const SERIALIZED_STATE_VERSION = 4;
 
 function serialize( state, reducer ) {
 	const serializedState = reducer( state, { type: SERIALIZE } );
 	return Object.assign( serializedState, {
 		_timestamp: Date.now(),
-		_version: SERIALIZED_STATE_VERSION,
 	} );
 }
 
 function deserialize( state, reducer ) {
 	delete state._timestamp;
-	delete state._version;
 	return reducer( state, { type: DESERIALIZE } );
 }
 
 export function loadInitialState( initialState, reducer ) {
 	const localStorageState = JSON.parse( localStorage.getItem( STORAGE_KEY ) ) || {};
 	if ( localStorageState._timestamp && localStorageState._timestamp + MAX_AGE < Date.now() ) {
-		return initialState;
-	}
-	if ( localStorageState._version !== SERIALIZED_STATE_VERSION ) {
 		return initialState;
 	}
 
