@@ -10,7 +10,7 @@ const STORAGE_KEY = 'REDUX_STATE';
 
 function serialize( state, reducer ) {
 	const serializedState = reducer( state, { type: SERIALIZE } );
-	return Object.assign( serializedState, {
+	return Object.assign( {}, serializedState, {
 		_timestamp: Date.now(),
 	} );
 }
