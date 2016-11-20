@@ -8,7 +8,7 @@ const SERIALIZE_THROTTLE = 500;
 const MAX_AGE = 30 * DAY_IN_HOURS * HOUR_IN_MS;
 const STORAGE_KEY = 'REDUX_STATE';
 
-function serialize( state, reducer ) {
+export function serialize( state, reducer ) {
 	const serializedState = reducer( state, { type: SERIALIZE } );
 	return Object.assign( {}, serializedState, {
 		_timestamp: Date.now(),
