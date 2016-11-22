@@ -10,8 +10,18 @@ class UrlPart extends Component {
 		this.input = ref;
 	}
 
-	focus = () => {
-		this.input.focus();
+	focus = ( position = 0 ) => {
+		// This is a Cross Browser cursor positionning found on StackOverflow
+		if ( this.input.createTextRange ) {
+			const range = this.input.createTextRange();
+			range.move( 'character', position );
+			range.select();
+		} else if ( this.input.selectionStart ) {
+			this.input.focus();
+			this.input.setSelectionRange( position, position );
+		} else {
+			this.input.focus();
+		}
 	};
 
 	blur = () => {
@@ -19,7 +29,7 @@ class UrlPart extends Component {
 	};
 
 	render() {
-		const { parameter = false, autosize = false, name = '', value, onSubmit, ...remainingProps } = this.props;
+		const { className = 'url-part', parameter = false, autosize = false, name = '', value, onSubmit, ...remainingProps } = this.props;
 
 		const onKeyPress = event => {
 			if ( event.key === 'Enter' ) {
@@ -28,24 +38,25 @@ class UrlPart extends Component {
 		};
 
 		if ( autosize ) {
-
-			return ( <div className="url-part">
-				<AutosizeInput
-					value={ value }
-					placeholder={ name }
-					inputStyle={ { fontSize: 14 } }
-					data-tip data-for={ `url-part-${ name }` }
-					onKeyPress={ onKeyPress }
-					ref={ this.bindInput }
-					{ ...remainingProps }
-				/>
-				{ parameter && <ParamTooltip parameter={ parameter } id={ `url-part-${ name }` } name={ name } /> }
-			</div> );
+			return (
+				<div className={ className }>
+					<AutosizeInput
+						value={ value }
+						placeholder={ name }
+						inputStyle={ { fontSize: 14 } }
+						data-tip data-for={ `url-part-${ name }` }
+						onKeyPress={ onKeyPress }
+						ref={ this.bindInput }
+						{ ...remainingProps }
+					/>
+					{ parameter && <ParamTooltip parameter={ parameter } id={ `url-part-${ name }` } name={ name } /> }
+				</div>
+			);
 		}
 
 		return (
 			<input
-				value={ value } className="url-part"
+				value={ value } className={ className }
 				onKeyPress={ onKeyPress }
 				ref={ this.bindInput }
 				{ ...remainingProps }

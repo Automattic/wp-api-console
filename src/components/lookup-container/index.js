@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import { debounce, get } from 'lodash';
 import ClickOutside from 'react-click-outside';
 
 import './style.css';
@@ -17,6 +17,7 @@ import { request } from '../../state/results/actions';
 class LookupContainer extends Component {
 	state = {
 		showEndpoints: false,
+		focusPosition: 0,
 	};
 
 	inputs = [];
@@ -59,6 +60,30 @@ class LookupContainer extends Component {
 		this.setState( { showEndpoints: true } );
 	};
 
+	updateUrlAndResetEndpoint = updatedPartIndex => event => {
+		const { pathParts } = this.props;
+		let cursorPosition = 0;
+		const url = pathParts.reduce( ( memo, part, index ) => {
+			if ( part[ 0 ] === '$' ) {
+				return memo + get( this.props.pathValues, [ part ], '' );
+			}
+
+			if ( index === updatedPartIndex ) {
+				cursorPosition = memo.length + event.target.selectionStart;
+				return memo + event.target.value;
+			}
+
+			return memo + part;
+		}, '' );
+		this.props.updateUrl( url );
+		// Wait for the component to refresh and focus at the right position
+		const focusOnUrlField = debounce( () => {
+			this.setState( { showEndpoints: true } );
+			this.inputs[ 0 ].focus( cursorPosition );
+		} );
+		focusOnUrlField();
+	}
+
 	renderEndpointPath() {
 		const { pathParts, endpoint } = this.props;
 		const getParamValue = param => get( this.props.pathValues, [ param ], '' );
@@ -70,7 +95,16 @@ class LookupContainer extends Component {
 
 		return pathParts.map( ( part, index ) => {
 			if ( part[ 0 ] !== '$' ) {
-				return <div key={ index } className="url-segment">{ part }</div>;
+				return (
+					<UrlPart
+						className="url-segment"
+						key={ index }
+						value={ part }
+						name={ part }
+						onChange={ this.updateUrlAndResetEndpoint( index ) }
+						autosize
+					/>
+				);
 			}
 
 			const pathParameter = endpoint.request.path[ part ];
@@ -102,7 +136,7 @@ class LookupContainer extends Component {
 			<div className="lookup-container">
 				<OptionSelector
 					value={ endpoint ? endpoint.method : method }
-					choices={ endpoint ? [ endpoint.method ] : methods }
+					choices={ methods }
 					onChange={ updateMethod }
 				/>
 				<div className="parts">

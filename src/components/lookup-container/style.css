@@ -28,19 +28,6 @@
 	align-self: auto;
 }
 
-.lookup-container .parts > div {
-	font-size: 16px;
-	font-family: Inconsolata, monospace;
-	padding: 3px 1px 3px 1px;
-	line-height: 16px;
-	min-height: 16px;
-	color: #7290a1;
-	overflow: hidden;
-	flex-grow: 0;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
 
 .lookup-container .right-icon {
 	padding: 0;

@@ -12,7 +12,7 @@ import {
 	UI_SELECT_VERSION,
 } from '../../actions';
 
-const endpoint = { pathLabeled: '/$site/posts' };
+const endpoint = { pathLabeled: '/$site/posts', method: 'POST' };
 const state = deepFreeze( {
 	endpoint,
 	method: 'GET',
@@ -35,12 +35,12 @@ it( 'should set the new method', () => {
 	};
 
 	expect( reducer( state, action ) ).toEqual( {
-		endpoint,
+		endpoint: false,
 		method: 'POST',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
 		pathValues: { $site: 'mySite' },
-		url: '/help',
+		url: '/mySite/posts',
 	} );
 } );
 
@@ -68,8 +68,8 @@ it( 'should set a new URL', () => {
 	};
 
 	expect( reducer( state, action ) ).toEqual( {
-		endpoint,
-		method: 'GET',
+		endpoint: false,
+		method: 'POST',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
 		pathValues: { $site: 'mySite' },
