@@ -112,10 +112,10 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 
 			req.end( ( err, response = {} ) => {
 				let error = err;
-				if ( err && response.body && response.body.error ) {
+				if ( err && response.body && response.body.code ) {
+					error = response.body.code;
+				} else if ( err && response.body && response.body.error ) {
 					error = response.body.error;
-				} else if ( err && response.error ) {
-					error = response.error.message;
 				}
 
 				resolve( {
