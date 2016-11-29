@@ -23,7 +23,7 @@ const RequestHeader = ( { result: { loading, request: { path, method, apiName, v
 			{ duration && (
 				<span className="duration">{ `${ duration }ms` }</span>
 			) }
-			{ response && !! duration.body && (
+			{ response && !! response.body && (
 				<a
 					className="download"
 					title="Download"
