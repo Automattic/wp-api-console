@@ -103,4 +103,4 @@ If you want to quickly deploy the console to [Surge](https://surge.sh), just run
 
 ## License
 
-All source code licensed under the [MIT](./LICENSE) open source license.
+All source code is licensed under [GNU General Public License v2 (or later)](./LICENSE).
