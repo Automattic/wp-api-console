@@ -45,6 +45,12 @@ export const request = () => ( dispatch, getState ) => {
 
 	return api.authProvider.request( request )
 		.then( ( { status, body, error } ) => {
+			if ( error && body && body.code ) {
+				error = body.code;
+			} else if ( error && body && body.error ) {
+				error = body.error;
+			}
+
 			const end = new Date().getTime();
 			dispatch( receiveResults( start, version, apiName, method, path, status, body, error, end - start ) );
 		} );

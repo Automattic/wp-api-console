@@ -111,17 +111,10 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 			}
 
 			req.end( ( err, response = {} ) => {
-				let error = err;
-				if ( err && response.body && response.body.code ) {
-					error = response.body.code;
-				} else if ( err && response.body && response.body.error ) {
-					error = response.body.error;
-				}
-
 				resolve( {
 					status: response.status,
 					body: response.body,
-					error,
+					error: err,
 				} );
 			} );
 		} );
