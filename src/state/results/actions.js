@@ -13,7 +13,7 @@ const recordResponse = response => {
 		'%c window.response ready with ' +
 			Object.keys( response ).length +
 			' keys. Previous responses in window.responses[].'
-		, 'color: #cccccc;'
+		, 'color: #777;'
 	);
 };
 
