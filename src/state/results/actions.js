@@ -2,6 +2,7 @@ import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
 import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
+import { getResponseStatus, getResponseError } from '../../lib/api';
 
 window.responses = [];
 const recordResponse = response => {
@@ -70,12 +71,6 @@ export const request = () => ( dispatch, getState ) => {
 
 	return api.authProvider.request( request )
 		.then( ( { status, body, error } ) => {
-			if ( error && body && body.code ) {
-				error = body.code;
-			} else if ( error && body && body.error ) {
-				error = body.error;
-			}
-
 			const end = new Date().getTime();
 			dispatch( receiveResults( {
 				id: start,
@@ -83,9 +78,9 @@ export const request = () => ( dispatch, getState ) => {
 				apiName,
 				method,
 				path,
-				status,
+				status: getResponseStatus( status, body, error ),
 				body,
-				error,
+				error: getResponseError( status, body, error, true ),
 				duration: end - start,
 			} ) );
 		} );
