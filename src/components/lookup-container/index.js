@@ -97,12 +97,10 @@ class LookupContainer extends Component {
 			if ( part[ 0 ] !== '$' ) {
 				return (
 					<UrlPart
-						className="url-segment"
 						key={ index }
 						value={ part }
 						name={ part }
 						onChange={ this.updateUrlAndResetEndpoint( index ) }
-						autosize
 					/>
 				);
 			}
@@ -120,7 +118,6 @@ class LookupContainer extends Component {
 					onChange={ updateUrlPart( part ) }
 					onSubmit={ submitUrlPart( inputIndex, last ) }
 					ref={ bindUrlPartRef( inputIndex ) }
-					autosize
 				/>
 			);
 		} );

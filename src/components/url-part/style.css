@@ -1,64 +1,46 @@
-.lookup-container .parts .url-part {
-	background: hsl(205,38%,94%);
-	color: hsl(202,68%,44%) !important;
+.url-part {
+	flex-grow: 0;
+	flex-shrink: 0;
+	align-self: auto;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis "";
 	position: relative;
-	padding-left: 6px;
-	padding-right: 6px;
-	border-radius: 1px;
 	margin: 1px 0;
 	max-width: 25%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	overflow: hidden;
 	border: none;
-	font-size: 14px;
 }
 
-.lookup-container .parts .url-segment {
-	font-size: 16px;
-	font-family: Inconsolata, monospace;
-	padding: 3px 1px 3px 1px;
-	line-height: 16px;
-	min-height: 16px;
-	overflow: hidden;
-	flex-grow: 0;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-.lookup-container .parts .url-segment input {
+.url-part input {
 	border: none;
+	background: none;
 	color: #7290a1;
 	font-size: 14px;
+	outline: none;
+	margin: 2px;
 }
 
-.lookup-container .parts .url-part:only-child {
-	background: hsl(205,38%,100%);
-	padding: 0;
-	background: white;
-	padding: 0;
-	flex-grow: 1;;
+.url-part.is-parameter {
+	background: hsl(205,38%,94%);
+	color: hsl(202,68%,44%);
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.url-part.is-parameter input {
+	color: hsl(202,68%,44%);
+}
+
+.url-part:last-child {
+	max-width: 100%;
+	flex-grow: 1;
 	flex-shrink: 0;
 	align-self: auto;
-	max-width: 100%;
-	max-width: 100%;
 }
 
-.lookup-container .parts .url-part:last-child {
-	max-width: 100%;
+.url-part:last-child > div,
+.url-part:last-child > div > input {
+	width: 100% !important;
 }
-
-.lookup-container .parts .url-part:focus {
-	outline: none;
-}
-
-.lookup-container .parts .url-part input {
-	background: none;
-	border: none;
-	color: hsl(202,68%,44%) !important;
-	font-size: 14px;
-}
-
