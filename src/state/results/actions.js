@@ -16,15 +16,34 @@ const recordResponse = response => {
 	);
 };
 
-const receiveResults = ( id, version, apiName, method, path, status, body, error, duration ) => {
-	recordResponse( { version, apiName, method, path, status, body, error, duration } );
+const receiveResults = ( {
+	id,
+	version,
+	apiName,
+	method,
+	path,
+	status,
+	body,
+	error,
+	duration,
+} ) => {
+	recordResponse( {
+		version,
+		apiName,
+		method,
+		path,
+		status,
+		body,
+		error,
+		duration,
+	} );
 	return {
 		type: REQUEST_RESULTS_RECEIVE,
 		payload: { id, status, body, error, duration },
 	};
 };
 
-const triggerRequest = ( id, version, apiName, method, path ) => {
+const triggerRequest = ( { id, version, apiName, method, path } ) => {
 	return {
 		type: REQUEST_TRIGGER,
 		payload: { id, version, apiName, method, path },
@@ -41,7 +60,13 @@ export const request = () => ( dispatch, getState ) => {
 	const body = getBodyParams( state );
 	const start = new Date().getTime();
 	const request = api.buildRequest( version, method, path, body );
-	dispatch( triggerRequest( start, version, apiName, method, path ) );
+	dispatch( triggerRequest( {
+		id: start,
+		version,
+		apiName,
+		method,
+		path,
+	} ) );
 
 	return api.authProvider.request( request )
 		.then( ( { status, body, error } ) => {
@@ -52,6 +77,16 @@ export const request = () => ( dispatch, getState ) => {
 			}
 
 			const end = new Date().getTime();
-			dispatch( receiveResults( start, version, apiName, method, path, status, body, error, end - start ) );
+			dispatch( receiveResults( {
+				id: start,
+				version,
+				apiName,
+				method,
+				path,
+				status,
+				body,
+				error,
+				duration: end - start,
+			} ) );
 		} );
 };
