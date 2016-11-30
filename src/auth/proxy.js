@@ -27,15 +27,10 @@ export const boot = () =>
 export const request = req =>
 	new Promise( resolve => {
 		proxy( req, ( err, body, xhr ) => {
-			let error = err;
-			if ( err && body && body.error ) {
-				error = body.error;
-			}
-
 			resolve( {
 				status: xhr.status,
 				body,
-				error,
+				error: err,
 			} );
 		} );
 	} )
