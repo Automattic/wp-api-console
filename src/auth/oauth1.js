@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import querystring from 'querystring';
+import qs from 'qs';
 import OAuth from 'oauth-1.0a';
 import crypto from 'crypto';
 
@@ -45,7 +45,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 		if ( localStorage.getItem( TOKEN_STORAGE_KEY ) ) {
 			accessToken = JSON.parse( localStorage.getItem( TOKEN_STORAGE_KEY ) );
 		} else if ( window.location.href.indexOf( '?' ) !== -1 && localStorage.getItem( REQUEST_TOKEN_STORAGE_KEY ) ) {
-			const args = querystring.parse( window.location.href.split( '?' )[ 1 ] );
+			const args = qs.parse( window.location.href.split( '?' )[ 1 ] );
 			const token = {
 				...( JSON.parse( localStorage.getItem( REQUEST_TOKEN_STORAGE_KEY ) ) ),
 				key: args.oauth_token,
@@ -83,7 +83,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 				localStorage.setItem( REQUEST_TOKEN_STORAGE_KEY, JSON.stringify( {
 					secret: body.oauth_token_secret,
 				} ) );
-				const redirectUrl = baseUrl + '/oauth1/authorize?' + querystring.stringify( {
+				const redirectUrl = baseUrl + '/oauth1/authorize?' + qs.stringify( {
 					oauth_token: body.oauth_token, // eslint-disable-line camelcase
 					oauth_callback: callbackUrl, // eslint-disable-line camelcase
 				} );
@@ -98,11 +98,21 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 
 	const request = ( { method, url, body } ) =>
 		new Promise( resolve => {
+			// OAuth1 fails for arrays without indices
+			const [ path, queryString ] = url.split( '?' );
+			const args = qs.parse( queryString );
+			const normalizedQueryString = qs.stringify( args, { arrayFormat: 'indices', encode: false } );
+			const normalizedUrl = path + (
+				normalizedQueryString
+					? '?' + normalizedQueryString
+					: ''
+			);
+
 			let req;
 			if ( accessToken ) {
-				req = oauthRequest( method, url, body, accessToken );
+				req = oauthRequest( method, normalizedUrl, body, accessToken );
 			} else {
-				req = superagent( method, url )
+				req = superagent( method, normalizedUrl )
 					.set( 'Accept', 'application/json' );
 
 				if ( body && Object.keys( body ).length > 0 ) {

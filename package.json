@@ -19,7 +19,7 @@
     "is-my-json-valid": "^2.15.0",
     "lodash": "^4.16.4",
     "oauth-1.0a": "^2.0.0",
-    "querystring": "^0.2.0",
+    "qs": "^6.3.0",
     "react": "^15.3.2",
     "react-click-outside": "github:tj/react-click-outside",
     "react-dom": "^15.3.2",

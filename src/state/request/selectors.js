@@ -80,8 +80,7 @@ export const getCompleteQueryUrl = state => {
 	const queryParams = getQueryParams( state );
 	const buildParamUrl = ( param, value ) => {
 		if ( isArray( value ) ) {
-			// If we dont specify the index, oauth1 will fail
-			return value.map( ( subvalue, index ) => `${ param }[${ index }]=${ encodeURIComponent( subvalue ) }` )
+			return value.map( subvalue => `${ param }[]=${ encodeURIComponent( subvalue ) }` )
 				.join( '&' );
 		}
 
