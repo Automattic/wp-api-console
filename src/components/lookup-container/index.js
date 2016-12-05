@@ -5,6 +5,7 @@ import ClickOutside from 'react-click-outside';
 
 import './style.css';
 
+import CloseButton from '../close-button';
 import OptionSelector from '../option-selector';
 import UrlPart from '../url-part';
 import EndpointSelector from '../endpoint-selector';
@@ -117,7 +118,7 @@ class LookupContainer extends Component {
 					{ endpoint && this.renderEndpointPath() }
 				</div>
 				{ endpoint
-						? <div className="right-icon close"><a onClick={ this.resetEndpoint } /></div>
+						? <CloseButton onClick={ this.resetEndpoint } />
 						: <div className="right-icon search"><a /></div>
 				}
 				{ showEndpoints &&
