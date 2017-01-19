@@ -22,7 +22,7 @@ Check out the [technical documentation](./DOC.md) for more development details.
 
 ### Using with WordPress.com APIs
 
-To use with WordPress.com, visit [https://developer.wordpress.com/apps/](WordPress.com Developer Resources) and create an application.
+To use with WordPress.com, visit [WordPress.com Developer Resources](https://developer.wordpress.com/apps/) and create an application.
 
 Copy `src/config.sample.json` to `src/config.json` and use your WordPress.com App ID and Redirect URI for the values.
 
