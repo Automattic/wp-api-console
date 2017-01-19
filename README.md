@@ -2,21 +2,29 @@
 
 This is a WIP rewrite in React of [the WordPress.com API Console](https://github.com/Automattic/rest-api-console2).
 
-## Development
 
-To get up and running:
 
-1. Clone the repository `git clone https://github.com/Automattic/wp-api-console.git`
+## Getting Started Locally
 
-2. Install dependencies `npm install`
+To setup the environment on your local system with WordPress.com APIs:
 
-3. Edit the `src/config.json` (see the "Configuration" section below)
+1. Clone the repository `git clone https://github.com/Automattic/wp-api-console.git`.
 
-4. Run the dev server `npm start`
+2. Install dependencies `npm install`.
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser.
+3. Open [WordPress.com Developer Resources](https://developer.wordpress.com/apps/)
 
-Check out the [technical documentation](./DOC.md) for more development details.
+4. Create New Application: fill the form. Under "Redirect URI" and "Javascript Origins" specify `http://localhost:3000` (or where your local app will run). After creation keep the OAuth Information details at hand.
+
+5. Copy `src/config.sample.json` to `src/config.json` and fill "client_id" and "redirect_uri" with the values from the app created above.
+
+6. Run the dev server `npm start`. The app will start at [http://localhost:3000](http://localhost:3000).
+
+7. Click on the key to authenticate.
+
+For more details, see below or check out the [technical documentation](./DOC.md).
+
+
 
 ## Configuration
 
@@ -24,9 +32,9 @@ Check out the [technical documentation](./DOC.md) for more development details.
 
 To use with WordPress.com, visit [WordPress.com Developer Resources](https://developer.wordpress.com/apps/) and create an application.
 
-Copy `src/config.sample.json` to `src/config.json` and use your WordPress.com App ID and Redirect URI for the values.
+Copy `src/config.sample.json` to `src/config.json` and use your WordPress.com Client ID and Redirect URI for the values.
 
-You will also need to add your host to the CORS whitelist in the Application's settings.
+Make sure you add your host to the Javascript Origins / CORS whitelist in the Application's settings.
 
 ```json
 {
@@ -90,7 +98,8 @@ $ echo -n 'mywpusername:mypa sswo rd' | base64
 bWU6bXlwYSBzc3dvIHJk
 ```
 
-## Building
+
+## Building a Static Package
 
 To create a static package you can use anywhere (e.g. Github pages): `npm run build`
 
@@ -100,6 +109,7 @@ The static site is located in `build`
 ## Deploying
 
 If you want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`.
+
 
 ## License
 
