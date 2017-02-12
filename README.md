@@ -111,10 +111,12 @@ The static site is located in `build`
 If you want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`.
 
 
-## Deploying the WordPress.com API console
+## Deploying to WordPress.com
 
-- Run the `./bin/build-for-deploy` script. This should generate a `build-theme` directory.
-- Copy The content of this directory into the `a8c/wpcomdev3` theme and commit your changes
+- Run the `./bin/build-for-deploy.sh` script. This should generate a
+  `build-theme` directory.
+- Copy the content of this directory into the `a8c/wpcomdev3` theme.  Be sure
+  to delete old compiled JS and CSS files, then commit your changes.
 
 
 ## License
