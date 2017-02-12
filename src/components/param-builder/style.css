@@ -18,6 +18,7 @@
 	vertical-align: top;
 	border-bottom: 1px solid hsl(205,38%,94%);
 	padding: 0;
+	position: relative;
 }
 
 .param-builder tbody tr:last-child td, .param-builder tbody tr:last-child th {
@@ -82,4 +83,11 @@
 	color: hsl(202,68%,44%);
 	background: hsl(205,38%,94%);
 	border-color: hsl(202,68%,44%);
+}
+
+.param-builder td .close-button {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	z-index: 10;
 }
