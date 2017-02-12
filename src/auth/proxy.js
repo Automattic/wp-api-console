@@ -18,6 +18,10 @@ export const boot = () =>
 					reject();
 					return;
 				}
+				if ( response.avatar_URL ) {
+					response.avatarUrl = response.avatar_URL;
+					delete response.avatar_URL;
+				}
 				resolve( response );
 			} );
 		} );
