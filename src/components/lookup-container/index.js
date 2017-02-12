@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce, get } from 'lodash';
 import ClickOutside from 'react-click-outside';
+import classnames from 'classnames';
 
 import './style.css';
 
@@ -130,7 +131,7 @@ class LookupContainer extends Component {
 		const submitDefaultInput = () => this.onSubmitInput( 0, true );
 
 		return (
-			<div className="lookup-container">
+			<div className={ classnames( 'lookup-container', { 'no-endpoint': ! endpoint } ) }>
 				<OptionSelector
 					value={ endpoint ? endpoint.method : method }
 					choices={ methods }

@@ -32,15 +32,3 @@
 .url-part.is-parameter input {
 	color: hsl(202,68%,44%);
 }
-
-.url-part:last-child {
-	max-width: 100%;
-	flex-grow: 1;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-.url-part:last-child > div,
-.url-part:last-child > div > input {
-	width: 100% !important;
-}
