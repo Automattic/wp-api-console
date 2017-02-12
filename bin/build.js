@@ -8,8 +8,10 @@ const webpackConfigProd = require( 'react-scripts/config/webpack.config.prod' );
 
 // Modify the config according to our needs.
 
-const babelLoader = webpackConfigProd.module.loaders[ 1 ];
-if ( babelLoader.loader !== 'babel' ) {
+const babelLoader = webpackConfigProd.module.loaders
+	.find( loader => loader.loader === 'babel' );
+
+if ( ! babelLoader ) {
 	console.error( webpackConfigProd.module.loaders );
 	throw new Error( 'Couldn\'t find the babel loader config.' );
 }
