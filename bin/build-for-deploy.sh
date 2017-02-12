@@ -21,13 +21,16 @@ echo
 echo "========================"
 echo "GENERATING PAGE TEMPLATE"
 echo "========================"
-cp -va theme/console3.php build-theme/ || exit 1
 CSS_FILENAME="$(basename build/static/css/*.css)"
-echo "css : $CSS_FILENAME"
-echo "js  : $CSS_FILENAME"
 JS_FILENAME="$(basename build/static/js/*.js)"
-sed -i '' "s/{CSS_FILENAME}/$CSS_FILENAME/g" build-theme/console3.php || exit 1
-sed -i '' "s/{JS_FILENAME}/$JS_FILENAME/g" build-theme/console3.php || exit 1
+echo "css : $CSS_FILENAME"
+echo "js  : $JS_FILENAME"
+sed \
+	-e "s/{CSS_FILENAME}/$CSS_FILENAME/g" \
+	-e "s/{JS_FILENAME}/$JS_FILENAME/g" \
+	theme/console3.php \
+	> build-theme/console3.php \
+	|| exit 1
 
 echo
 echo "========"
