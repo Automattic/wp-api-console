@@ -1,5 +1,5 @@
 import superagent from 'superagent';
-import querystring from 'querystring';
+import qs from 'qs';
 
 const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scope = null ) => {
 	const TOKEN_STORAGE_KEY = `${ name }__OAUTH2ACCESSTOKEN`;
@@ -19,7 +19,7 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scop
 			return;
 		}
 		const hash = url.slice( index + 1 );
-		const queryParams = querystring.parse( hash );
+		const queryParams = qs.parse( hash );
 		const token = queryParams.access_token;
 
 		// This ensures we're requesting the current access token (not another oauth2 provider)
