@@ -7,7 +7,7 @@ cd ..
 echo "===================="
 echo "BUILDING THE CONSOLE"
 echo "===================="
-CONFIG=src/config.prod.json npm run build || exit 1
+WPCOM_BUILD=y npm run build || exit 1
 
 echo
 echo "==================="

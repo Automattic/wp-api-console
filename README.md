@@ -113,10 +113,9 @@ If you want to quickly deploy the console to [Surge](https://surge.sh), just run
 
 ## Deploying to WordPress.com
 
-- Run the `./bin/build-for-deploy.sh` script. This should generate a
+- Run the `./bin/build-for-wpcom.sh` script. This should generate a
   `build-theme` directory.
-- Copy the content of this directory into the `a8c/wpcomdev3` theme.  Be sure
-  to delete old compiled JS and CSS files, then commit your changes.
+- See PCYsg-baa-p2 for further instructions.
 
 
 ## License

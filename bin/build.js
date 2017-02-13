@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const path = require( 'path' );
+
 // webpack.config.prod.js checks this.
 process.env.NODE_ENV = 'production';
 
@@ -21,6 +23,13 @@ babelLoader.query.plugins = ( babelLoader.query.plugins || [] )
 	.concat( 'lodash' );
 
 console.log( 'Added lodash babel plugin to build' );
+
+if ( process.env.WPCOM_BUILD ) {
+	babelLoader.query.plugins.push( path.resolve(
+		__dirname, '..', 'src', 'lib', 'babel-replace-config-import.js'
+	) );
+	console.log( 'Added config override for WP.com build' );
+}
 
 // Run the build.
 require( 'react-scripts/scripts/build' );
