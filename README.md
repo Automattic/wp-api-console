@@ -111,6 +111,13 @@ The static site is located in `build`
 If you want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`.
 
 
+## Deploying to WordPress.com
+
+- Run the `./bin/build-for-wpcom.sh` script. This should generate a
+  `build-theme` directory.
+- See PCYsg-baa-p2 for further instructions.
+
+
 ## License
 
 All source code is licensed under [GNU General Public License v2 (or later)](./LICENSE).
