@@ -1,6 +1,8 @@
 import { clone } from 'lodash';
 
-import { api } from '../com';
+import createApi from '../com';
+
+const api = createApi( { request: () => {} } );
 
 function getEndpointTestData() {
 	/* eslint-disable camelcase */
