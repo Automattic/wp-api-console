@@ -1,5 +1,3 @@
-import superagent from 'superagent';
-
 const baseUrl = 'https://public-api.wordpress.com/rest/';
 
 const createApi = authProvider => {
@@ -27,14 +25,15 @@ const createApi = authProvider => {
 			return documented.concat( noGroup ).concat( undocumented );
 		},
 		loadVersions: () =>
-			superagent.get( baseUrl + 'v1.1/versions?include_dev=true' )
-				.set( 'accept', 'application/json' )
-				.then( res => {
-					return {
-						versions: res.body.versions.map( version => `v${ version }` ),
-						current: `v${ res.body.current_version }`,
-					};
-				} ),
+			authProvider.request( {
+				method: 'GET',
+				url: baseUrl + 'v1.1/versions?include_dev=true',
+			} ).then( res => {
+				return {
+					versions: res.body.versions.map( version => `v${ version }` ),
+					current: `v${ res.body.current_version }`,
+				};
+			} ),
 		buildRequest: ( version, method, path, body ) => {
 			return {
 				url: baseUrl + version + path,
