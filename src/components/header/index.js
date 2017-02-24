@@ -12,10 +12,10 @@ const Header = () =>
 	(
 		<div id="header">
 			<ApiSelector />
-			<UserMenu />
 			<VersionSelector />
 			<LookupContainer />
 			<Submit />
+			<UserMenu />
 		</div>
 	)
 ;

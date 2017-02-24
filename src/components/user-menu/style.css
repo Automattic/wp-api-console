@@ -24,8 +24,7 @@
 	background-color: hsl(201,60%,100%);
 }
 
-.user-menu:hover, .user-menu:focus {
-	outline: none;
+.user-menu:hover {
 	background-color: hsl(201,60%,70%);
 	color: #FFF;
 }
@@ -55,10 +54,6 @@
 	display: block;
 	width: 44px;
 	height: 44px;
-	opacity: 0;
-	transition: opacity 200ms 200ms;
-	-webkit-transition: opacity 200ms 200ms;
-	-moz-transition: opacity 200ms 200ms;
 }
 
 .user-menu.authorized .label::before {
@@ -78,8 +73,7 @@
 	cursor: default;
 }
 
-.user-menu.loading:hover, .user-menu.loading:focus {
-	outline: none;
+.user-menu:hover {
 	background-color: hsl(201,60%,60%);
 }
 
@@ -87,23 +81,12 @@
 	display: inline-block;
 	width: 0;
 	overflow: hidden;
-	transition: 200ms 100ms;
-	opacity: 0;
 	white-space: nowrap;
-}
-
-.user-menu:hover .extra, .user-menu:focus .extra {
-	opacity: 1;
 	width: 64px;
 }
 
-.user-menu.authorized:hover .extra, .user-menu.authorized:focus .extra {
-	opacity: 1;
+.user-menu.authorized .extra {
 	width: 110px;
-}
-
-.user-menu:hover img, .user-menu:focus img {
-	opacity: 0.9;
 }
 
 .uesr-menu .throbber {
