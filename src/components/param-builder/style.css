@@ -47,6 +47,7 @@
 }
 
 .param-builder td input {
+	margin: 0;
 	padding: 8px;
 	font-size: 16px;
 	max-width: 100%;
