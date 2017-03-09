@@ -45,6 +45,10 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scop
 					delete res.body.avatar_URL;
 				}
 				return res.body;
+			}, err => {
+				localStorage.removeItem( TOKEN_STORAGE_KEY );
+				accessToken = false;
+				return Promise.reject();
 			} );
 	};
 
