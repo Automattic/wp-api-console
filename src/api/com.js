@@ -24,16 +24,22 @@ const createApi = authProvider => {
 			} );
 			return documented.concat( noGroup ).concat( undocumented );
 		},
-		loadVersions: () =>
-			authProvider.request( {
-				method: 'GET',
-				url: baseUrl + 'v1.1/versions?include_dev=true',
-			} ).then( res => {
-				return {
-					versions: res.body.versions.map( version => `v${ version }` ),
-					current: `v${ res.body.current_version }`,
-				};
-			} ),
+		loadVersions: () => {
+			const loadVersions = () =>
+				authProvider.request( {
+					method: 'GET',
+					url: baseUrl + 'v1.1/versions?include_dev=true',
+				} ).then( res => {
+					return {
+						versions: res.body.versions.map( version => `v${ version }` ),
+						current: `v${ res.body.current_version }`,
+					};
+				} );
+
+			return authProvider.boot()
+				.then( loadVersions )
+				.catch( loadVersions );
+		},
 		buildRequest: ( version, method, path, body ) => {
 			return {
 				url: baseUrl + version + path,
