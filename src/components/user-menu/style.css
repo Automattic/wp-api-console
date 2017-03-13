@@ -68,7 +68,6 @@
 }
 
 .user-menu.loading {
-	min-width: 40px;
 	justify-content: center;
 	cursor: default;
 }
