@@ -5,8 +5,7 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scop
 	const TOKEN_STORAGE_KEY = `${ name }__OAUTH2ACCESSTOKEN`;
 	const REQUEST_TOKEN_STORAGE_KEY = `${ name }__REQUESTOAUTH2ACCESSTOKEN`;
 
-	let accessToken = false;
-
+	let accessToken = null;
 	const init = () => {
 		// Extract any token from url or localstorage
 		accessToken = localStorage.getItem( TOKEN_STORAGE_KEY );
@@ -46,8 +45,8 @@ const createAuthProvider = ( name, baseUrl, userUrl, redirectUrl, clientId, scop
 				}
 				return res.body;
 			}, err => {
+				accessToken = null;
 				localStorage.removeItem( TOKEN_STORAGE_KEY );
-				accessToken = false;
 				return Promise.reject();
 			} );
 	};
