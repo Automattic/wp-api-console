@@ -73,7 +73,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 				...user,
 				avatarUrl: user.avatar_urls ? Object.values( user.avatar_urls )[ 0 ] : '',
 			};
-		}, () => {
+		}, err => {
 			accessToken = null;
 			localStorage.removeItem( TOKEN_STORAGE_KEY );
 			return Promise.reject();
