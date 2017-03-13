@@ -3,18 +3,18 @@
 	min-width: 44px;
 	text-align: center;
 	box-sizing: border-box;
-	background: url(res/return-@2x.png) no-repeat center center hsl(202,68%,44%);
+	background: url(res/return-dark-@2x.png) no-repeat center center hsl(201,60%,100%);
 	background-size: 24px 24px;
 	color: hsl(201,60%,97%);
 }
 
 #submit:hover, #submit:focus {
 	outline: none;
+	background-image: url(res/return-@2x.png);
 	background-color: hsl(201,60%,70%);
 }
 
 #submit:active, #submit.active {
+	background-image: url(res/return-@2x.png);
 	color: hsl(201,60%,70%);
-	background-color: hsl(201,60%,100%);
-	background-image: url(res/return-dark-@2x.png);
 }
