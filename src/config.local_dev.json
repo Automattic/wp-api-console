@@ -1,0 +1,10 @@
+{
+	"wordpress.org": [
+		{
+			"name": "localDev",
+			"authType": "local_dev",
+			"globalObjectName": "wpApiSettings",
+			"url": "http://no-need-for-url.com"
+		}
+	]
+}
