@@ -1,11 +1,12 @@
 import config from '../config';
 import createCoreApi from './core';
+import createCoreApiWithAutoDiscover from './core-autodiscover';
 import createDotComApi from './com';
 import createOauth2Provider from '../auth/oauth2';
 import createOauth1Provider from '../auth/oauth1';
 import createBasicAuthProvider from '../auth/basic';
+import createLocalAuthProvider from '../auth/local';
 import * as proxy from '../auth/proxy';
-
 
 let APIs = [];
 
@@ -53,6 +54,20 @@ if ( config[ 'wordpress.org' ] ) {
 			const url = site.url.replace( /\/+$/, '' );
 			if ( authType === 'basic' ) {
 				authProvider = createBasicAuthProvider( name, url, site.authHeader );
+			} else if ( authType === 'local_dev' ) {
+				// this is called from within a local wordpress installation, and we expect a global object to be set
+				// with a rest url, nonces etc
+				const { globalObjectName } = site;
+				const settings = window[ globalObjectName ];
+				if ( settings === undefined ) {
+					throw new Error( 'settings global missing' );
+				}
+				if ( ! settings.baseUrl ) {
+					throw new Error( 'settings baseUrl missing' );
+				}
+
+				authProvider = createLocalAuthProvider( settings );
+				return createCoreApiWithAutoDiscover( authProvider, name, settings.baseUrl );
 			} else { // OAuth1
 				authProvider = createOauth1Provider(
 					name, url,
