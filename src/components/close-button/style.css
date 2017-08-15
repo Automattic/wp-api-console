@@ -29,7 +29,7 @@
 	background-size: 16px 16px;
 	background-position: center center;
 	background-image: url(res/close-dark-@2x.png);
-	background-repeat: none;
+	background-repeat: no-repeat;
 	cursor: pointer;
 }
 

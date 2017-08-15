@@ -61,21 +61,6 @@
 	background-size: 16px 16px;
 	cursor: default;
 }
-.lookup-container .right-icon.close a {
-	background-image: url(res/close-dark-@2x.png);;
-	cursor: pointer;
-}
-
-.lookup-container .right-icon.close a:hover {
-	background-color: hsl(201,60%,60%);
-	background-image: url(res/close-@2x.png);
-}
-
-.lookup-container .right-icon.close a:active {
-	background-color: hsl(201,60%,70%);
-	background-image: url(res/close-@2x.png);
-}
-
 
 .lookup-container.no-endpoint .url-part:last-child {
 	max-width: 100%;
