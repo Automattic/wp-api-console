@@ -62,14 +62,13 @@
 	cursor: default;
 }
 
-.lookup-container.no-endpoint .url-part:last-child {
-	max-width: 100%;
-	flex-grow: 1;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-.lookup-container.no-endpoint .url-part:last-child > div,
-.lookup-container.no-endpoint .url-part:last-child > div > input {
-	width: 100% !important;
+.lookup-container .url-input {
+	width: 100%;
+	border: none;
+	background: none;
+	color: #7290a1;
+	font-size: 14px;
+	outline: none;
+	margin: 0;
+	padding: 0 10px;
 }
