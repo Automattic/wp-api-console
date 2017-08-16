@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { debounce, get } from 'lodash';
 import ClickOutside from 'react-click-outside';
 import classnames from 'classnames';
 
@@ -10,6 +9,7 @@ import CloseButton from '../close-button';
 import OptionSelector from '../option-selector';
 import UrlPart from '../url-part';
 import EndpointSelector from '../endpoint-selector';
+import TinyMCE from '../tinymce';
 import { getSelectedApi, getSelectedVersion } from '../../state/ui/selectors';
 import { updateMethod, selectEndpoint, updateUrl, updatePathValue } from '../../state/request/actions';
 import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathParts } from '../../state/request/selectors';
@@ -61,67 +61,16 @@ class LookupContainer extends Component {
 		this.setState( { showEndpoints: true } );
 	};
 
-	updateUrlAndResetEndpoint = updatedPartIndex => event => {
-		const { pathParts } = this.props;
-		let cursorPosition = 0;
-		const url = pathParts.reduce( ( memo, part, index ) => {
-			if ( part[ 0 ] === '$' ) {
-				return memo + get( this.props.pathValues, [ part ], '' );
-			}
-
-			if ( index === updatedPartIndex ) {
-				cursorPosition = memo.length + event.target.selectionStart;
-				return memo + event.target.value;
-			}
-
-			return memo + part;
-		}, '' );
-		this.props.updateUrl( url );
-		// Wait for the component to refresh and focus at the right position
-		const focusOnUrlField = debounce( () => {
-			this.setState( { showEndpoints: true } );
-			this.inputs[ 0 ].focus( cursorPosition );
-		} );
-		focusOnUrlField();
-	}
-
 	renderEndpointPath() {
 		const { pathParts, endpoint } = this.props;
-		const getParamValue = param => get( this.props.pathValues, [ param ], '' );
-		const pathParameterKeys = pathParts.filter( part => part[ 0 ] === '$' );
-		const countInputs = pathParameterKeys.length;
-		const updateUrlPart = part => event => this.props.updatePathValue( part, event.target.value );
-		const submitUrlPart = ( inputIndex, last ) => () => this.onSubmitInput( inputIndex, last );
-		const bindUrlPartRef = inputIndex => ref => this.bindInput( ref, inputIndex );
+		const { pathFormat, pathLabeled } = endpoint;
 
-		return pathParts.map( ( part, index ) => {
-			if ( part[ 0 ] !== '$' ) {
-				return (
-					<UrlPart
-						key={ index }
-						value={ part }
-						name={ part }
-						onChange={ this.updateUrlAndResetEndpoint( index ) }
-					/>
-				);
-			}
-
-			const pathParameter = endpoint.request.path[ part ];
-			const inputIndex = pathParameterKeys.indexOf( part );
-			const last = inputIndex === countInputs - 1;
-
-			return (
-				<UrlPart
-					key={ index }
-					value={ getParamValue( part ) }
-					name={ part }
-					parameter={ pathParameter }
-					onChange={ updateUrlPart( part ) }
-					onSubmit={ submitUrlPart( inputIndex, last ) }
-					ref={ bindUrlPartRef( inputIndex ) }
-				/>
-			);
-		} );
+		return (
+			<TinyMCE
+				content={ JSON.stringify( { pathParts, pathFormat, pathLabeled } ) }
+				onChange={ this.setUrl }
+			/>
+		);
 	}
 
 	render() {

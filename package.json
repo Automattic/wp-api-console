@@ -32,10 +32,11 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "superagent": "^2.3.0",
+    "tinymce": "^4.6.5",
     "wpcom-proxy-request": "^3.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node bin/start.js",
     "build": "npm run lint && node bin/build.js",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
