@@ -47,7 +47,6 @@ export default class TinyMCE extends React.Component {
 			theme: false,
 			inline: true,
 			toolbar: false,
-			browser_spellcheck: true,
 			entity_encoding: 'raw',
 			convert_urls: false,
 			plugins: [],
