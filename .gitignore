@@ -1,5 +1,3 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # dependencies
 node_modules
 public/tinymce.min.js
@@ -11,10 +9,5 @@ coverage
 build
 build-theme
 
-# misc
-.DS_Store
-.env
-npm-debug.log
-
-#config
+# config
 src/config.json
