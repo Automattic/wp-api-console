@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import './style.css';
 
@@ -7,9 +7,5 @@ const CloseButton = ( { onClick } ) => (
 		<a onClick={ onClick } />
 	</div>
 );
-
-CloseButton.propTypes = {
-	onClick: PropTypes.func.isRequired,
-};
 
 export default CloseButton;
