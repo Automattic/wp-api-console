@@ -25,9 +25,8 @@ export default class TinyMCE extends React.Component {
 		if ( this.editor && this.props.content !== nextProps.content ) {
 			this.settingTinyMCEContent = true;
 			this.editor.setContent( nextProps.content );
+			this.settingTinyMCEContent = false;
 		}
-		
-		// TODO update value based on props
 
 		// TODO update caret position
 	}
