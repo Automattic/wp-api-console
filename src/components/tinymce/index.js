@@ -21,6 +21,11 @@ export default class TinyMCE extends React.Component {
 		if ( ! isEqual( this.props.style, nextProps.style ) ) {
 			Object.assign( this.editorNode.style, nextProps.style );
 		}
+
+		if ( this.editor && this.props.content !== nextProps.content ) {
+			this.settingTinyMCEContent = true;
+			this.editor.setContent( nextProps.content );
+		}
 		
 		// TODO update value based on props
 
@@ -57,10 +62,15 @@ export default class TinyMCE extends React.Component {
 			target: this.editorNode,
 			setup: ( editor ) => {
 				this.editor = editor;
-				// this.props.onSetup( editor );
+				// Capture change events while typing
 				editor.on( 'keypress', event => {
 					setTimeout( () => this.onChange( event ) );
 				} );
+				// Catch Backspace key presses, also selection/cursor movements
+				editor.on( 'nodechange', this.onChange );
+				// Capture other change events
+				editor.on( 'change', this.onChange );
+				editor.on( 'dirty', this.onChange ); // TODO never triggered?
 			},
 		} );
 		this.id = ++internalId;
@@ -74,11 +84,18 @@ export default class TinyMCE extends React.Component {
 
 	/** @this */
 	onChange = event => {
-		const newContent = event.newContent || this.editor.getContent();
-		console.log( 'TinyMCE onChange', event.type, { newContent } );
+		if ( this.settingTinyMCEContent ) {
+			console.log( 'Skipped TinyMCE onChange event' );
+			return;
+		}
+		const newContent = this.editor.getContent();
+		console.log( 'TinyMCE onChange', {
+			type: event.type,
+			newContent,
+			event,
+		} );
 		if ( newContent !== this.props.content ) {
-			// TODO send a Redux event
-			console.log( 'TinyMCE changed to:', newContent );
+			this.props.onChange( newContent );
 		}
 	}
 

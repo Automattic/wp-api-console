@@ -7,7 +7,6 @@ import './style.css';
 
 import CloseButton from '../close-button';
 import OptionSelector from '../option-selector';
-import UrlPart from '../url-part';
 import EndpointSelector from '../endpoint-selector';
 import TinyMCE from '../tinymce';
 import { getSelectedApi, getSelectedVersion } from '../../state/ui/selectors';
@@ -23,8 +22,17 @@ class LookupContainer extends Component {
 
 	inputs = [];
 
-	setUrl = event => {
-		this.props.updateUrl( event.target.value );
+	setUrlInputContent = content => {
+		// Input content can look like either of these:
+		// <p>content</p>
+		// <!-- react-text: ID -->\n<p>content</p>\n<!-- /react-text -->
+		const url = content.split( /<p[^>]*>|<\/p>/ )[ 1 ] || '';
+		console.log( 'setUrlInputContent', { content, url } );
+		this.setUrl( url );
+	};
+
+	setUrl = url => {
+		this.props.updateUrl( url );
 	};
 
 	bindInput = ( ref, index = 0 ) => {
@@ -62,42 +70,33 @@ class LookupContainer extends Component {
 	};
 
 	renderEndpointPath() {
-		const { pathParts, endpoint } = this.props;
-		const { pathFormat, pathLabeled } = endpoint;
-
-		return (
-			<TinyMCE
-				content={ JSON.stringify( { pathParts, pathFormat, pathLabeled } ) }
-				onChange={ this.setUrl }
-			/>
-		);
 	}
 
 	render() {
-		const { method, endpoint, url, updateMethod } = this.props;
+		const {
+			method,
+			endpoint = {},
+			updateMethod,
+		} = this.props;
 		const { showEndpoints } = this.state;
 		const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
 		const submitDefaultInput = () => this.onSubmitInput( 0, true );
 
+		const { pathParts } = this.props;
+		const { pathFormat, pathLabeled } = endpoint;
+
 		return (
 			<div className={ classnames( 'lookup-container', { 'no-endpoint': ! endpoint } ) }>
 				<OptionSelector
-					value={ endpoint ? endpoint.method : method }
+					value={ endpoint.method || method }
 					choices={ methods }
 					onChange={ updateMethod }
 				/>
-				<div className="parts">
-					{ ! endpoint &&
-						<UrlPart
-							ref={ this.bindInput }
-							value={ url }
-							onChange={ this.setUrl }
-							onClick={ this.showEndpoints }
-							onSubmit={ submitDefaultInput }
-						/>
-					}
-					{ endpoint && this.renderEndpointPath() }
-				</div>
+				<TinyMCE
+					className="url-input"
+					content={ JSON.stringify( { pathParts, pathFormat, pathLabeled } ) }
+					onChange={ this.setUrlInputContent }
+				/>
 				{ endpoint
 						? <CloseButton onClick={ this.resetEndpoint } />
 						: <div className="right-icon search"><a /></div>
