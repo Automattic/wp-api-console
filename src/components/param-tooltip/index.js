@@ -13,13 +13,13 @@ const ParamTooltip = ( { parameter, id, name, position = 'bottom' } ) =>
 			</header>
 			<ul>
 				{ isPlainObject( parameter.description )
-						? Object.keys( parameter.description ).map( key => (
-							<li key={ key }>
-								<code>{ key }</code>
-								<span>{ parameter.description[ key ] }</span>
-							</li>
-							) )
-						: <li><span>{ parameter.description }</span></li>
+					? Object.keys( parameter.description ).map( key => (
+						<li key={ key }>
+							<code>{ key }</code>
+							<span>{ parameter.description[ key ] }</span>
+						</li>
+					) )
+					: <li><span>{ parameter.description }</span></li>
 				}
 			</ul>
 		</ReactTooltip>

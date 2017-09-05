@@ -89,8 +89,8 @@ export const getCompleteQueryUrl = state => {
 	const queryString = Object.keys( queryParams ).length === 0
 		? ''
 		: '?' + Object.keys( queryParams )
-				.map( param => buildParamUrl( param, queryParams[ param ] ) )
-				.join( '&' );
+			.map( param => buildParamUrl( param, queryParams[ param ] ) )
+			.join( '&' );
 
 	return endpointUrl + queryString;
 };

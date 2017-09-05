@@ -43,6 +43,7 @@ export default class TinyMCE extends React.Component {
 	initialize() {
 		const { focus } = this.props;
 
+		/* eslint-disable camelcase */
 		const settings = {
 			theme: false,
 			inline: true,
@@ -54,11 +55,12 @@ export default class TinyMCE extends React.Component {
 				strikethrough: { inline: 'del' },
 			},
 		};
+		/* eslint-enable camelcase */
 
 		window.tinymce.init( {
 			...settings,
 			target: this.editorNode,
-			setup: ( editor ) => {
+			setup: editor => {
 				this.editor = editor;
 				// Capture change events while typing
 				editor.on( 'keypress', event => {
@@ -80,7 +82,6 @@ export default class TinyMCE extends React.Component {
 		}
 	}
 
-	/** @this */
 	onChange = event => {
 		if ( this.settingTinyMCEContent ) {
 			console.log( 'Skipped TinyMCE onChange event' );
@@ -109,7 +110,7 @@ export default class TinyMCE extends React.Component {
 		}
 
 		return React.createElement( tagName, {
-			ref: ( node ) => this.editorNode = node,
+			ref: node => ( this.editorNode = node ),
 			contentEditable: true,
 			suppressContentEditableWarning: true,
 			className: classnames( className, 'tinymce' ),

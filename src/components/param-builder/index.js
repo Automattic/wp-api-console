@@ -15,38 +15,39 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 	return (
 		<div className="param-builder">
 			<div className="title">{ title }</div>
-			{ hasParams && <div className="scroller">
-				<table>
-					<tbody>
-						{ Object.keys( params ).map( paramKey => {
-							const parameter = params[ paramKey ];
-							return (
-								<tr key={ paramKey }>
-									<th>{ paramKey }</th>
-									<td>
-										<ParamInput
-											onChange={ changeParamValue( paramKey ) }
-											type={ parameter.type }
-											value={ values[ paramKey ] }
-											data-tip data-for={ `param-${ paramKey }` }
-										/>
-										{ ! isUndefined( values[ paramKey ] ) &&
-											<CloseButton onClick={ resetParamValues( paramKey ) } />
-										}
-										<ParamTooltip
-											parameter={ parameter }
-											id={ `param-${ paramKey }` }
-											name={ paramKey }
-											position="right"
-										/>
-									</td>
-								</tr>
-							);
-						} ) }
-					</tbody>
-				</table>
+			{ hasParams && (
+				<div className="scroller">
+					<table>
+						<tbody>
+							{ Object.keys( params ).map( paramKey => {
+								const parameter = params[ paramKey ];
+								return (
+									<tr key={ paramKey }>
+										<th>{ paramKey }</th>
+										<td>
+											<ParamInput
+												onChange={ changeParamValue( paramKey ) }
+												type={ parameter.type }
+												value={ values[ paramKey ] }
+												data-tip data-for={ `param-${ paramKey }` }
+											/>
+											{ ! isUndefined( values[ paramKey ] ) &&
+												<CloseButton onClick={ resetParamValues( paramKey ) } />
+											}
+											<ParamTooltip
+												parameter={ parameter }
+												id={ `param-${ paramKey }` }
+												name={ paramKey }
+												position="right"
+											/>
+										</td>
+									</tr>
+								);
+							} ) }
+						</tbody>
+					</table>
 				</div>
-			}
+			) }
 		</div>
 	);
 };

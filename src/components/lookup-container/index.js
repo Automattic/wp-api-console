@@ -38,14 +38,14 @@ class LookupContainer extends Component {
 		return url;
 	};
 
-	convertUrlPatternToHtml = urlPattern => {
-		return '<p>' + urlPattern.map( piece => {
+	convertUrlPatternToHtml = urlPattern => (
+		'<p>' + urlPattern.map( piece => {
 			if ( piece.type === 'parameter' ) {
 				return '<span class="parameter">' + piece.value + '</span>';
 			}
 			return piece.value;
-		} ) + '</p>';
-	};
+		} ) + '</p>'
+	);
 
 	onSubmitInput = ( index, last ) => {
 		if ( last ) {
@@ -88,7 +88,6 @@ class LookupContainer extends Component {
 		} = this.props;
 		const { showEndpoints } = this.state;
 		const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
-		const submitDefaultInput = () => this.onSubmitInput( 0, true );
 
 		const { pathParts } = this.props;
 		const { pathFormat, pathLabeled } = endpoint;
@@ -106,8 +105,8 @@ class LookupContainer extends Component {
 					onChange={ this.onUrlInputChanged }
 				/>
 				{ endpoint
-						? <CloseButton onClick={ this.resetEndpoint } />
-						: <div className="right-icon search"><a /></div>
+					? <CloseButton onClick={ this.resetEndpoint } />
+					: <div className="right-icon search"><a /></div>
 				}
 				{ showEndpoints &&
 					<ClickOutside onClickOutside={ this.hideEndpoints }>

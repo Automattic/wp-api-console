@@ -60,17 +60,18 @@ class EndpointSelector extends Component {
 
 		return (
 			<div className="endpoint-selector">
-				{ recentEndpoints.length > 0 && <div>
-					<div className="group history">Recent</div>
-					<ul>{ this.renderEndpoints( recentEndpoints ) }</ul>
+				{ recentEndpoints.length > 0 && (
+					<div>
+						<div className="group history">Recent</div>
+						<ul>{ this.renderEndpoints( recentEndpoints ) }</ul>
 					</div>
-				}
-				{ Object.keys( groupedEndpoints ).map( group =>
+				) }
+				{ Object.keys( groupedEndpoints ).map( group => (
 					<div key={ group }>
 						<div className="group">{ this.getGroupText( group, true ) }</div>
 						<ul>{ this.renderEndpoints( groupedEndpoints[ group ] ) }</ul>
 					</div>
-				)}
+				) ) }
 			</div>
 		);
 	}
