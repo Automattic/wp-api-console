@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import ClickOutside from 'react-click-outside';
 import classnames from 'classnames';
@@ -24,8 +25,14 @@ class LookupContainer extends Component {
 
 	onUrlInputChanged = content => {
 		const url = this.convertHtmlToUrl( content );
-		console.log( 'onUrlInputChanged', { content, url } );
-		this.props.updateUrl( url );
+		// console.log( 'onUrlInputChanged', { content, url } );
+		if ( url !== this.props.url ) {
+			console.log( 'url changed', {
+				old: url,
+				'new': this.props.url,
+			} );
+			this.props.updateUrl( url );
+		}
 	};
 
 	convertHtmlToUrl = html => {
@@ -38,14 +45,28 @@ class LookupContainer extends Component {
 		return url;
 	};
 
-	convertUrlPatternToHtml = urlPattern => (
-		'<p>' + urlPattern.map( piece => {
+	convertUrlPatternToHtml = ( url, pathParts ) => {
+		// url: current text
+		// pathParts: array of path parts of selected endpoint
+		// console.log( { src: 'convertUrlPatternToHtml', url, pathParts } );
+		if ( url ) {
+			return url;
+		}
+		return pathParts.map( part => {
+			if ( /^\$/.test( part ) ) {
+				return '<span class="parameter">' + part + '</span>';
+			}
+			return part;
+		} ).join( '' );
+		/* TODO: convert path parts to objects and use code like this:
+		return urlPattern.map( piece => {
 			if ( piece.type === 'parameter' ) {
 				return '<span class="parameter">' + piece.value + '</span>';
 			}
 			return piece.value;
-		} ) + '</p>'
-	);
+		} ).join( '' );
+		*/
+	}
 
 	onSubmitInput = ( index, last ) => {
 		if ( last ) {
@@ -58,11 +79,23 @@ class LookupContainer extends Component {
 	}
 
 	showEndpoints = event => {
+		// console.log( 'showEndpoints', event );
 		event.stopPropagation();
 		this.setState( { showEndpoints: true } );
 	};
 
 	hideEndpoints = event => {
+		// Do not hide the endpoint list if TinyMCE is clicked
+		if (
+			event &&
+			event.target &&
+			this.tinyMceNode &&
+			this.tinyMceNode.contains( event.target )
+		) {
+			return;
+		}
+
+		// console.log( 'hideEndpoints', event );
 		this.setState( { showEndpoints: false } );
 	};
 
@@ -77,20 +110,20 @@ class LookupContainer extends Component {
 		this.setState( { showEndpoints: true } );
 	};
 
-	renderEndpointPath() {
-	}
+	setTinyMceNode = node => {
+		this.tinyMceNode = node ? findDOMNode( node ) : node;
+	};
 
 	render() {
 		const {
 			method,
 			endpoint = {},
+			pathParts,
+			url,
 			updateMethod,
 		} = this.props;
 		const { showEndpoints } = this.state;
 		const methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH' ];
-
-		const { pathParts } = this.props;
-		const { pathFormat, pathLabeled } = endpoint;
 
 		return (
 			<div className={ classnames( 'lookup-container', { 'no-endpoint': ! endpoint } ) }>
@@ -100,8 +133,10 @@ class LookupContainer extends Component {
 					onChange={ updateMethod }
 				/>
 				<TinyMCE
+					ref={ this.setTinyMceNode }
 					className="url-input"
-					content={ JSON.stringify( { pathParts, pathFormat, pathLabeled } ) }
+					content={ this.convertUrlPatternToHtml( url, pathParts ) }
+					onFocus={ this.showEndpoints }
 					onChange={ this.onUrlInputChanged }
 				/>
 				{ endpoint

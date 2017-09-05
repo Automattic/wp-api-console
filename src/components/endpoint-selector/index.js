@@ -82,7 +82,10 @@ export default connect(
 		const api = getSelectedApi( state );
 		const version = getSelectedVersion( state, api );
 		const endpoints = filterEndpoints( state, getEndpoints( state, api, version ) );
-		const recentEndpoints = filterEndpoints( state, getRecentEndpoints( state, api, version ) );
+		const recentEndpoints = filterEndpoints(
+			state,
+			getRecentEndpoints( state, api, version )
+		);
 
 		return {
 			api,

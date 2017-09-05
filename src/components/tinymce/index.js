@@ -24,7 +24,15 @@ export default class TinyMCE extends React.Component {
 
 		if ( this.editor && this.props.content !== nextProps.content ) {
 			this.settingTinyMCEContent = true;
+			console.log( {
+				src: 'TinyMCE componentWillReceiveProps setContent',
+				prev: this.props.content,
+				next: nextProps.content,
+				tiny: this.editor.getContent(),
+			} );
+			const cursorPos = this.editor.selection.getBookmark();
 			this.editor.setContent( nextProps.content );
+			this.editor.selection.moveToBookmark( cursorPos );
 			this.settingTinyMCEContent = false;
 		}
 
@@ -41,21 +49,19 @@ export default class TinyMCE extends React.Component {
 	}
 
 	initialize() {
-		const { focus } = this.props;
+		const { focus, content } = this.props;
 
-		/* eslint-disable camelcase */
 		const settings = {
 			theme: false,
 			inline: true,
 			toolbar: false,
-			entity_encoding: 'raw',
-			convert_urls: false,
+			entity_encoding: 'raw', // eslint-disable-line camelcase
+			convert_urls: false, // eslint-disable-line camelcase
 			plugins: [],
 			formats: {
 				strikethrough: { inline: 'del' },
 			},
 		};
-		/* eslint-enable camelcase */
 
 		window.tinymce.init( {
 			...settings,
@@ -71,6 +77,14 @@ export default class TinyMCE extends React.Component {
 				// Capture other change events
 				editor.on( 'change', this.onChange );
 				editor.on( 'dirty', this.onChange ); // TODO never triggered?
+				editor.on( 'focus', this.onFocus );
+			},
+			// eslint-disable-next-line camelcase
+			init_instance_callback: editor => {
+				// Set initial content, if provided
+				if ( content ) {
+					editor.setContent( content );
+				}
 			},
 		} );
 		this.id = ++internalId;
@@ -84,30 +98,23 @@ export default class TinyMCE extends React.Component {
 
 	onChange = event => {
 		if ( this.settingTinyMCEContent ) {
-			console.log( 'Skipped TinyMCE onChange event' );
+			// Skip onChange event caused by props change
 			return;
 		}
 		const newContent = this.editor.getContent();
-		console.log( 'TinyMCE onChange', {
-			type: event.type,
-			newContent,
-			event,
-		} );
 		if ( newContent !== this.props.content ) {
 			this.props.onChange( newContent );
 		}
 	}
 
-	render() {
-		const { tagName = 'div', style, content, label, className } = this.props;
-
-		// If initial content is provided, render it into the DOM before
-		// initializing TinyMCE.  This avoids a short delay by allowing us to
-		// show and focus the content before it's ready to edit.
-		let children;
-		if ( content ) {
-			children = React.Children.toArray( content );
+	onFocus = event => {
+		if ( typeof this.props.onFocus === 'function' ) {
+			this.props.onFocus( event );
 		}
+	};
+
+	render() {
+		const { tagName = 'div', style, label, className } = this.props;
 
 		return React.createElement( tagName, {
 			ref: node => ( this.editorNode = node ),
@@ -116,6 +123,6 @@ export default class TinyMCE extends React.Component {
 			className: classnames( className, 'tinymce' ),
 			style,
 			'aria-label': label,
-		}, children );
+		} );
 	}
 }
