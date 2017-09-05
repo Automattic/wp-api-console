@@ -106,7 +106,7 @@ class LookupContainer extends Component {
 				/>
 				{ endpoint
 					? <CloseButton onClick={ this.resetEndpoint } />
-					: <div className="right-icon search"><a /></div>
+					: <button className="right-icon search" />
 				}
 				{ showEndpoints &&
 					<ClickOutside onClickOutside={ this.hideEndpoints }>

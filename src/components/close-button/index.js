@@ -3,9 +3,10 @@ import React from 'react';
 import './style.css';
 
 const CloseButton = ( { onClick } ) => (
-	<div className="close-button">
-		<a onClick={ onClick } />
-	</div>
+	<button
+		className="close-button"
+		onClick={ onClick }
+	/>
 );
 
 export default CloseButton;

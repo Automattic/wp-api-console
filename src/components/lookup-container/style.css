@@ -13,36 +13,21 @@
 }
 
 .lookup-container .right-icon {
-	padding: 0;
-	width: 24px;
-	text-align: right;
-	cursor: pointer;
-	background: none;
-	position: relative;
-	flex-grow: 0;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-.lookup-container .right-icon a {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-moz-transform: translate(-50%,-50%);
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
-	display: inline-block;
-	vertical-align: -2px;
+	border: none;
 	content: '';
 	color: #FFF;
 	border-radius: 100%;
 	width: 24px;
 	height: 24px;
-	opacity: 1;
+	opacity: 0.8;
 	overflow: hidden;
 	background: url(res/search-dark-@2x.png) no-repeat center center transparent;
 	background-size: 16px 16px;
-	cursor: default;
+	cursor: pointer;
+}
+.lookup-container .right-icon:hover {
+	opacity: 1;
+	background-color: #ccc;
 }
 
 .lookup-container .url-input {
