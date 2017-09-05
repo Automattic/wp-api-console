@@ -203,7 +203,7 @@ module.exports = {
 		'react/jsx-closing-bracket-location' : [ 'error', 'line-aligned' ],
 		'react/jsx-curly-spacing'            : [ 'error', 'always' ],
 		'react/jsx-equals-spacing'           : 'error',
-		'react/jsx-filename-extension'       : [ 'warn', { extensions: [ '.js' ] } ],
+		'react/jsx-filename-extension'       : [ 'error', { extensions: [ '.js' ] } ],
 		'react/jsx-first-prop-new-line'      : [ 'error', 'multiline' ],
 		'react/jsx-indent'                   : [ 'error', 'tab' ],
 		'react/jsx-indent-props'             : [ 'error', 'tab' ],
