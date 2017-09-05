@@ -22,22 +22,30 @@ class LookupContainer extends Component {
 
 	inputs = [];
 
-	setUrlInputContent = content => {
-		// Input content can look like either of these:
-		// <p>content</p>
-		// <!-- react-text: ID -->\n<p>content</p>\n<!-- /react-text -->
-		const url = content.split( /<p[^>]*>|<\/p>/ )[ 1 ] || '';
-		console.log( 'setUrlInputContent', { content, url } );
-		this.setUrl( url );
-	};
-
-	setUrl = url => {
+	onUrlInputChanged = content => {
+		const url = this.convertHtmlToUrl( content );
+		console.log( 'onUrlInputChanged', { content, url } );
 		this.props.updateUrl( url );
 	};
 
-	bindInput = ( ref, index = 0 ) => {
-		this.inputs[ 0 ] = ref;
-	}
+	convertHtmlToUrl = html => {
+		// Input content can look like either of these:
+		// <p>content</p>
+		// <!-- react-text: ID -->\n<p>content</p>\n<!-- /react-text -->
+		let url = html.split( /<p[^>]*>|<\/p>/ )[ 1 ] || '';
+		// Remove <span class="parameter"> tags
+		url = url.replace( /<\/?span[^>]*>/g, '' );
+		return url;
+	};
+
+	convertUrlPatternToHtml = urlPattern => {
+		return '<p>' + urlPattern.map( piece => {
+			if ( piece.type === 'parameter' ) {
+				return '<span class="parameter">' + piece.value + '</span>';
+			}
+			return piece.value;
+		} ) + '</p>';
+	};
 
 	onSubmitInput = ( index, last ) => {
 		if ( last ) {
@@ -95,7 +103,7 @@ class LookupContainer extends Component {
 				<TinyMCE
 					className="url-input"
 					content={ JSON.stringify( { pathParts, pathFormat, pathLabeled } ) }
-					onChange={ this.setUrlInputContent }
+					onChange={ this.onUrlInputChanged }
 				/>
 				{ endpoint
 						? <CloseButton onClick={ this.resetEndpoint } />
