@@ -38,7 +38,7 @@
   "scripts": {
     "start": "node bin/start.js",
     "build": "npm run lint && node bin/build.js",
-    "test": "npm run lint && react-scripts test --env=jsdom",
+    "test": "npm run lint && CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx .eslintrc.js src/ bin/",
     "deploy": "npm run build && surge -p ./build -d wpconsole.surge.sh"
