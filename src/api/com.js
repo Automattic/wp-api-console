@@ -30,6 +30,7 @@ const createApi = authProvider => {
 					method: 'GET',
 					url: baseUrl + 'v1.1/versions?include_dev=true',
 					path: '/versions',
+					query: { include_dev: true }, // eslint-disable-line camelcase
 					apiVersion: '1.1',
 				} ).then( res => {
 					return {
