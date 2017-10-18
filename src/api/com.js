@@ -29,6 +29,8 @@ const createApi = authProvider => {
 				authProvider.request( {
 					method: 'GET',
 					url: baseUrl + 'v1.1/versions?include_dev=true',
+					path: '/versions',
+					apiVersion: '1.1',
 				} ).then( res => {
 					return {
 						versions: res.body.versions.map( version => `v${ version }` ),
