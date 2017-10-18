@@ -1,6 +1,5 @@
 {
 	"wordpress.com": {
-		"clientID": "51972",
-		"redirectUrl": "https://developer.wordpress.com/docs/api/console/"
+		"auth": "proxy"
 	}
 }

@@ -32,7 +32,7 @@ export const request = req =>
 	new Promise( resolve => {
 		proxy( req, ( err, body, xhr ) => {
 			resolve( {
-				status: xhr.status,
+				status: xhr.status === undefined ? 200 : xhr.status,
 				body,
 				error: err,
 			} );
