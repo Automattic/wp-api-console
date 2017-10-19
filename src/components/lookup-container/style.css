@@ -12,65 +12,64 @@
 	background: white;
 }
 
-.lookup-container .parts {
-	position: relative;
-	overflow: visible;
-	background: white;
-	padding: 0 8px;
-	line-height: 22px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-	align-items: center;
-	flex-grow: 1;
-	flex-shrink: 1;
-	align-self: auto;
-}
-
-.lookup-container .parts > div {
-	font-size: 16px;
-	font-family: Inconsolata, monospace;
-	padding: 3px 1px 3px 1px;
-	line-height: 16px;
-	min-height: 16px;
-	color: #7290a1;
-	overflow: hidden;
-	flex-grow: 0;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-
 .lookup-container .right-icon {
-	padding: 0;
-	width: 24px;
-	text-align: right;
-	cursor: pointer;
-	background: none;
-	position: relative;
-	flex-grow: 0;
-	flex-shrink: 0;
-	align-self: auto;
-}
-
-.lookup-container .right-icon a {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-moz-transform: translate(-50%,-50%);
-	-webkit-transform: translate(-50%,-50%);
-	transform: translate(-50%,-50%);
-	display: inline-block;
-	vertical-align: -2px;
+	border: none;
 	content: '';
 	color: #FFF;
 	border-radius: 100%;
 	width: 24px;
 	height: 24px;
-	opacity: 1;
+	opacity: 0.8;
 	overflow: hidden;
 	background: url(res/search-dark-@2x.png) no-repeat center center transparent;
 	background-size: 16px 16px;
-	cursor: default;
+	cursor: pointer;
+}
+.lookup-container .right-icon:hover {
+	opacity: 1;
+	background-color: #ccc;
+}
+
+.lookup-container .url-input {
+	width: 100%;
+	border: none;
+	background: none;
+	color: #7290a1;
+	font-size: 16px;
+	height: 26px;
+	line-height: 26px;
+	outline: none;
+	margin: 0;
+	padding: 0 10px;
+	font-family: Inconsolata, monospace;
+}
+
+.lookup-container .url-input p {
+	margin: 0;
+}
+
+.lookup-container .url-input .parameter {
+	background: hsl(205,38%,94%);
+	color: hsl(202,68%,35%);
+	padding: 0 4px;
+	margin: 0 3px;
+	border-radius: 2px;
+	display: inline-block;
+	line-height: 22px;
+	height: 22px;
+	font-family: Inconsolata, monospace;
+}
+
+/* It's possible to get TinyMCE to leave empty inline elements around.  Try
+ * selecting the entire contents of an inline element and pressing Space for
+ * example (may need to do it twice in a row).  Without this rule, this breaks
+ * the display pretty badly due to the rules above, and further breakage can
+ * result because you can still navigate inside the empty element.
+ */
+.lookup-container .url-input .parameter:empty {
+	display: none;
+}
+
+.lookup-container .url-input .parameter[data-mce-selected] {
+	background: hsl(205,38%,88%);
 }

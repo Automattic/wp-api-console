@@ -47,21 +47,21 @@ class OptionSelector extends Component {
 			<ClickOutside onClickOutside={ this.hide }>
 				<div onClick={ this.toggle } className={ classnames( 'option-selector', { 'is-header': isHeader } ) }>
 					<span>{ value }</span>
-					{ open && <div className="options">
-						<ul>
-							{ choices.map( val =>
-								<li
-									key={ val }
-									onClick={ selectChoice( val ) }
-									className={ val === value ? 'selected' : '' }
-								>
-									{val}
-								</li>
-									)
-								}
-						</ul>
+					{ open && (
+						<div className="options">
+							<ul>
+								{ choices.map( val => (
+									<li
+										key={ val }
+										onClick={ selectChoice( val ) }
+										className={ val === value ? 'selected' : '' }
+									>
+										{val}
+									</li>
+								) ) }
+							</ul>
 						</div>
-					}
+					) }
 				</div>
 			</ClickOutside>
 		);

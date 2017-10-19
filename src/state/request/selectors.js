@@ -1,4 +1,6 @@
-import { compact, isArray } from 'lodash';
+import { isArray } from 'lodash';
+
+import { explodeEndpointPathParts, getEndpointUrl } from './utils';
 
 export const getSelectedEndpoint = state => state.request.endpoint;
 
@@ -64,10 +66,8 @@ export const getEndpointPathParts = state => {
 	if ( ! endpoint ) {
 		return [];
 	}
-	const pathRegex = /\$[^/]*|([^$]*)/g;
-	const pathParts = endpoint.pathLabeled.match( pathRegex );
 
-	return compact( pathParts );
+	return explodeEndpointPathParts( endpoint );
 };
 
 export const getCompleteQueryUrl = state => {
@@ -75,8 +75,8 @@ export const getCompleteQueryUrl = state => {
 	if ( ! endpoint ) {
 		return getUrl( state );
 	}
-	const parts = getEndpointPathParts( state );
-	const values = getPathValues( state );
+	const pathValues = getPathValues( state );
+	const endpointUrl = getEndpointUrl( endpoint, pathValues );
 	const queryParams = getQueryParams( state );
 	const buildParamUrl = ( param, value ) => {
 		if ( isArray( value ) ) {
@@ -89,13 +89,10 @@ export const getCompleteQueryUrl = state => {
 	const queryString = Object.keys( queryParams ).length === 0
 		? ''
 		: '?' + Object.keys( queryParams )
-				.map( param => buildParamUrl( param, queryParams[ param ] ) )
-				.join( '&' );
+			.map( param => buildParamUrl( param, queryParams[ param ] ) )
+			.join( '&' );
 
-	return parts.reduce( ( url, part ) =>
-		url +
-			( part[ 0 ] === '$' ? values[ part ] || '' : part )
-	, '' ) + queryString;
+	return endpointUrl + queryString;
 };
 
 export const getRequestMethod = state => {

@@ -5,12 +5,13 @@
   "license": "GPL-2.0+",
   "homepage": ".",
   "devDependencies": {
-    "babel-eslint": "^7.1.0",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-lodash": "^3.2.9",
     "deep-freeze": "0.0.1",
-    "eslint": "^3.9.1",
+    "eslint": "^4.6.1",
     "eslint-plugin-react": "^6.6.0",
-    "react-scripts": "0.9.0",
+    "react-scripts": "1.0.11",
+    "redux-logger": "^3.0.6",
     "surge": "^0.18.0"
   },
   "dependencies": {
@@ -24,7 +25,6 @@
     "react": "^15.3.2",
     "react-click-outside": "github:tj/react-click-outside",
     "react-dom": "^15.3.2",
-    "react-input-autosize": "^1.1.0",
     "react-json-tree": "^0.10.0",
     "react-redux": "^4.4.5",
     "react-tagsinput": "^3.13.6",
@@ -32,12 +32,13 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "superagent": "^2.3.0",
+    "tinymce": "^4.6.5",
     "wpcom-proxy-request": "^3.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node bin/start.js",
     "build": "npm run lint && node bin/build.js",
-    "test": "npm run lint && react-scripts test --env=jsdom",
+    "test": "npm run lint && CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx .eslintrc.js src/ bin/",
     "deploy": "npm run build && surge -p ./build -d wpconsole.surge.sh"

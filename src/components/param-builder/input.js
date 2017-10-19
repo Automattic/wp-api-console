@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { isString } from 'lodash';
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
 
-const ParamInput = ( { onChange, type, value, ...props } ) => {
+export default function ParamInput( { onChange, type, value, ...props } ) {
 	switch ( type ) {
 		case 'array':
 			return (
@@ -42,12 +42,4 @@ const ParamInput = ( { onChange, type, value, ...props } ) => {
 				/>
 			);
 	}
-};
-
-ParamInput.propTypes = {
-	onChange: PropTypes.func.isRequired,
-	type: PropTypes.string,
-	value: PropTypes.any,
-};
-
-export default ParamInput;
+}

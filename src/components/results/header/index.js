@@ -31,7 +31,9 @@ const RequestHeader = ( { result: { loading, request: { path, method, apiName, v
 					download={ filename }
 					rel="noreferrer noopener"
 					href={ 'data:application/json;charset=UTF-8,' + encodeURIComponent( JSON.stringify( response.body, null, '\t' ) ) }
-				/>
+				>
+					Download
+				</a>
 			) }
 			{ loading && (
 				<div className="throbber"><div /></div>

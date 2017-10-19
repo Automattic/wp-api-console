@@ -8,9 +8,7 @@ export const boot = () =>
 				throw err;
 			}
 
-			const timer = setTimeout( () =>
-				reject()
-			, 3000 );
+			const timer = setTimeout( reject, 3000 );
 
 			proxy( { path: '/me' }, ( err, response ) => {
 				clearTimeout( timer );

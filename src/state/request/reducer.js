@@ -10,6 +10,7 @@ import {
 	UI_SELECT_VERSION,
 } from '../actions';
 import schema from './schema';
+import { getEndpointUrl } from './utils';
 
 const defaultState = {
 	method: 'GET',
@@ -25,6 +26,8 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			method: payload,
+			url: state.endpoint ? getEndpointUrl( state.endpoint, state.pathValues ) : state.url,
+			endpoint: false,
 		} );
 	},
 	[ REQUEST_SELECT_ENDPOINT ]: ( state, { payload: { endpoint } } ) => {
@@ -37,6 +40,8 @@ const reducer = createReducer( defaultState, {
 	[ REQUEST_UPDATE_URL ]: ( state, { payload } ) => {
 		return ( {
 			...state,
+			endpoint: false,
+			method: state.endpoint ? state.endpoint.method : state.method,
 			url: payload,
 		} );
 	},

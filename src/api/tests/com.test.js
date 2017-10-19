@@ -26,8 +26,8 @@ function getEndpointTestData() {
 					context: {
 						type: '(string)',
 						description: {
-							display: '(default) Formats the output as HTML for display.  Shortcodes are parsed, paragraph tags are added, etc..',
-							edit: 'Formats the output for editing.  Shortcodes are left unparsed, significant whitespace is kept, etc..',
+							display: '(default) Formats the output as HTML for display...',
+							edit: 'Formats the output for editing...',
 						},
 					},
 				},

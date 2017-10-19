@@ -1,4 +1,5 @@
 .close-button {
+	/* previously: .close-button (wrapper) */
 	padding: 0;
 	width: 24px;
 	cursor: pointer;
@@ -8,9 +9,8 @@
 	flex-shrink: 0;
 	align-self: auto;
 	height: 24px;
-}
 
-.close-button a {
+	/* previously: .close-button a (button) */
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -29,7 +29,7 @@
 	background-size: 16px 16px;
 	background-position: center center;
 	background-image: url(res/close-dark-@2x.png);
-	background-repeat: none;
+	background-repeat: no-repeat;
 	cursor: pointer;
 }
 

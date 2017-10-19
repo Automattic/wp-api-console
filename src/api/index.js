@@ -23,13 +23,13 @@ if ( wpcomConfig ) {
 	const authProvider = config[ 'wordpress.com' ].auth === 'proxy'
 		? proxy
 		: createOauth2Provider(
-				oauth2Config.id,
-				oauth2Config.baseUrl,
-				oauth2Config.userUrl,
-				oauth2Config.redirectUrl,
-				oauth2Config.clientId,
-				oauth2Config.scope
-			);
+			oauth2Config.id,
+			oauth2Config.baseUrl,
+			oauth2Config.userUrl,
+			oauth2Config.redirectUrl,
+			oauth2Config.clientId,
+			oauth2Config.scope
+		);
 
 	const hasOrgWebsites = !! config[ 'wordpress.org' ] && !! Object.keys( config[ 'wordpress.org' ] ).length;
 	const dotComWPApi = {
