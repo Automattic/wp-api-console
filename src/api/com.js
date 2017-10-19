@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 const baseUrl = 'https://public-api.wordpress.com/rest/';
 
 const createApi = authProvider => {
@@ -44,12 +46,15 @@ const createApi = authProvider => {
 				.catch( loadVersions );
 		},
 		buildRequest: ( version, method, path, body ) => {
+			const [ basePath, queryString ] = path.split( '?' );
+			const query = qs.parse( queryString );
 			return {
 				url: baseUrl + version + path,
 				apiVersion: version.substr( 1 ),
 				method,
-				path,
+				path: basePath,
 				body,
+				query,
 			};
 		},
 		baseUrl,
