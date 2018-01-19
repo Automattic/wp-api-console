@@ -138,7 +138,7 @@ export const parseEndpoints = data => {
 				let pathLabel = rawpath;
 				let pathFormat = rawpath;
 				parameters.forEach( param => {
-					const paramDetailsRegex = /[^<]*<([^>]*)>\[([^\]]*)][^]*/;
+					const paramDetailsRegex = /[^<]*<([^>]*)>\[?([^\])]*)/;
 					const explodedParameter = param.match( paramDetailsRegex );
 					const paramName = '$' + explodedParameter[ 1 ];
 					path[ paramName ] = {
