@@ -1,8 +1,10 @@
 # WordPress.com API Console v3
 
-This is a WIP rewrite in React of [the WordPress.com API Console](https://github.com/Automattic/rest-api-console2).
+This is the current version of the WordPress.com API console, written in React. It is deployed at:
 
+https://developer.wordpress.com/docs/api/
 
+It supercedes https://github.com/Automattic/rest-api-console2.
 
 ## Getting Started Locally
 
