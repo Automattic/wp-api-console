@@ -12,7 +12,7 @@ To setup the environment on your local system with WordPress.com APIs:
 
 1. Clone the repository `git clone https://github.com/Automattic/wp-api-console.git`.
 
-2. Install dependencies `npm install`.
+2. Install dependencies `npm install` (`npm install --legacy-peer-deps` if using node v16 or greater).
 
 3. Open [WordPress.com Developer Resources](https://developer.wordpress.com/apps/)
 
