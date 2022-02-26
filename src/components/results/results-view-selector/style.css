@@ -1,4 +1,4 @@
-.results-view-selector__button-selector {
+.results-view-selector__button-selector-selected {
     background-color: #2487bc;
     color: white;
     float: left;
@@ -8,8 +8,8 @@
     border-width: 0;
 }
 
-.results-view-selector__button-selector-selected {
-    background-color: white;
+.results-view-selector__button-selector {
+    background-color: #F2F2F2;
     color: black;
     float: left;
     margin: 0;
@@ -19,7 +19,7 @@
 }
 
 .results-view-selector__button-selector:hover {
-    background-color: rgb(92 171 214);
+    background-color: white;
 }
 
 .results-view-selector__button-selector-container {

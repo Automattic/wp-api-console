@@ -4,11 +4,9 @@ import ResultsViewSelector from '../results-view-selector';
 import './style.css';
 
 const RequestHeader = ( { result: { loading, request: { path, method, apiName, version }, duration, response }, view, onViewChange } ) => {
-	let filename = path;
-	if ( filename.indexOf( '/' ) === 0 ) {
-		filename = filename.slice( 1 );
-	}
-	filename = filename.replace( /\//g, '-' ) + '.json';
+	const filename = path
+			.replace( /^\//, '' )
+			.replace( /\//g, '-' ) + '.json';
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText( JSON.stringify( response.body, null, '\t' ) );
