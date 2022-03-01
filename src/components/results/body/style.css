@@ -2,9 +2,6 @@
     flex-grow: 1;
     flex-shrink: 1;
     align-self: auto;
-    flex-grow: 1;
-    flex-shrink: 1;
-    align-self: auto;
     overflow: hidden;
     max-width: 100%;
 }

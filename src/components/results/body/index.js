@@ -31,10 +31,17 @@ const RequestBody = ( { response, view } ) => {
 		},
 	};
 
-	// eslint-disable-next-line no-confusing-arrow
-	const customStringRenderer = ( valueAsString, value ) => 'string' === typeof value
-		? `"${ escapeLikeJSON( value ) }"`
-		: valueAsString;
+	const customStringRenderer = ( valueAsString, value ) => {
+		if ( 'string' !== typeof valueAsString ) {
+			return valueAsString;
+		}
+
+		const displayValue = 'string' === typeof value
+			? `"${ escapeLikeJSON( value ) }"`
+			: valueAsString;
+
+		return <span className="expanded-value">{ displayValue }</span>;
+	};
 
 	return (
 		<div className="response">
