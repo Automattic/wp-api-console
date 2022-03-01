@@ -1,13 +1,3 @@
-.results-view-selector__button-selector-selected {
-    background-color: #2487bc;
-    color: white;
-    float: left;
-    margin: 0;
-    height: 24px;
-    width: 96px;
-    border-width: 0;
-}
-
 .results-view-selector__button-selector {
     background-color: #F2F2F2;
     color: black;
@@ -18,8 +8,13 @@
     border-width: 0;
 }
 
-.results-view-selector__button-selector:hover {
+.results-view-selector__button-selector:hover:not(.selected) {
     background-color: white;
+}
+
+.selected {
+    background-color: #2487bc;
+    color: white;
 }
 
 .results-view-selector__button-selector-container {

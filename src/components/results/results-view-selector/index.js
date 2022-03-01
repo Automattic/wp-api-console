@@ -11,13 +11,13 @@ const ResultsViewSelector = ( { view, onViewChange = () => {} } ) => (
 	<div className={ 'results-view-selector__button-selector-container' }>
 		<button
 			onClick={ () => onViewChange( TREE_VIEW ) }
-			className={ `results-view-selector__button-selector${ view === TREE_VIEW ? '-selected' : '' }` }
+			className={ `results-view-selector__button-selector ${ view === TREE_VIEW ? 'selected' : '' }` }
 		>
 				Tree view
 		</button>
 		<button
 			onClick={ () => onViewChange( JSON_VIEW ) }
-			className={ `results-view-selector__button-selector${ view === JSON_VIEW ? '-selected' : '' }` }
+			className={ `results-view-selector__button-selector ${ view === JSON_VIEW ? 'selected' : '' }` }
 		>
 				Raw JSON
 			</button>
