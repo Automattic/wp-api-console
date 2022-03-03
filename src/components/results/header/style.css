@@ -65,6 +65,22 @@
 	content: "\2B07\FE0E";
 }
 
+.request-header .copy {
+	padding: 2px 3px 0;
+	font-size: 12px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px 0 2px 8px;
+	border: 1px solid #95b7d0;
+	color: #95b7d0;
+}
+
+.request-header .copy:before {
+	content: "\1F4CB\FE0E";
+}
+
 .request-header .error {
 	white-space: nowrap;
 	font-size: 12px;
