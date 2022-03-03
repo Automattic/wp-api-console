@@ -7,13 +7,11 @@ import RequestBody from '../body';
 import './style.css';
 
 class Index extends React.Component {
-	componentWillMount() {
-		this.setState( { view: TREE_VIEW } );
-	}
+	state = {
+		view: TREE_VIEW,
+	};
 
-	onViewChange = view => {
-		this.setState( { view } );
-	}
+	onViewChange = view => this.setState( { view } );
 
 	render() {
 		const { result } = this.props;

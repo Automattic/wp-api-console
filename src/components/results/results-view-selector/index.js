@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
+import classnames from 'classnames';
 
 import './style.css';
 
@@ -8,16 +9,20 @@ export const JSON_VIEW = 'json_view';
 
 
 const ResultsViewSelector = ( { view, onViewChange = () => {} } ) => (
-	<div className={ 'results-view-selector__button-selector-container' }>
+	<div className="results-view-selector__button-selector-container">
 		<button
 			onClick={ () => onViewChange( TREE_VIEW ) }
-			className={ `results-view-selector__button-selector ${ view === TREE_VIEW ? 'selected' : '' }` }
+			className={ classnames( 'results-view-selector__button-selector', {
+				selected: view === TREE_VIEW,
+			} ) }
 		>
 				Tree view
 		</button>
 		<button
 			onClick={ () => onViewChange( JSON_VIEW ) }
-			className={ `results-view-selector__button-selector ${ view === JSON_VIEW ? 'selected' : '' }` }
+			className={ classnames( 'results-view-selector__button-selector', {
+				selected: view === JSON_VIEW,
+			} ) }
 		>
 				Raw JSON
 			</button>

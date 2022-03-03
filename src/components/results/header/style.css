@@ -78,7 +78,7 @@
 }
 
 .request-header .copy:before {
-	content: "✂";
+	content: "\1F4CB\FE0E";
 }
 
 .request-header .error {
