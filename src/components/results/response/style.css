@@ -14,9 +14,7 @@
     margin: 0;
     height: 24px;
     width: 128px;
-    border-width: 1px;
-    border-color: lightgrey;
-    border-style: solid;
+    border: 1px solid lightgrey;
 }
 
 .response__copy-to-clipboard:hover {

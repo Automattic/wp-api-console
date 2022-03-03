@@ -10,6 +10,7 @@
 
 .results-view-selector__button-selector:hover:not(.selected) {
     background-color: white;
+    cursor: pointer;
 }
 
 .selected {
@@ -19,9 +20,7 @@
 
 .results-view-selector__button-selector-container {
     display: flex;
-    border-width: 1px;
-    border-color: lightgrey;
-    border-style: solid;
+    border: 1px solid lightgrey;
     margin-right: 12px;
     height: 24px;
 }
