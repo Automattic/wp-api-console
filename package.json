@@ -5,18 +5,24 @@
   "license": "GPL-2.0+",
   "homepage": ".",
   "devDependencies": {
+    "@craftamap/esbuild-plugin-html": "^0.3.1",
     "babel-eslint": "^7.1.0",
-    "babel-plugin-lodash": "^3.2.9",
     "deep-freeze": "0.0.1",
+    "esbuild": "^0.14.25",
     "eslint": "^3.9.1",
     "eslint-plugin-react": "^6.6.0",
     "react-scripts": "0.9.0",
     "surge": "^0.18.0"
   },
+  "browser": {
+    "buffer": "buffer-browserify",
+    "stream": "stream-browserify"
+  },
   "dependencies": {
-    "babel-runtime": "^6.11.6",
+    "buffer-browserify": "^0.2.5",
     "classnames": "^2.2.5",
     "crypto": "0.0.3",
+    "crypto-browserify": "^3.12.0",
     "is-my-json-valid": "^2.15.0",
     "lodash": "^4.16.4",
     "oauth-1.0a": "^2.0.0",
@@ -31,6 +37,7 @@
     "react-tooltip": "^3.2.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "stream-browserify": "^3.0.0",
     "superagent": "^2.3.0",
     "wpcom-proxy-request": "^4.0.6"
   },

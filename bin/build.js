@@ -1,35 +1,42 @@
 #!/usr/bin/env node
+const esbuild = require( 'esbuild' );
+const fs = require( 'fs' );
 
-const path = require( 'path' );
+const { htmlPlugin } = require( '@craftamap/esbuild-plugin-html' );
 
 // webpack.config.prod.js checks this.
 process.env.NODE_ENV = 'production';
 
-// Load the create-react-app config.
-const webpackConfigProd = require( 'react-scripts/config/webpack.config.prod' );
-
-// Modify the config according to our needs.
-
-const babelLoader = webpackConfigProd.module.loaders
-	.find( loader => loader.loader === 'babel' );
-
-if ( ! babelLoader ) {
-	console.error( webpackConfigProd.module.loaders );
-	throw new Error( 'Couldn\'t find the babel loader config.' );
-}
-
-babelLoader.query.plugins = ( babelLoader.query.plugins || [] )
-	.filter( pluginName => pluginName !== 'lodash' )
-	.concat( 'lodash' );
-
-console.log( 'Added lodash babel plugin to build' );
-
-if ( process.env.WPCOM_BUILD ) {
-	babelLoader.query.plugins.push( path.resolve(
-		__dirname, '..', 'src', 'lib', 'babel-replace-config-import.js'
-	) );
-	console.log( 'Added config override for WP.com build' );
-}
-
-// Run the build.
-require( 'react-scripts/scripts/build' );
+esbuild.build({
+	assetNames: 'static/media/[name].[hash]',
+	bundle: true,
+	define: {
+		global: "{}"
+	},
+	entryNames: 'static/js/main.[hash]',
+	entryPoints: ["src/index.js"],
+	metafile: true,
+	minify: true,
+	loader: {
+		'.js': 'jsx',
+		'.png': 'file',
+		'.eot': 'file',
+		'.svg': 'file',
+		'.ttf': 'file'
+	},
+	plugins: [
+		htmlPlugin({
+			files: [{
+				entryPoints: 'src/index.js',
+				filename: 'index.html',
+				htmlTemplate: fs.readFileSync('public/index.html')
+			}]
+		})
+	],
+	outdir: 'build',
+	sourcemap: 'linked',
+	target: 'es6',
+	watch: false,
+})
+	.then( () => console.log( '⚡️ Done' ) )
+	.catch( () => process.exit( 1 ) );
