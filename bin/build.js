@@ -18,6 +18,12 @@ if ( ! babelLoader ) {
 	throw new Error( 'Couldn\'t find the babel loader config.' );
 }
 
+console.log( 'Adding transpilable dependencies to babel include path' );
+babelLoader.include = [
+	babelLoader.include,
+	/node_modules\/jsonpointer/,
+];
+
 babelLoader.query.plugins = ( babelLoader.query.plugins || [] )
 	.filter( pluginName => pluginName !== 'lodash' )
 	.concat( 'lodash' );
