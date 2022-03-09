@@ -1,5 +1,9 @@
-import { get } from 'lodash';
+export const getEndpoints = ( state, apiName, version ) => {
+	const endpoints = state.endpoints[ apiName ];
 
-export const getEndpoints = ( state, apiName, version ) =>
-	get( state.endpoints, [ apiName, version ], [] )
-;
+	if ( ! endpoints ) {
+		return [];
+	}
+
+	return endpoints[ version ] || [];
+};

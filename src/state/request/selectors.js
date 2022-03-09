@@ -1,4 +1,17 @@
-import { compact, isArray } from 'lodash';
+function compact( array ) {
+	let index = -1;
+	const length = array === null ? 0 : array.length;
+	let resIndex = 0;
+	const result = [];
+
+	while ( ++index < length ) {
+		const value = array[ index ];
+		if ( value ) {
+			result[ resIndex++ ] = value;
+		}
+	}
+	return result;
+}
 
 export const getSelectedEndpoint = state => state.request.endpoint;
 
@@ -31,7 +44,7 @@ export const getQueryParams = state => {
 	return queryArgs.reduce( ( ret, arg ) => {
 		if (
 			! state.request.queryParams[ arg ] || (
-				isArray( state.request.queryParams[ arg ] ) &&
+				Array.isArray( state.request.queryParams[ arg ] ) &&
 				! state.request.queryParams[ arg ].length
 			)
 		) {
@@ -79,7 +92,7 @@ export const getCompleteQueryUrl = state => {
 	const values = getPathValues( state );
 	const queryParams = getQueryParams( state );
 	const buildParamUrl = ( param, value ) => {
-		if ( isArray( value ) ) {
+		if ( Array.isArray( value ) ) {
 			return value.map( subvalue => `${ param }[]=${ encodeURIComponent( subvalue ) }` )
 				.join( '&' );
 		}

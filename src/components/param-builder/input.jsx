@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { isString } from 'lodash';
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
 
@@ -17,7 +16,7 @@ const ParamInput = ( { onChange, type, value, ...props } ) => {
 				/>
 			);
 		case 'object':
-			const stringifiedValue = isString( value ) ? value : JSON.stringify( value );
+			const stringifiedValue = 'string' === typeof value ? value : JSON.stringify( value );
 			const onChangeObject = event => {
 				const eventValue = event.target.value;
 				const parsedValue = eventValue.length && eventValue[ 0 ] === '{'

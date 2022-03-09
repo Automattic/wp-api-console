@@ -1,5 +1,4 @@
 import React from 'react';
-import { isUndefined } from 'lodash';
 
 import './style.css';
 
@@ -30,7 +29,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 											value={ values[ paramKey ] }
 											data-tip data-for={ `param-${ paramKey }` }
 										/>
-										{ ! isUndefined( values[ paramKey ] ) &&
+										{ undefined !== values[ paramKey ] &&
 											<CloseButton onClick={ resetParamValues( paramKey ) } />
 										}
 										<ParamTooltip

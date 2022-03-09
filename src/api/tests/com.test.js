@@ -1,8 +1,8 @@
-import { clone } from 'lodash';
-
 import createApi from '../com';
 
 const api = createApi( { request: () => {} } );
+
+const clone = data => JSON.parse( JSON.stringify( data ) );
 
 function getEndpointTestData() {
 	/* eslint-disable camelcase */
