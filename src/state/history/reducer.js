@@ -12,9 +12,9 @@ const reducer = createReducer( {}, {
 		let currentEndpoints = [];
 
 		if ( state[ apiName ] && state[ apiName ][ version ] ) {
-			currentEndpoints = state[ apiName ][ version ].filter(
+			currentEndpoints = state[ apiName ][ version ]?.filter(
 				existingEndpoint => existingEndpoint.pathLabeled !== endpoint.pathLabeled
-			);
+			) || [];
 		}
 
 		return {
