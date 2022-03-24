@@ -1,4 +1,11 @@
-import { values } from 'lodash';
+export const getResults = state => {
+	const results = state.results;
 
-export const getResults = state =>
-	values( state.results ).sort( ( a, b ) => b.id - a.id );
+	if ( ! results ) {
+		return [];
+	}
+
+	return Object.keys( results )
+		.map( key => results[ key ] )
+		.sort( ( a, b ) => b.id - a.id );
+};

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import ClickOutside from 'react-click-outside';
 
 import './style.css';
@@ -61,7 +60,7 @@ class LookupContainer extends Component {
 
 	renderEndpointPath() {
 		const { pathParts, endpoint } = this.props;
-		const getParamValue = param => get( this.props.pathValues, [ param ], '' );
+		const getParamValue = param => ( this.props.pathValues || {} )[ param ] || '';
 		const pathParameterKeys = pathParts.filter( part => part[ 0 ] === '$' );
 		const countInputs = pathParameterKeys.length;
 		const updateUrlPart = part => event => this.props.updatePathValue( part, event.target.value );

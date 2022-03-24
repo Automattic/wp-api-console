@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { groupBy, sortBy, noop } from 'lodash';
 
 import './style.css';
 
@@ -9,6 +8,29 @@ import { getEndpoints } from '../../state/endpoints/selectors';
 import { getRecentEndpoints } from '../../state/history/selectors';
 import { filterEndpoints } from '../../state/request/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
+
+const groupBy = ( collection, property ) => {
+	const groups = {};
+
+	collection.forEach( item => {
+		const group = item[ property ];
+
+		if ( ! groups[ group ] ) {
+			groups[ group ] = [];
+		}
+
+		groups[ group ].push( item );
+	} );
+
+	return groups;
+};
+
+const noop = () => {};
+
+const sortBy = ( collection, property ) =>
+	( collection || [] )
+		.slice()
+		.sort( ( a, b ) => a[ property ] < b[ property ] );
 
 class EndpointSelector extends Component {
 	static defaultProps = {

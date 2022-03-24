@@ -1,4 +1,4 @@
-import { isArray, isPlainObject, isString, toPairs, toString } from 'lodash';
+import { isPlainObject } from '../../lib/utils';
 
 const MAX_LENGTH = 60;
 
@@ -27,11 +27,19 @@ export const escapeLikeJSON = value => {
 		.replace( /\r|\n|\t|"/g, ch => replacements[ ch ] );
 };
 
+const toPairs = data => {
+	if ( ! data ) {
+		return [];
+	}
+
+	return Object.keys( data ).map( key => [ key, data[ key ] ] );
+};
+
 const recursiveStringify = ( data, max = MAX_LENGTH ) => {
-	if ( isPlainObject( data ) || isArray( data ) ) {
+	if ( isPlainObject( data ) || Array.isArray( data ) ) {
 		const pairs = toPairs( data );
 
-		let output = isArray( data ) ? '[ ' : '{ ';
+		let output = Array.isArray( data ) ? '[ ' : '{ ';
 		let trailing = '';
 		let length = 2;
 		let keysRendered = 0;
@@ -45,7 +53,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 			keysRendered++;
 			trailing = ', ';
 			if ( length > max && keysRendered < pairs.length ) {
-				output += isArray( data ) ? ' …]' : ' …}';
+				output += Array.isArray( data ) ? ' …]' : ' …}';
 				return {
 					length: length + 3,
 					output,
@@ -53,12 +61,12 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 			}
 		}
 		return {
-			output: output + ( isArray( data ) ? ' ]' : ' }' ),
+			output: output + ( Array.isArray( data ) ? ' ]' : ' }' ),
 			length: length + 2,
 		};
 	}
 
-	if ( isString( data ) ) {
+	if ( 'string' === typeof data ) {
 		const displayValue = escapeLikeJSON( escapeHTML( data ) );
 		return {
 			length: data.length + 2,
@@ -67,7 +75,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	}
 
 	return {
-		length: toString( data ).length,
+		length: data.toString().length,
 		output: '<span class="' + ( typeof data ) + '">' + data + '</span>',
 	};
 };

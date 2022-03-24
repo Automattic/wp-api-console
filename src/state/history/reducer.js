@@ -1,7 +1,6 @@
 import { createReducer } from '../../lib/redux/create-reducer';
 import { REQUEST_SELECT_ENDPOINT } from '../actions';
 import schema from './schema';
-import filter from 'lodash/filter';
 
 const MAX_HISTORY_ENDPOINTS = 10;
 
@@ -13,9 +12,9 @@ const reducer = createReducer( {}, {
 		let currentEndpoints = [];
 
 		if ( state[ apiName ] && state[ apiName ][ version ] ) {
-			currentEndpoints = filter( state[ apiName ][ version ], existingEndpoint =>
-				existingEndpoint.pathLabeled !== endpoint.pathLabeled
-			);
+			currentEndpoints = state[ apiName ][ version ]?.filter(
+				existingEndpoint => existingEndpoint.pathLabeled !== endpoint.pathLabeled
+			) || [];
 		}
 
 		return {

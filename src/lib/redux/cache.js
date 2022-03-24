@@ -1,5 +1,3 @@
-import { throttle } from 'lodash';
-
 import { SERIALIZE, DESERIALIZE } from './action-types';
 
 const DAY_IN_HOURS = 24;
@@ -31,13 +29,19 @@ export function loadInitialState( initialState, reducer ) {
 
 export function persistState( store, reducer ) {
 	let state;
-	store.subscribe( throttle( () => {
+	let needsStoring = false;
+
+	store.subscribe( () => {
 		const nextState = store.getState();
-		if ( state && nextState === state ) {
-			return;
+		needsStoring = nextState === state;
+		state = nextState;
+	} );
+
+	setInterval( () => {
+		if ( needsStoring ) {
+			localStorage.setItem( STORAGE_KEY, JSON.stringify( serialize( state, reducer ) ) );
 		}
 
-		state = nextState;
-		localStorage.setItem( STORAGE_KEY, JSON.stringify( serialize( state, reducer ) ) );
-	}, SERIALIZE_THROTTLE, { leading: false, trailing: true } ) );
+		needsStoring = false;
+	}, SERIALIZE_THROTTLE );
 }
