@@ -25,6 +25,9 @@ babelLoader.include = [
 ];
 
 if ( process.env.WPCOM_BUILD ) {
+	if ( ! babelLoader.query.plugins ) {
+		babelLoader.query.plugins = [];
+	}
 	babelLoader.query.plugins.push( path.resolve(
 		__dirname, '..', 'src', 'lib', 'babel-replace-config-import.js'
 	) );
