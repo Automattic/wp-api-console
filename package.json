@@ -19,7 +19,6 @@
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "classnames": "^2.2.5",
-    "crypto": "0.0.3",
     "hash.js": "^1.1.7",
     "is-my-json-valid": "^2.15.0",
     "oauth-1.0a": "^2.0.0",
