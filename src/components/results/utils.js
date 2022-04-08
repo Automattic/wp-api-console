@@ -75,7 +75,7 @@ const recursiveStringify = ( data, max = MAX_LENGTH ) => {
 	}
 
 	return {
-		length: data.toString().length,
+		length: data ? data.toString().length : 0,
 		output: '<span class="' + ( typeof data ) + '">' + data + '</span>',
 	};
 };
