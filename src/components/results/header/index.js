@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ResultsViewSelector from '../results-view-selector';
+import Refresh from './refresh';
 
 import './style.css';
 
-const RequestHeader = ( { result: { loading, request: { path, method, apiName, version }, duration, response }, view, onViewChange } ) => {
+const RequestHeader = ( { result: { id, loading, request: { path, method, apiName, version }, duration, response }, view, onViewChange } ) => {
 	const filename = path
 			.replace( /^\//, '' )
 			.replace( /\//g, '-' ) + '.json';
@@ -25,7 +26,10 @@ const RequestHeader = ( { result: { loading, request: { path, method, apiName, v
 				</span>
 			) }
 			{ duration && (
-				<span className="duration">{ `${ duration }ms` }</span>
+				<div>
+					<span className="duration">{`${ duration }ms`}</span>
+					<Refresh id={id} />
+				</div>
 			) }
 			{ response && !! response.body && (
 				<div>
