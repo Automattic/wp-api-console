@@ -1,7 +1,7 @@
 import superagent from 'superagent';
 import qs from 'qs';
 import OAuth from 'oauth-1.0a';
-import crypto from 'crypto';
+import createHmac from 'hash.js/lib/hash/hmac';
 
 const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey ) => {
 	const TOKEN_STORAGE_KEY = `${ name }__OAUTH1CCESSTOKEN`;
@@ -15,7 +15,7 @@ const createOauth1Provider = ( name, baseUrl, callbackUrl, publicKey, secretKey 
 		},
 		signature_method: 'HMAC-SHA1',
 		hash_function( baseString, key ) {
-			return crypto.createHmac( 'sha1', key )
+			return createHmac( 'sha1', key )
 				.update( baseString ).digest( 'base64' );
 		},
 	} );
