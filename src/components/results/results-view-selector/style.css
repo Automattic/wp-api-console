@@ -1,0 +1,26 @@
+.results-view-selector__button-selector {
+    background-color: #F2F2F2;
+    color: black;
+    float: left;
+    margin: 0;
+    height: 24px;
+    width: 96px;
+    border-width: 0;
+}
+
+.results-view-selector__button-selector:hover:not(.selected) {
+    background-color: white;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #2487bc;
+    color: white;
+}
+
+.results-view-selector__button-selector-container {
+    display: flex;
+    border: 1px solid lightgrey;
+    margin-right: 12px;
+    height: 24px;
+}

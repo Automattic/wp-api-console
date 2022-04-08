@@ -1,0 +1,22 @@
+.response__json-view {
+    width: 100%;
+    height: 100%;
+}
+
+.response {
+    margin-top: 12px;
+}
+
+.response__copy-to-clipboard {
+    background-color: #2487bc;
+    color: white;
+    display: block;
+    margin: 0;
+    height: 24px;
+    width: 128px;
+    border: 1px solid lightgrey;
+}
+
+.response__copy-to-clipboard:hover {
+    background-color: rgb(92 171 214);
+}
