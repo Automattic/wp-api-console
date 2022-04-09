@@ -84,8 +84,6 @@ export const request = () => ( dispatch, getState ) => {
 		} );
 };
 
-
-
 export const refresh = id => ( dispatch, getState ) => {
 	const state = getState();
 	const result = getResultById( state, id );
