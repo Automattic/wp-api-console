@@ -36,7 +36,7 @@ const ParamBuilder = ( { title, params, values = {}, onChange } ) => {
 											parameter={ parameter }
 											id={ `param-${ paramKey }` }
 											name={ paramKey }
-											position={ 'bottom' }
+											position="bottom"
 										/>
 									</td>
 								</tr>
