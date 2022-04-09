@@ -93,10 +93,7 @@
 	color: #95b7d0;
 	height: 18px;
     line-height: 12px;
-}
-
-.request-header .refresh:before {
-	content: "\21BA\FE0E";
+	
 }
 
 .request-header .error {

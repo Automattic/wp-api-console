@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ResultsViewSelector from '../results-view-selector';
 import Refresh from './refresh';
 
@@ -28,7 +28,7 @@ const RequestHeader = ( { result: { id, loading, request: { path, method, apiNam
 			{ duration && (
 				<div>
 					<span className="duration">{`${ duration }ms`}</span>
-					<Refresh id={id} />
+					<Refresh id={ id } />
 				</div>
 			) }
 			{ response && !! response.body && (

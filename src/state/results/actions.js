@@ -1,4 +1,4 @@
-import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER, REQUEST_REFRESH, REQUEST_REFRESH_RECEIVE } from '../actions';
+import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
 import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
@@ -45,36 +45,10 @@ const receiveResults = ( {
 	};
 };
 
-const refreshResults = ( {
-	id,
-	status,
-	body,
-	error,
-	duration,
-} ) => {
-	recordResponse( {
-		status,
-		body,
-		error,
-		duration,
-	} );
-	return {
-		type: REQUEST_REFRESH_RECEIVE,
-		payload: { id, status, body, error, duration },
-	};
-};
-
-const triggerRequest = ( { id, version, apiName, method, path, queryData } ) => {
+const triggerRequest = ( { id, request } ) => {
 	return {
 		type: REQUEST_TRIGGER,
-		payload: { id, version, apiName, method, path, queryData },
-	};
-};
-
-const triggerRefresh = ( { request } ) => {
-	return {
-		type: REQUEST_REFRESH,
-		payload: { request },
+		payload: { id, request },
 	};
 };
 
@@ -87,17 +61,13 @@ export const request = () => ( dispatch, getState ) => {
 	const api = get( apiName );
 	const body = getBodyParams( state );
 	const start = new Date().getTime();
-	const queryData = { apiName, api, request: api.buildRequest( version, method, path, body ) };
+	const request = { apiName, api, version, method, path, body };
 	dispatch( triggerRequest( {
 		id: start,
-		version,
-		apiName,
-		method,
-		path,
-		queryData,
+		request,
 	} ) );
 
-	return api.authProvider.request( queryData.request )
+	return api.authProvider.request( api.buildRequest( request.version, request.method, request.path, request.body ) )
 		.then( ( { status, body, error } ) => {
 			const end = new Date().getTime();
 			dispatch( receiveResults( {
@@ -119,19 +89,22 @@ export const request = () => ( dispatch, getState ) => {
 export const refresh = id => ( dispatch, getState ) => {
 	const state = getState();
 	const result = getResultById( state, id );
-	const queryData = result.request.queryData;
+	const request = result.request;
 	const start = new Date().getTime();
-	dispatch( triggerRefresh( { queryData } ) );
+	dispatch( triggerRequest( {
+		id,
+		request,
+	} ) );
 
-	return queryData.api.authProvider.request( queryData.request )
+	return request.api.authProvider.request( request.api.buildRequest( request.version, request.method, request.path, request.body ) )
 		.then( ( { status, body, error } ) => {
 			const end = new Date().getTime();
 			dispatch( receiveResults( {
 				id,
-				apiVersion: queryData.request.apiVersion,
-				apiName: queryData.request.apiName,
-				method: queryData.request.method,
-				path: queryData.request.path,
+				apiVersion: request.apiVersion,
+				apiName: request.apiName,
+				method: request.method,
+				path: request.path,
 				status: getResponseStatus( status, body, error ),
 				body,
 				error: getResponseError( status, body, error, true ),
