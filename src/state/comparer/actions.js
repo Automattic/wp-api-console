@@ -1,4 +1,4 @@
-import { SET_LEFT_DIFF, SET_RIGHT_DIFF } from '../actions';
+import { SET_LEFT_DIFF, SET_RIGHT_DIFF, TOGGLE_DIFF } from '../actions';
 
 export const setLeftDiff = ( json, id ) => {
 	return {
@@ -18,4 +18,10 @@ export const setRightDiff = ( json, id ) => {
 			id,
 		},
 	};
+};
+
+export const toggleVisibility = () => {
+    return {
+        type: TOGGLE_DIFF
+    };
 };

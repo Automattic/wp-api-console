@@ -5,26 +5,38 @@ import { getSelectedEndpoint } from '../../state/request/selectors';
 
 import './style.css';
 
-import { getLeftSideDiff } from '../../state/comparer/selector';
-import { getRightSideDiff } from '../../state/comparer/selector';
+import { getLeftSideDiff, getRightSideDiff, getVisible } from '../../state/comparer/selector';
+import { toggleVisibility } from '../../state/comparer/actions';
 
-const Toolbar = ( { hasBuilder } ) => {
-	const className = classnames( 'header', {
+const Toolbar = ( { hasBuilder, visible, toogleVisible } ) => {
+	const classNameContainer = classnames( 'header', {
 		'has-builder': hasBuilder,
 	} );
-	return ( <div className={ className }>
-		<button className="toolbar-button"> A | B Compare </button>
-	</div>
+
+	const classNameButton = classnames( 'toolbar-button', {
+		enabled: visible,
+	} );
+	return (
+		<div className={ classNameContainer }>
+			<button className={ classNameButton } onClick={ toogleVisible }> A | B Compare </button>
+		</div>
 	);
 };
+
+const mapDispatchToProps = dispatch => {
+	return { toogleVisible: () => dispatch( toggleVisibility() ) };
+};
+
 export default connect(
     state => {
 	const leftSideDiff = getLeftSideDiff( state );
 	const rightSideDiff = getRightSideDiff( state );
+	const visible = getVisible( state );
 	const endpoint = getSelectedEndpoint( state );
 	return {
 		hasBuilder: endpoint && ( endpoint.request.query || endpoint.request.body ),
 		leftSideDiff,
 		rightSideDiff,
+		visible,
 	};
-}, undefined )( Toolbar );
+}, mapDispatchToProps )( Toolbar );

@@ -1,5 +1,5 @@
 import { createReducer } from '../../lib/redux/create-reducer';
-import { SET_LEFT_DIFF, SET_RIGHT_DIFF } from '../actions';
+import { SET_LEFT_DIFF, SET_RIGHT_DIFF, TOGGLE_DIFF } from '../actions';
 
 const reducer = createReducer( {}, {
 	[ SET_LEFT_DIFF ]: ( state, { payload: { json, id } } ) => {
@@ -14,6 +14,12 @@ const reducer = createReducer( {}, {
 			...state,
 			rightSideDiff: json,
 			rightSideId: id,
+		};
+	},
+	[ TOGGLE_DIFF ]: state => {
+		return {
+			...state,
+			visible: ! state.visible,
 		};
 	},
 } );

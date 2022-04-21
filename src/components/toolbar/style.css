@@ -15,14 +15,24 @@
 }
 
 .toolbar-button {
-    color:white;
-    background-color: #2487bc;
-    border-color: white;
-    border-style: none solid;
+    color:black;
+    background-color: #F2F2F2;
+    border-color: rgb(118, 118, 118);
+    border-width: 1px;
     height: 44px;
     cursor: pointer;
 }
 
+.enabled {
+    background-color: #2487bc;
+    color: white;
+}
+
 .toolbar-button:hover {
     background-color: hsl(201,60%,60%);
+}
+
+.enabled:hover {
+    background-color: #2487bc;
+    color: white;
 }
