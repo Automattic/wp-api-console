@@ -14,5 +14,3 @@ export const getResultById = ( state, id ) => {
 	const results = getResults( state );
 	return results.filter( result => result.id === id )[ 0 ];
 };
-
-export const getLeftSideDiff = state => state.results.leftSideDiff;

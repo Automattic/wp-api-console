@@ -123,6 +123,11 @@
 	line-height: 16px;
 }
 
+.request-header .highlighted {
+	border: 1px solid green;
+	color: green;
+}
+
 .request-header .error {
 	white-space: nowrap;
 	font-size: 12px;

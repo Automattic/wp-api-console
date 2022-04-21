@@ -20,5 +20,9 @@
     border-color: white;
     border-style: none solid;
     height: 44px;
+    cursor: pointer;
+}
 
+.toolbar-button:hover {
+    background-color: hsl(201,60%,60%);
 }

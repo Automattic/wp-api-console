@@ -31,8 +31,8 @@ const RequestHeader = ( { result: { id, loading, request: { path, method, apiNam
 				<div>
 					<span className="duration">{`${ duration }ms`}</span>
 					<Refresh id={ id } />
-					<CompareA json={ response.body } />
-					<CompareB />
+					<CompareA json={ response.body } id={ id } />
+					<CompareB json={ response.body } id={ id } />
 				</div>
 			) }
 			{ response && !! response.body && (

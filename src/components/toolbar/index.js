@@ -5,7 +5,7 @@ import { getSelectedEndpoint } from '../../state/request/selectors';
 
 import './style.css';
 
-import { getLeftSideDiff } from '../../state/results/selectors';
+import { getLeftSideDiff } from '../../state/comparer/selector';
 import { getRightSideDiff } from '../../state/comparer/selector';
 
 const Toolbar = ( { hasBuilder } ) => {
