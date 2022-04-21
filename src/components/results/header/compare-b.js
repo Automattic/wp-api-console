@@ -1,21 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getLeftSideDiff } from '../../../state/comparer/selector';
+import { setRightDiff } from '../../../state/comparer/actions';
 
-const CompareB = ( { leftSideDiff } ) => (
+const CompareB = ( { setLeftSide } ) => (
 	<span
-		onClick={ () => console.log( leftSideDiff ) }
+		onClick={ setLeftSide }
 		className="compare-b"
-		title="Compare with A"
+		title="Set left side diff"
 	>
 		B
 	</span> );
 
-export default connect(
-	state => {
-		return {
-			leftSideDiff: getLeftSideDiff( state ),
-		};
-	}
-)( CompareB );
+const mapDispatchToProps = ( dispatch, { json } ) => {
+	return { setLeftSide: () => dispatch( setRightDiff( json ) ) };
+};
+
+export default connect( undefined, mapDispatchToProps )( CompareB );

@@ -1,0 +1,24 @@
+.header {
+    margin-top:48px;
+	min-height: 44px;
+	font-size: 18px;
+	z-index: 4;
+	background: #2487bc;
+	flex-wrap: nowrap;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.has-builder {
+    margin-top:0px;
+}
+
+.toolbar-button {
+    color:white;
+    background-color: #2487bc;
+    border-color: white;
+    border-style: none solid;
+    height: 44px;
+
+}

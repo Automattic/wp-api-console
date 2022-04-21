@@ -1,3 +1,2 @@
-export const getLeftSideDiff = ( state ) => {
-    return state.comparer.leftSideDiff;
-}
+export const getLeftSideDiff = state => state.comparer.leftSideDiff;
+export const getRightSideDiff = state => state.comparer.righSideDiff;

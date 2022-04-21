@@ -5,6 +5,7 @@ import './app.css';
 
 import store from './state';
 import QueryBuilder from './components/query-builder';
+import Toolbar from './components/toolbar';
 import Header from './components/header';
 import Results from './components/results';
 
@@ -14,6 +15,7 @@ const App = () =>
 			<div className="App">
 				<Header />
 				<QueryBuilder />
+				<Toolbar />
 				<Results />
 			</div>
 		</Provider>
