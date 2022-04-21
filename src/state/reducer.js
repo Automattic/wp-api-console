@@ -7,5 +7,6 @@ import results from './results/reducer';
 import security from './security/reducer';
 import ui from './ui/reducer';
 import versions from './versions/reducer';
+import comparer from './comparer/reducer';
 
-export default combineReducers( { endpoints, history, request, results, security, ui, versions } );
+export default combineReducers( { endpoints, history, request, results, security, ui, versions, comparer } );
