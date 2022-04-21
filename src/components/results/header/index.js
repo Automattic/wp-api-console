@@ -1,6 +1,8 @@
 import React from 'react';
 import ResultsViewSelector from '../results-view-selector';
 import Refresh from './refresh';
+import CompareA from './compare-a';
+import CompareB from './compare-b';
 
 import './style.css';
 
@@ -29,6 +31,8 @@ const RequestHeader = ( { result: { id, loading, request: { path, method, apiNam
 				<div>
 					<span className="duration">{`${ duration }ms`}</span>
 					<Refresh id={ id } />
+					<CompareA json={ response.body } />
+					<CompareB />
 				</div>
 			) }
 			{ response && !! response.body && (

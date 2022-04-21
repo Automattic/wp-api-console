@@ -1,4 +1,4 @@
-import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
+import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER, SET_LEFT_DIFF } from '../actions';
 import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request/selectors';
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
@@ -109,4 +109,13 @@ export const refresh = id => ( dispatch, getState ) => {
 				duration: end - start,
 			} ) );
 		} );
+};
+
+export const setLeftDiff = json => {
+	return {
+		type: SET_LEFT_DIFF,
+		payload: {
+			json,
+		},
+	};
 };

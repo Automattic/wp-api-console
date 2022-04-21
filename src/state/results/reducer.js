@@ -1,5 +1,5 @@
 import { createReducer } from '../../lib/redux/create-reducer';
-import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
+import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER, SET_LEFT_DIFF } from '../actions';
 
 const reducer = createReducer( {}, {
 	[ REQUEST_TRIGGER ]: ( state, { payload: { id, request } } ) => {
@@ -17,6 +17,12 @@ const reducer = createReducer( {}, {
 				response: { status, body, error },
 				duration,
 			},
+		};
+	},
+	[ SET_LEFT_DIFF ]: ( state, { payload: { json } } ) => {
+		return {
+			...state,
+			leftSideDiff: json,
 		};
 	},
 } );
