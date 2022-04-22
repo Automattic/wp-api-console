@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { getRightSideDiff, getLeftSideDiff, getVisible, getLeftSideId, getRightSideId } from '../../../state/comparer/selector';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
-import './style.css';
 import { hideDiff } from '../../../state/comparer/actions';
+import stringify from 'json-stable-stringify';
+
+import './style.css';
+
 
 const Diff = ( { leftDiff, rightDiff, visible, hideDiff, leftDiffId, rightDiffId } ) => {
 	const classname = classnames( 'diff', 'container', {
@@ -62,8 +65,8 @@ export default connect( state => {
 	const rightData = getRightSideDiff( state );
 	const visible = getVisible( state );
 	return {
-		leftDiff: JSON.stringify( leftData, null, '  ' ),
-		rightDiff: JSON.stringify( rightData, null, '  ' ),
+		leftDiff: stringify( leftData, { space: '  ' } ),
+		rightDiff: stringify( rightData, { space: '  ' } ),
 		leftDiffId: getLeftSideId( state ),
 		rightDiffId: getRightSideId( state ),
 		visible,

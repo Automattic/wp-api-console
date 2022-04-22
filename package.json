@@ -21,6 +21,7 @@
     "classnames": "^2.2.5",
     "hash.js": "^1.1.7",
     "is-my-json-valid": "^2.15.0",
+    "json-stable-stringify": "^1.0.1",
     "oauth-1.0a": "^2.0.0",
     "qs": "^6.3.0",
     "react": "^16.0.0",
