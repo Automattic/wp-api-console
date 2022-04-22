@@ -21,3 +21,5 @@ export const SECURITY_LOGOUT = 'SECURITY_LOGOUT';
 export const SET_LEFT_DIFF = 'SET_LEFT_DIFF';
 export const SET_RIGHT_DIFF = 'SET_RIGHT_DIFF';
 export const TOGGLE_DIFF = 'TOGGLE_DIFF';
+export const SHOW_DIFF = 'SHOW_DIFF';
+export const HIDE_DIFF = 'HIDE_DIFF';

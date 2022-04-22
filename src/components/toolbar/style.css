@@ -14,13 +14,26 @@
     margin-top:0px;
 }
 
+.compare-a-b {
+	padding: 2px 4px 0;
+	font-size: 16px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px 6px 2px 8px;
+	border: 1px solid;
+	height: 18px;
+	line-height: 16px;
+}
+
 .toolbar-button {
-    color:black;
     background-color: #F2F2F2;
     border-color: rgb(118, 118, 118);
     border-width: 1px;
     height: 44px;
     cursor: pointer;
+    color: #95b7d0;
 }
 
 .enabled {
@@ -30,6 +43,8 @@
 
 .toolbar-button:hover {
     background-color: hsl(201,60%,60%);
+    color: black;
+    border-color: black;
 }
 
 .enabled:hover {

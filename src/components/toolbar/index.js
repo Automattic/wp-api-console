@@ -18,7 +18,10 @@ const Toolbar = ( { hasBuilder, visible, toogleVisible } ) => {
 	} );
 	return (
 		<div className={ classNameContainer }>
-			<button className={ classNameButton } onClick={ toogleVisible }> A | B Compare </button>
+			<button className={ classNameButton } onClick={ toogleVisible }>
+				<span className="compare-a-b">A</span> =|=
+				<span className="compare-a-b">B</span>
+			</button>
 		</div>
 	);
 };
