@@ -15,8 +15,8 @@ const CompareA = ( { highlighted, setLeftSide } ) => {
 			className={ className }
 			title="Set left side diff"
 		>
-            A
-        </span> );
+			A
+		</span> );
 };
 
 const mapDispatchToProps = ( dispatch, { json, id } ) => {
