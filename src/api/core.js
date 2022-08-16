@@ -140,13 +140,17 @@ export const parseEndpoints = data => {
 				parameters.forEach( param => {
 					const paramDetailsRegex = /[^<]*<([^>]*)>\[?([^\])]*)/;
 					const explodedParameter = param.match( paramDetailsRegex );
-					const paramName = '$' + explodedParameter[ 1 ];
-					path[ paramName ] = {
-						description: '',
-						type: explodedParameter[ 2 ],
-					};
-					pathLabel = pathLabel.replace( param, paramName );
-					pathFormat = pathFormat.replace( param, '%s' );
+					if ( explodedParameter ) {
+						const paramName = '$' + explodedParameter[ 1 ];
+						path[ paramName ] = {
+							description: '',
+							type: explodedParameter[ 2 ],
+						};
+						pathLabel = pathLabel.replace( param, paramName );
+						pathFormat = pathFormat.replace( param, '%s' );
+					} else {
+						console.warn( 'Unable to parse param.', { param, rawpath } );
+					}
 				} );
 
 				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
