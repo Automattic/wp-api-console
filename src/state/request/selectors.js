@@ -77,8 +77,15 @@ export const getEndpointPathParts = state => {
 	if ( ! endpoint ) {
 		return [];
 	}
-	const pathRegex = /\$[^/]*|([^$]*)/g;
-	const pathParts = endpoint.pathLabeled.match( pathRegex );
+
+	const params = Object.keys( endpoint.request.path );
+	// We have to include the capture group around the full match so that
+	// the parameter name appears in the list when splitting. By using
+	// split here instead of match we get the named parameters as parts
+	// and also everything in between them without having to specify in
+	// the RegExp pattern "these names or _not_ these names".
+	const pathRegex = new RegExp( `(${ params.map( name => `\\${ name }` ).join( '|' ) })`, 'g' );
+	const pathParts = endpoint.pathLabeled.split( pathRegex );
 
 	return compact( pathParts );
 };

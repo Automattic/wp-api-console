@@ -1,3 +1,5 @@
+import { parseParams } from '../lib/path-utils';
+
 export const guessEndpointDocumentation = ( method, namespace, computedPath ) => {
 	// Try to guess some info about the endpoints
 	let group = '';
@@ -133,21 +135,21 @@ export const parseEndpoints = data => {
 
 				// Parsing path
 				const path = {};
-				const paramRegex = /\([^()]*\)/g;
-				const parameters = rawpath.match( paramRegex ) || [];
-				let pathLabel = rawpath;
-				let pathFormat = rawpath;
-				parameters.forEach( param => {
-					const paramDetailsRegex = /[^<]*<([^>]*)>\[?([^\])]*)/;
-					const explodedParameter = param.match( paramDetailsRegex );
-					const paramName = '$' + explodedParameter[ 1 ];
-					path[ paramName ] = {
-						description: '',
-						type: explodedParameter[ 2 ],
-					};
-					pathLabel = pathLabel.replace( param, paramName );
-					pathFormat = pathFormat.replace( param, '%s' );
-				} );
+				let pathLabel = '';
+				let pathFormat = '';
+				let at = 0;
+				for ( const { name, pattern, start, end } of parseParams( rawpath ) ) {
+					const varName = `$${ name }`;
+					path[ varName ] = { description: '', type: pattern };
+
+					const nonParamPrefix = rawpath.slice( at, start );
+					pathLabel += nonParamPrefix + varName;
+					pathFormat += nonParamPrefix + '%s';
+					at = end;
+				}
+				const nonParamSuffix = rawpath.slice( at );
+				pathLabel += nonParamSuffix;
+				pathFormat += nonParamSuffix;
 
 				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
 
