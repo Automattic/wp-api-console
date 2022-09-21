@@ -1,3 +1,5 @@
+import { getNamedCaptureGroups } from '../lib/pcre-parser';
+
 export const guessEndpointDocumentation = ( method, namespace, computedPath ) => {
 	// Try to guess some info about the endpoints
 	let group = '';
@@ -119,7 +121,7 @@ export const parseEndpoints = data => {
 	Object.keys( data.routes ).forEach( url => {
 		const route = data.routes[ url ];
 		// Drop the /wp/v2
-		const rawpath = data.namespace ? url.substr( data.namespace.length + 1 ) : url;
+		const pathPattern = data.namespace ? url.substr( data.namespace.length + 1 ) : url;
 		route.endpoints.forEach( rawEndpoint => {
 			rawEndpoint.methods.forEach( method => {
 				// Parsing Arguments
@@ -133,21 +135,21 @@ export const parseEndpoints = data => {
 
 				// Parsing path
 				const path = {};
-				const paramRegex = /\([^()]*\)/g;
-				const parameters = rawpath.match( paramRegex ) || [];
-				let pathLabel = rawpath;
-				let pathFormat = rawpath;
-				parameters.forEach( param => {
-					const paramDetailsRegex = /[^<]*<([^>]*)>\[?([^\])]*)/;
-					const explodedParameter = param.match( paramDetailsRegex );
-					const paramName = '$' + explodedParameter[ 1 ];
-					path[ paramName ] = {
-						description: '',
-						type: explodedParameter[ 2 ],
-					};
-					pathLabel = pathLabel.replace( param, paramName );
-					pathFormat = pathFormat.replace( param, '%s' );
-				} );
+				let pathLabel = '';
+				let pathFormat = '';
+				let at = 0;
+				for ( const { name, pattern, start, end } of getNamedCaptureGroups( pathPattern ) ) {
+					const varName = `$${ name }`;
+					path[ varName ] = { description: '', type: pattern };
+
+					const nonParamPrefix = pathPattern.slice( at, start );
+					pathLabel += nonParamPrefix + varName;
+					pathFormat += nonParamPrefix + '%s';
+					at = end;
+				}
+				const nonParamSuffix = pathPattern.slice( at );
+				pathLabel += nonParamSuffix;
+				pathFormat += nonParamSuffix;
 
 				const { group, description } = guessEndpointDocumentation( method, data.namespace, pathLabel );
 
