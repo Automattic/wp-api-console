@@ -12,6 +12,7 @@ import { getSelectedApi, getSelectedVersion } from '../../state/ui/selectors';
 import { updateMethod, selectEndpoint, updateUrl, updatePathValue } from '../../state/request/actions';
 import { getMethod, getSelectedEndpoint, getUrl, getPathValues, getEndpointPathParts } from '../../state/request/selectors';
 import { request } from '../../state/results/actions';
+import { getParam } from '../../lib/utils';
 
 class LookupContainer extends Component {
 	state = {
@@ -19,6 +20,18 @@ class LookupContainer extends Component {
 	};
 
 	inputs = [];
+
+	componentDidMount() {
+		const methodParam = getParam( 'method' );
+		if ( methodParam ) {
+			this.props.updateMethod( methodParam );
+		}
+
+		const pathParam = getParam( 'path' );
+		if ( pathParam ) {
+			this.props.updateUrl( pathParam );
+		}
+	}
 
 	setUrl = event => {
 		this.props.updateUrl( event.target.value );

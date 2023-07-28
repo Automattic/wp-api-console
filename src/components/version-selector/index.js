@@ -6,10 +6,16 @@ import { getVersions } from '../../state/versions/selectors';
 import { selectVersion } from '../../state/ui/actions';
 import { loadVersions } from '../../state/versions/actions';
 import OptionSelector from '../option-selector';
+import { getParam } from '../../lib/utils';
 
 class VersionSelector extends Component {
 	componentDidMount() {
 		this.props.loadVersions( this.props.api );
+
+		const versionParam = getParam( 'version' );
+		if ( versionParam ) {
+			this.props.selectVersion( versionParam );
+		}
 	}
 
 	componentWillReceiveProps( newProps ) {

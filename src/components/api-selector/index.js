@@ -6,10 +6,16 @@ import { getSelectedApi } from '../../state/ui/selectors';
 import { selectApi } from '../../state/ui/actions';
 import { boot } from '../../state/security/actions';
 import OptionSelector from '../option-selector';
+import { getParam } from '../../lib/utils';
 
 class ApiSelector extends Component {
 	componentDidMount() {
 		this.props.boot( this.props.value );
+
+		const apiParam  = getParam( 'api' );
+		if ( apiParam ) {
+			this.props.selectApi( apiParam );
+		}
 	}
 
 	selectApi = newApi => {

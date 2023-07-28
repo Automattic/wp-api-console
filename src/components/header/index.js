@@ -7,6 +7,7 @@ import UserMenu from '../user-menu';
 import VersionSelector from '../version-selector';
 import LookupContainer from '../lookup-container';
 import Submit from '../submit';
+import ShareRequest from '../share-request';
 
 const Header = () =>
 	(
@@ -15,6 +16,7 @@ const Header = () =>
 			<VersionSelector />
 			<LookupContainer />
 			<Submit />
+			<ShareRequest />
 			<UserMenu />
 		</div>
 	)

@@ -22,3 +22,14 @@ export function isPlainObject( value ) {
 		Function.prototype.toString.call( Ctor ) === objectCtorString
 	);
 }
+
+/**
+ * Get a query parameter from the URL.
+ *
+ * @param {*} param The name of the query parameter to get.
+ * @returns string|null
+ */
+export function getParam( param ) {
+	const urlParams = new URLSearchParams( window.location.search );
+	return urlParams.get( param );
+}
