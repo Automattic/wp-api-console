@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import './style.css';
 import { getSelectedVersion, getSelectedApi } from '../../state/ui/selectors';
+import { getMethod, getUrl } from '../../state/request/selectors';
 import { selectVersion } from '../../state/ui/actions';
 import { loadVersions } from '../../state/versions/actions';
 import useClipboard from './use-clipboard';
@@ -22,7 +23,7 @@ function createURLWithArgs( baseURL, args ) {
 	return url.toString();
 }
 
-const ShareRequest = ( { api, version } ) => {
+const ShareRequest = ( { api, version, path, method } ) => {
 	const { isSupported, copyToClipboard } = useClipboard();
 	
 	if ( ! isSupported ) {
@@ -30,8 +31,6 @@ const ShareRequest = ( { api, version } ) => {
 	}
 	
 	const handleCopyClick = () => {
-		const path = "/sites/vlorran999.wordpress.com/posts/1";
-		const method = "GET";
 		const urlToCopy = createURLWithArgs( window.location.href, { api, version, path, method } );
 		copyToClipboard( urlToCopy );
 	};
@@ -49,6 +48,8 @@ export default connect(
 		return {
 			api,
 			version,
+			path: getUrl( state ),
+			method: getMethod( state ),
 		};
 	},
 	{ selectVersion, loadVersions }

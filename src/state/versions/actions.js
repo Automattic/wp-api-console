@@ -16,11 +16,8 @@ const receiveVersions = ( apiName, versions ) => {
 export const loadVersions = apiName => ( dispatch, getState ) => {
 	const api = get( apiName );
 	api.loadVersions()
-		.then( ( { versions, current } ) => {
+		.then( ( { versions } ) => {
 			const selectedVersion = getSelectedVersion( getState() );
-			if ( ! versions.includes( selectedVersion ) ) {
-				dispatch( selectVersion( current ? current : versions[ 0 ] ) );
-			}
 			dispatch( receiveVersions( apiName, versions ) );
 		} );
 };

@@ -33,6 +33,10 @@ class LookupContainer extends Component {
 		}
 	}
 
+	componentWillReceiveProps( newProps ) {
+		// TODO: Make sure we are seting the path on the appropriate moment
+	}
+
 	setUrl = event => {
 		this.props.updateUrl( event.target.value );
 	};

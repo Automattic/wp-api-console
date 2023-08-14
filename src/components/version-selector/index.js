@@ -11,16 +11,21 @@ import { getParam } from '../../lib/utils';
 class VersionSelector extends Component {
 	componentDidMount() {
 		this.props.loadVersions( this.props.api );
-
-		const versionParam = getParam( 'version' );
-		if ( versionParam ) {
-			this.props.selectVersion( versionParam );
-		}
 	}
 
 	componentWillReceiveProps( newProps ) {
 		if ( newProps.api !== this.props.api ) {
 			this.props.loadVersions( newProps.api );
+		}
+
+		const versions = newProps.versions;
+		if ( versions.length && versions !== this.props.versions ) {
+			const versionParam = getParam( 'version' );
+			if ( versionParam ) {
+				this.props.selectVersion( versionParam );
+			} else if ( ! newProps.version ) {
+				this.props.selectVersion( versions[ 0 ] );
+			}
 		}
 	}
 
