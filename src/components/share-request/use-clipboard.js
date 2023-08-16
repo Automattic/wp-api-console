@@ -1,19 +1,6 @@
 const useClipboard = () => {
 	const isSupported = !!navigator.clipboard;
 	
-	const copyToClipboard = async ( text ) => {
-		try {
-			if ( isSupported ) {
-				await navigator.clipboard.writeText( text );
-				console.log( 'Text added to clipboard successfully!' );
-			} else {
-				fallbackCopyToClipboard( text );
-			}
-		} catch (err) {
-			console.error( 'Failed to add text to clipboard:', err );
-		}
-	};
-	
 	const fallbackCopyToClipboard = ( text ) => {
 		const textarea = document.createElement('textarea');
 		textarea.value = text;
@@ -34,6 +21,19 @@ const useClipboard = () => {
 		}
 		
 		document.body.removeChild( textarea ); // Clean up
+	};
+	
+	const copyToClipboard = async ( text ) => {
+		try {
+			if ( isSupported ) {
+				await navigator.clipboard.writeText( text );
+				console.log( 'Text added to clipboard successfully!' );
+			} else {
+				fallbackCopyToClipboard( text );
+			}
+		} catch (err) {
+			console.error( 'Failed to add text to clipboard:', err );
+		}
 	};
 	
 	return { isSupported, copyToClipboard };

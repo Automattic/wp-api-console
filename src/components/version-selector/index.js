@@ -5,6 +5,7 @@ import { getSelectedVersion, getSelectedApi } from '../../state/ui/selectors';
 import { getVersions } from '../../state/versions/selectors';
 import { selectVersion } from '../../state/ui/actions';
 import { loadVersions } from '../../state/versions/actions';
+import { updateUrl } from '../../state/request/actions';
 import OptionSelector from '../option-selector';
 import { getParam } from '../../lib/utils';
 
@@ -23,6 +24,7 @@ class VersionSelector extends Component {
 			const versionParam = getParam( 'version' );
 			if ( versionParam ) {
 				this.props.selectVersion( versionParam );
+				this.props.updateUrl( getParam( 'path' ) || '' );
 			} else if ( ! newProps.version ) {
 				this.props.selectVersion( versions[ 0 ] );
 			}
@@ -50,5 +52,5 @@ export default connect(
 			versions,
 		};
 	},
-	{ selectVersion, loadVersions }
+	{ selectVersion, loadVersions, updateUrl }
 )( VersionSelector );

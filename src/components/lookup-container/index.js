@@ -26,11 +26,6 @@ class LookupContainer extends Component {
 		if ( methodParam ) {
 			this.props.updateMethod( methodParam );
 		}
-
-		const pathParam = getParam( 'path' );
-		if ( pathParam ) {
-			this.props.updateUrl( pathParam );
-		}
 	}
 
 	componentWillReceiveProps( newProps ) {
