@@ -1,6 +1,9 @@
 const useClipboard = () => {
 	const isSupported = !!navigator.clipboard;
 	
+	/**
+	 * This callback is used in case the Clipboard API is not supported.
+	 */
 	const fallbackCopyToClipboard = ( text ) => {
 		const textarea = document.createElement('textarea');
 		textarea.value = text;
@@ -12,7 +15,7 @@ const useClipboard = () => {
 		try {
 			const successful = document.execCommand( 'copy' );
 			if ( successful ) {
-				console.log( 'Text added to clipboard successfully!' );
+				console.debug( 'Text added to clipboard successfully!' );
 			} else {
 				console.error( 'Failed to add text to clipboard.' );
 			}
@@ -27,7 +30,6 @@ const useClipboard = () => {
 		try {
 			if ( isSupported ) {
 				await navigator.clipboard.writeText( text );
-				console.log( 'Text added to clipboard successfully!' );
 			} else {
 				fallbackCopyToClipboard( text );
 			}
