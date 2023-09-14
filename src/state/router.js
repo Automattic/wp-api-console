@@ -118,7 +118,6 @@ const router = ( { getState, dispatch } ) => {
 		switch ( action.type ) {
 			case REQUEST_TRIGGER:
 				const url = getUrlFromState( state );
-				console.log( state );
 				window.history.pushState( {}, document.title, url );
 				break;
 			case API_VERSIONS_RECEIVE:
