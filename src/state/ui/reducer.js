@@ -3,7 +3,12 @@ import { UI_SELECT_API, UI_SELECT_VERSION } from '../actions';
 import { getDefault } from '../../api';
 import schema from './schema';
 
-const reducer = createReducer( { api: getDefault().name, version: null }, {
+export const defaultState = {
+	api: getDefault().name,
+	version: null,
+};
+
+const reducer = createReducer( defaultState, {
 	[ UI_SELECT_API ]: ( state, { payload } ) => {
 		return ( {
 			version: null,
