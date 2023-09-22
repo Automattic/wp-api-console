@@ -16,7 +16,7 @@ if ( wpcomConfig ) {
 		id: 'WPCOM',
 		baseUrl: 'https://public-api.wordpress.com/oauth2',
 		userUrl: 'https://public-api.wordpress.com/rest/v1.1/me',
-		redirectUrl: wpcomConfig.redirectUrl || wpcomConfig.redirect_uri,
+		redirectUrl: window.location.href,
 		clientId: wpcomConfig.clientID || wpcomConfig.clientId || wpcomConfig.client_id,
 		scope: 'global',
 	};
