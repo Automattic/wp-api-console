@@ -1,5 +1,6 @@
 import { createReducer } from '../../lib/redux/create-reducer';
 import { REQUEST_RESULTS_RECEIVE, REQUEST_TRIGGER } from '../actions';
+import schema from './schema';
 
 const reducer = createReducer( {}, {
 	[ REQUEST_TRIGGER ]: ( state, { payload: { id, version, apiName, method, path } } ) => {
@@ -19,6 +20,6 @@ const reducer = createReducer( {}, {
 			},
 		};
 	},
-} );
+}, schema );
 
 export default reducer;
