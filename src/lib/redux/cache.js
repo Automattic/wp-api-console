@@ -33,7 +33,7 @@ export function persistState( store, reducer ) {
 
 	store.subscribe( () => {
 		const nextState = store.getState();
-		needsStoring = nextState === state;
+		needsStoring = nextState !== state;
 		state = nextState;
 	} );
 
