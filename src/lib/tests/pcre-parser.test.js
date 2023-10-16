@@ -15,7 +15,7 @@ describe( 'getNamedCaptureGroups', () => {
 
 	it( 'returns named capture groups in the order they appear', () => {
 		expect( get( '(?P<trigger>+?): (?\'line_number\'\\d+) (?<message>.*)$' ) )
-            .toEqual( [
+			.toEqual( [
 				expect.objectContaining( { name: 'trigger', pattern: '+?' } ),
 				expect.objectContaining( { name: 'line_number', pattern: '\\d+' } ),
 				expect.objectContaining( { name: 'message', pattern: '.*' } ),
@@ -31,17 +31,17 @@ describe( 'getNamedCaptureGroups', () => {
 
 	it( 'understands escaping and nested syntax', () => {
 		expect( get( '(?P<syntax>\\(|\\)|\\[|\\])' ) )
-            .toEqual( [ expect.objectContaining( { name: 'syntax', pattern: '\\(|\\)|\\[|\\]' } ) ] );
+			.toEqual( [ expect.objectContaining( { name: 'syntax', pattern: '\\(|\\)|\\[|\\]' } ) ] );
 
 		expect( get( '(?P<digits>[0-9_()])' ) )
-            .toEqual( [ expect.objectContaining( { name: 'digits', pattern: '[0-9_()]' } ) ] );
+			.toEqual( [ expect.objectContaining( { name: 'digits', pattern: '[0-9_()]' } ) ] );
 
 		expect( get( '/wpcom/v2/jetpack-boost-proxy/(?P<version>(?:v\\d+/)?)metrics' ) )
-            .toEqual( [ expect.objectContaining( { name: 'version', pattern: '(?:v\\d+/)?' } ) ] );
+			.toEqual( [ expect.objectContaining( { name: 'version', pattern: '(?:v\\d+/)?' } ) ] );
 
 		expect( get(
-            '/sites/(?P<wpcom_site>[\\w.:-]+)/global-styles/themes/(?P<stylesheet>[\\/\\s%\\w\\.\\(\\)\\[\\]\\@_\\-]+)/variations'
-        ) ).toEqual( [
+			'/sites/(?P<wpcom_site>[\\w.:-]+)/global-styles/themes/(?P<stylesheet>[\\/\\s%\\w\\.\\(\\)\\[\\]\\@_\\-]+)/variations'
+		) ).toEqual( [
 			expect.objectContaining( { name: 'wpcom_site', pattern: '[\\w.:-]+' } ),
 			expect.objectContaining( { name: 'stylesheet', pattern: '[\\/\\s%\\w\\.\\(\\)\\[\\]\\@_\\-]+' } ),
 		] );

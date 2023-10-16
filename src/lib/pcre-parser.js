@@ -15,7 +15,7 @@
  * given named capture group. The only parentheses left
  * after this flattening should be those which open or
  * close a new or nested group/syntax.
- * 
+ *
  * Using an equal number of `_` for each replacement
  * leaves the original string indices unchanged.
  *
@@ -106,13 +106,13 @@ const findClosingParenthesis = ( pcrePattern, offset, depth = 0 ) => {
 export const getNamedCaptureGroups = pcrePattern => {
 	/** This pattern matches named capture group openers with their name. */
 	const captureGroupName = /\(\?(?:P?<([a-zA-Z_][a-zA-Z0-9_]*)>|'([a-zA-Z_][a-zA-Z0-9_]*)')/g;
-    //                                  ------------------------   ------------------------
-    //                                  (?P<submatch_1>...)        (?'submatch_2'...)
+	//                                  ------------------------   ------------------------
+	//                                  (?P<submatch_1>...)        (?'submatch_2'...)
 	const captureGroups = [];
 
 	let match = null;
-    // eslint-disable-next-line
-    while ( null !== ( match = captureGroupName.exec( pcrePattern ) ) ) {
+	// eslint-disable-next-line
+	while ( null !== ( match = captureGroupName.exec( pcrePattern ) ) ) {
 		// Depending on the syntax we could have the first or the second kind of submatch.
 		const name = match[ 1 ] ? match[ 1 ] : match[ 2 ];
 
