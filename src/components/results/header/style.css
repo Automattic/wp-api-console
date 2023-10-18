@@ -81,6 +81,53 @@
 	content: "\1F4CB\FE0E";
 }
 
+.request-header .refresh {
+	padding: 2px 4px 0;
+	font-size: 18px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px 0 2px 8px;
+	border: 1px solid #95b7d0;
+	color: #95b7d0;
+	height: 18px;
+	line-height: 12px;
+}
+
+.request-header .compare-a {
+	padding: 2px 4px 0;
+	font-size: 16px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px 0 2px 8px;
+	border: 1px solid #95b7d0;
+	color: #95b7d0;
+	height: 18px;
+	line-height: 16px;
+}
+
+.request-header .compare-b {
+	padding: 2px 4px 0;
+	font-size: 16px;
+	border-radius: 2px;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 2px 0 2px 8px;
+	border: 1px solid #95b7d0;
+	color: #95b7d0;
+	height: 18px;
+	line-height: 16px;
+}
+
+.request-header .highlighted {
+	border: 1px solid green;
+	color: green;
+}
+
 .request-header .error {
 	white-space: nowrap;
 	font-size: 12px;
