@@ -3,6 +3,7 @@ import { getRequestMethod, getCompleteQueryUrl, getBodyParams } from '../request
 import { getSelectedApi, getSelectedVersion } from '../ui/selectors';
 import { get } from '../../api';
 import { getResponseStatus, getResponseError } from '../../lib/api';
+import { getResultById } from './selectors';
 
 window.responses = [];
 const recordResponse = response => {
@@ -44,10 +45,10 @@ const receiveResults = ( {
 	};
 };
 
-const triggerRequest = ( { id, version, apiName, method, path } ) => {
+const triggerRequest = ( { id, request } ) => {
 	return {
 		type: REQUEST_TRIGGER,
-		payload: { id, version, apiName, method, path },
+		payload: { id, request },
 	};
 };
 
@@ -60,16 +61,13 @@ export const request = () => ( dispatch, getState ) => {
 	const api = get( apiName );
 	const body = getBodyParams( state );
 	const start = new Date().getTime();
-	const request = api.buildRequest( version, method, path, body );
+	const request = { apiName, api, version, method, path, body };
 	dispatch( triggerRequest( {
 		id: start,
-		version,
-		apiName,
-		method,
-		path,
+		request,
 	} ) );
 
-	return api.authProvider.request( request )
+	return api.authProvider.request( api.buildRequest( request.version, request.method, request.path, request.body ) )
 		.then( ( { status, body, error } ) => {
 			const end = new Date().getTime();
 			dispatch( receiveResults( {
@@ -78,6 +76,33 @@ export const request = () => ( dispatch, getState ) => {
 				apiName,
 				method,
 				path,
+				status: getResponseStatus( status, body, error ),
+				body,
+				error: getResponseError( status, body, error, true ),
+				duration: end - start,
+			} ) );
+		} );
+};
+
+export const refresh = id => ( dispatch, getState ) => {
+	const state = getState();
+	const result = getResultById( state, id );
+	const request = result.request;
+	const start = new Date().getTime();
+	dispatch( triggerRequest( {
+		id,
+		request,
+	} ) );
+
+	return request.api.authProvider.request( request.api.buildRequest( request.version, request.method, request.path, request.body ) )
+		.then( ( { status, body, error } ) => {
+			const end = new Date().getTime();
+			dispatch( receiveResults( {
+				id,
+				apiVersion: request.apiVersion,
+				apiName: request.apiName,
+				method: request.method,
+				path: request.path,
 				status: getResponseStatus( status, body, error ),
 				body,
 				error: getResponseError( status, body, error, true ),
