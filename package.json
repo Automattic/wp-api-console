@@ -6,7 +6,7 @@
   "homepage": ".",
   "devDependencies": {
     "deep-freeze": "0.0.1",
-    "react-scripts": "2.0.3",
+    "react-scripts": "2.1.8",
     "surge": "^0.18.0"
   },
   "dependencies": {
