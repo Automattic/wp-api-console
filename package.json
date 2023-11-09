@@ -4,10 +4,6 @@
   "private": true,
   "license": "GPL-2.0+",
   "homepage": ".",
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=6.9.0 <7"
-  },
   "devDependencies": {
     "deep-freeze": "0.0.1",
     "react-scripts": "2.0.3",
