@@ -5,14 +5,15 @@
   "license": "GPL-2.0+",
   "homepage": ".",
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.1",
     "deep-freeze": "0.0.1",
-    "react-scripts": "2.1.8",
-    "surge": "^0.18.0"
+    "surge": "^0.18.0",
+    "vite": "^4.5.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "hash.js": "^1.1.7",
-    "is-my-json-valid": "^2.15.0",
+    "is-my-json-valid": "^2.20.6",
     "oauth-1.0a": "^2.0.0",
     "qs": "^6.3.0",
     "react": "^16.3.0",
@@ -26,14 +27,12 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "superagent": "^2.3.0",
-    "wpcom-proxy-request": "^4.0.6"
+    "wpcom-proxy-request": "^7.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "npm run lint && node bin/build.js",
-    "test": "npm run lint && react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext js,jsx .eslintrc.js src/ bin/",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "deploy": "npm run build && surge -p ./build -d wpconsole.surge.sh"
   },
   "browserslist": [
