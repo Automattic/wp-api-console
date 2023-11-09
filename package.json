@@ -13,7 +13,7 @@
     "deep-freeze": "0.0.1",
     "eslint": "^3.9.1",
     "eslint-plugin-react": "^6.6.0",
-    "react-scripts": "0.9.5",
+    "react-scripts": "1.1.5",
     "surge": "^0.18.0"
   },
   "dependencies": {
