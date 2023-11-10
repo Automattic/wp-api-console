@@ -93,9 +93,25 @@ it( 'getBodyParams should return the defined bodyParams', () => {
 } );
 
 it( 'getEndpointPathParts should explode the endpoint path correctly', () => {
-	const endpoint = { pathLabeled: '/site/$site/posts/slug:$slug' };
+	const endpoint = {
+		pathLabeled: '/site/$site/posts/slug:$slug',
+		request: {
+			path: {
+				$site: {
+					type: '(int|string)',
+					description: 'Site ID or domain',
+				},
+				$slug: {
+					type: '(string)',
+					description: 'The post slug (a.k.a. sanitized name)',
+				},
+			},
+		},
+	};
 	const state = {
-		request: { endpoint },
+		request: {
+			endpoint,
+		},
 	};
 
 	expect( getEndpointPathParts( state ) )
