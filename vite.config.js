@@ -5,7 +5,7 @@ import fs from 'fs';
 
 export default defineConfig(({ mode }) => {
   let configFile = 'config.json';
-  if ( mode === 'production' ) {
+  if ( process.env.WPCOM_BUILD ) {
     configFile = 'config.wpcom.json';
   }
   const configPath = path.resolve(__dirname, 'src', configFile);
