@@ -21,8 +21,8 @@ echo
 echo "========================"
 echo "GENERATING PAGE TEMPLATE"
 echo "========================"
-CSS_FILENAME="$(basename build/static/css/*.css)"
-JS_FILENAME="$(basename build/static/js/*.js)"
+CSS_FILENAME="$(basename build/static/*.css)"
+JS_FILENAME="$(basename build/static/*.js)"
 echo "css : $CSS_FILENAME"
 echo "js  : $JS_FILENAME"
 sed \
