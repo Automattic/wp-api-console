@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'build',
+      assetsDir: 'static',
     },
     plugins: [react()],
     define: {
