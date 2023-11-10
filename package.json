@@ -37,6 +37,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "build-wpcom": "WPCOM_BUILD=true vite build",
     "serve": "vite preview",
     "deploy": "npm run build && surge -p ./build -d wpconsole.surge.sh",
     "test": "vitest"
