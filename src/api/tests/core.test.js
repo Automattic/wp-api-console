@@ -40,7 +40,7 @@ describe( 'parseEndpoints', () => {
 						path: {
 							$wpcom_site: { // eslint-disable-line camelcase
 								description: '',
-								type: 'w.:',
+								type: "[w.:]+",
 							},
 						},
 					},
@@ -89,7 +89,7 @@ describe( 'parseEndpoints', () => {
 						path: {
 							$wpcom_site: { // eslint-disable-line camelcase
 								description: '',
-								type: 'w.:',
+								type: "[w.:]+",
 							},
 						},
 					},
