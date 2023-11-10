@@ -97,20 +97,20 @@ it( 'getEndpointPathParts should explode the endpoint path correctly', () => {
 		pathLabeled: '/site/$site/posts/slug:$slug',
 		request: {
 			path: {
-				"$site": {
-					"type": "(int|string)",
-					"description": "Site ID or domain"
+				$site: {
+					type: '(int|string)',
+					description: 'Site ID or domain',
 				},
-				"$slug": {
-					"type": "(string)",
-					"description": "The post slug (a.k.a. sanitized name)"
-				}
-			}
-		}
+				$slug: {
+					type: '(string)',
+					description: 'The post slug (a.k.a. sanitized name)',
+				},
+			},
+		},
 	};
 	const state = {
 		request: {
-			endpoint
+			endpoint,
 		},
 	};
 
