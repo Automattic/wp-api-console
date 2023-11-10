@@ -1,11 +1,10 @@
-import config from '../config';
 import createCoreApi from './core';
 import createDotComApi from './com';
 import createOauth2Provider from '../auth/oauth2';
 import createOauth1Provider from '../auth/oauth1';
 import createBasicAuthProvider from '../auth/basic';
 import * as proxy from '../auth/proxy';
-
+const config = JSON.parse( __APP_CONFIG__ );
 
 let APIs = [];
 
