@@ -19,5 +19,16 @@ export default defineConfig(() => {
     define: {
       'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG),
     },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      css: true,
+      reporters: ['verbose'],
+      coverage: {
+        reporter: ['text', 'json', 'html'],
+        include: ['src/**/*'],
+        exclude: [],
+      }
+    }
   };
 });
