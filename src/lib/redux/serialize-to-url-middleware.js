@@ -37,7 +37,7 @@ export const serializeStateToURLString = ( state ) => {
 };
 
 // Given URL Params, return a state enhancement object that can be used to enhance the state.
-export const deserializeURLParamsToStateEnhancement = ( urlParams ) => {
+export const urlParamsToStateObj = ( urlParams ) => {
 	// Convert urlParams to a plain object
 	let paramsObject = {};
 	for ( let [ key, value ] of urlParams.entries() ) {
@@ -65,7 +65,7 @@ export const serializeMiddleware = ( store ) => {
 
 	// When first loading, check the URL params to see if we need to send a request to load endpoints.
 	const urlParams = new URL( window.location.href ).searchParams;
-	const stateEnhancement = deserializeURLParamsToStateEnhancement( urlParams );
+	const stateEnhancement = urlParamsToStateObj( urlParams );
 
 	let {
 		ui: { api: apiFromUrl, version: versionFromUrl },

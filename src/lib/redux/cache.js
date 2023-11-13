@@ -29,7 +29,11 @@ export function loadInitialState( initialState, reducer ) {
 		state = deserialize( localStorageState, reducer );
 	}
 
-	// If possible, apply URL state 'over'
+	// Use deepMerge here to reconcile state derived from localStorage with
+	// enhancements from URL parameters. It ensures a comprehensive application
+	// state at launch by merging saved states and any state that's encoded in
+	// the URL. This is important when the URL provides partial state updates,
+	// which must be combined with existing state without loss of detail.
 	let urlParams = new URL( window.location.href ).searchParams;
 	let stateEnhancement = deserializeURLParamsToStateEnhancement( urlParams );
 	if ( stateEnhancement ) {
