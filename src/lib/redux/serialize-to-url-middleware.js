@@ -1,8 +1,11 @@
 import reducers from '../../state/reducer';
 import {
-	REQUEST_TRIGGER,
 	API_ENDPOINTS_RECEIVE,
 	REQUEST_SELECT_ENDPOINT,
+	REQUEST_SET_METHOD,
+	REQUEST_TRIGGER,
+	UI_SELECT_API,
+	UI_SELECT_VERSION,
 } from '../../state/actions';
 import { getEndpoints } from '../../state/endpoints/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
@@ -10,12 +13,13 @@ import { loadEndpoints } from '../../state/endpoints/actions';
 /**
  * This lets us serialize the state to the URL.
  *
- * Note: Serialization is only ran on REQUEST_TRIGGER actions.
+ * Note: Serialization is only ran on a few actions listed below (actionsThatUpdateUrl).
  *
  * The entire state is not serialized. Reducers are responsible for implementing
  * SERIALIZE_URL and DESERIALIZE_URL actions to handle their own state if they want to
- * serialize it into the URL.  They don't have to serialize all keys as the results will
- * be deep merged over the current state by cache.js.
+ * serialize it into the URL.  They don't have to serialize all keys, or serialize at all.
+ * If they choose to only serialize some keys, the results will be deep merged over the
+ * the current state stored in localStorage by cache.js.
  *
  **/
 
@@ -46,7 +50,13 @@ export const deserializeURLParamsToStateEnhancement = ( urlParams ) => {
 };
 
 // On these actions, we compute the new URL and push it to the browser history
-const actionsThatUpdateUrl = [ REQUEST_TRIGGER ];
+const actionsThatUpdateUrl = [
+	REQUEST_TRIGGER,
+	UI_SELECT_API,
+	UI_SELECT_VERSION,
+	REQUEST_SET_METHOD,
+	REQUEST_SELECT_ENDPOINT,
+];
 
 // This middleware is responsible for serializing the state to the URL.
 // It also handles a special case of loading endpoints and setting the selected endpoint.

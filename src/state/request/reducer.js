@@ -25,8 +25,13 @@ const defaultState = {
 const reducer = createReducer( defaultState, {
 	[ 'SERIALIZE_URL' ]: ( state ) =>
 		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] ),
-	[ 'DESERIALIZE_URL' ]: ( state ) =>
-		deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] ),
+	[ 'DESERIALIZE_URL' ]: ( state ) => {
+		let newState = deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] );
+		if ( ! newState.endpointPathLabeledForURLSerialize ) {
+			newState.endpoint = false;
+		}
+		return newState;
+	},
 	[ REQUEST_SET_METHOD ]: ( state, { payload } ) => {
 		return ( {
 			...state,
