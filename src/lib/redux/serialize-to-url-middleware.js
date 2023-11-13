@@ -6,6 +6,8 @@ import {
 	REQUEST_TRIGGER,
 	UI_SELECT_API,
 	UI_SELECT_VERSION,
+	SERIALIZE_URL,
+	DESERIALIZE_URL,
 } from '../../state/actions';
 import { getEndpoints } from '../../state/endpoints/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
@@ -25,7 +27,7 @@ import { loadEndpoints } from '../../state/endpoints/actions';
 
 // Given a state, return a string that can be used as a URL query string.
 export const serializeStateToURLString = ( state ) => {
-	const serializedState = reducers( state, { type: 'SERIALIZE_URL' } );
+	const serializedState = reducers( state, { type: SERIALIZE_URL } );
 
 	const urlParams = new URLSearchParams();
 	for ( const [ key, value ] of Object.entries( serializedState ) ) {
@@ -45,7 +47,7 @@ export const urlParamsToStateObj = ( urlParams ) => {
 	}
 
 	// Let each reducer handle its own state
-	const deserializedState = reducers( paramsObject, { type: 'DESERIALIZE_URL' } );
+	const deserializedState = reducers( paramsObject, { type: DESERIALIZE_URL } );
 	return deserializedState;
 };
 

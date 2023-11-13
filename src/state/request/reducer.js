@@ -1,5 +1,7 @@
 import { createReducer } from '../../lib/redux/create-reducer';
 import {
+	SERIALIZE_URL,
+	DESERIALIZE_URL,
 	REQUEST_SET_METHOD,
 	REQUEST_SELECT_ENDPOINT,
 	REQUEST_UPDATE_URL,
@@ -23,9 +25,9 @@ const defaultState = {
 };
 
 const reducer = createReducer( defaultState, {
-	[ 'SERIALIZE_URL' ]: ( state ) =>
+	[ SERIALIZE_URL ]: ( state ) =>
 		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] ),
-	[ 'DESERIALIZE_URL' ]: ( state ) => {
+	[ DESERIALIZE_URL ]: ( state ) => {
 		let newState = deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] );
 		if ( ! newState.endpointPathLabeledForURLSerialize ) {
 			newState.endpoint = false;

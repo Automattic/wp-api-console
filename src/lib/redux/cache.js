@@ -1,5 +1,5 @@
 import { SERIALIZE, DESERIALIZE } from './action-types';
-import { deserializeURLParamsToStateEnhancement } from './serialize-to-url-middleware';
+import { urlParamsToStateObj } from './serialize-to-url-middleware';
 import { deepMerge } from '../utils';
 
 const DAY_IN_HOURS = 24;
@@ -35,7 +35,7 @@ export function loadInitialState( initialState, reducer ) {
 	// the URL. This is important when the URL provides partial state updates,
 	// which must be combined with existing state without loss of detail.
 	let urlParams = new URL( window.location.href ).searchParams;
-	let stateEnhancement = deserializeURLParamsToStateEnhancement( urlParams );
+	let stateEnhancement = urlParamsToStateObj( urlParams );
 	if ( stateEnhancement ) {
 		state = deepMerge( state, stateEnhancement );
 	}
