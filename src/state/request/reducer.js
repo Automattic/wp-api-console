@@ -10,7 +10,7 @@ import {
 	UI_SELECT_VERSION,
 } from '../actions';
 import schema from './schema';
-import { serializeStateForUrl } from '../../lib/utils';
+import { serializeStateForUrl, deserializeStateFromUrl } from '../../lib/utils';
 
 const defaultState = {
 	method: 'GET',
@@ -24,6 +24,8 @@ const defaultState = {
 const reducer = createReducer( defaultState, {
 	[ 'SERIALIZE_URL' ]: ( state ) =>
 		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams' ] ),
+	[ 'DESERIALIZE_URL' ]: ( state ) =>
+		deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams' ] ),
 	[ REQUEST_SET_METHOD ]: ( state, { payload } ) => {
 		return ( {
 			...state,

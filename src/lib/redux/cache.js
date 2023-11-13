@@ -31,7 +31,6 @@ export function loadInitialState( initialState, reducer ) {
 
 	// If possible, apply URL state 'over'
 	let urlParams = new URL( window.location.href ).searchParams;
-	console.log({ urlParams });
 	let stateEnhancement = deserializeFullState( urlParams );
 	if ( stateEnhancement ) {
 		state = deepMerge( state, stateEnhancement );

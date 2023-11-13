@@ -1,9 +1,9 @@
 // serializeMiddleware.js
-import { serializeStateForUrl, deserializeStateFromUrl } from '../lib/utils';
 import reducers from '../state/reducer';
 
 export const serializeFullState = ( state ) => {
 	const serializedState = reducers( state, { type: 'SERIALIZE_URL' } );
+
 	const urlParams = new URLSearchParams();
 	for ( const [ key, value ] of Object.entries( serializedState ) ) {
 		if ( typeof value === 'string' && value ) {
@@ -14,23 +14,19 @@ export const serializeFullState = ( state ) => {
 };
 
 export const deserializeFullState = ( urlParams ) => {
-	const fullState = {};
-	const deserializers = {
-		ui: ( x ) => deserializeStateFromUrl( x, [ 'api', 'version' ] ),
-		request: ( x ) =>
-			deserializeStateFromUrl( x, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams' ] ),
-	};
-	for ( const [ key, deserializer ] of Object.entries( deserializers ) ) {
-		const serializedValue = urlParams.get( key );
-		if ( serializedValue !== null ) {
-			fullState[ key ] = deserializer( serializedValue );
-		}
+	// Convert urlParams to a plain object
+	let paramsObject = {};
+	for (let [key, value] of urlParams.entries()) {
+		paramsObject[key] = value;
 	}
-	return fullState;
+
+	// Let each reducer handle its own state
+	const deserializedState = reducers( paramsObject, { type: 'DESERIALIZE_URL' } );
+	console.log('deserializing', deserializedState);
+	return deserializedState;
 };
 
-/// ///
-
+// On these actions, we compute the new URL and push it to the browser history
 const actionsThatUpdateUrl = [ 'REQUEST_TRIGGER' ];
 
 export const serializeMiddleware = ( store ) => ( next ) => ( action ) => {
