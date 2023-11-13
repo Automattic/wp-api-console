@@ -1,20 +1,12 @@
 // serializeMiddleware.js
 import { serializeStateForUrl, deserializeStateFromUrl } from '../lib/utils';
+import reducers from '../state/reducer';
 
 export const serializeFullState = ( state ) => {
-	const serializedParts = {
-		ui: serializeStateForUrl( state.ui, [ 'api', 'version' ] ),
-		request: serializeStateForUrl( state.request, [
-			'url',
-			'queryParams',
-			'pathValues',
-			'method',
-			'bodyParams',
-		] ),
-	};
+	const serializedState = reducers( state, { type: 'SERIALIZE_URL' } );
 	const urlParams = new URLSearchParams();
-	for ( const [ key, value ] of Object.entries( serializedParts ) ) {
-		if ( value ) {
+	for ( const [ key, value ] of Object.entries( serializedState ) ) {
+		if ( typeof value === 'string' && value ) {
 			urlParams.set( key, value );
 		}
 	}
@@ -48,7 +40,9 @@ export const serializeMiddleware = ( store ) => ( next ) => ( action ) => {
 	if ( actionsThatUpdateUrl.includes( action.type ) ) {
 		console.log( 'middleware done' );
 		const state = store.getState();
+
 		const serializedState = serializeFullState( state );
+
 		const url = new URL( window.location );
 		url.search = serializedState;
 		window.history.pushState( {}, '', url );
