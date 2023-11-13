@@ -1,10 +1,7 @@
+---
 name: vitest
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -22,6 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - name: Install Deps
+        run: npm ci
       - name: Execute Unit tests
-      - run: npm ci
-	    - run: npm test
+        run: npm test
