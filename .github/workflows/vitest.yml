@@ -1,7 +1,13 @@
 ---
 name: vitest
 
-on: [push, pull_request]
+on:
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches: 
+      - '*'
 
 jobs:
   build:
