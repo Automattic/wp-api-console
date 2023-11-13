@@ -1,10 +1,13 @@
+---
 name: vitest
 
 on:
   push:
-    branches: [main]
+    branches:
+      - master
   pull_request:
-    branches: [main]
+    branches:
+      - master
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        # See https://nodejs.org/en/about/previous-releases
+        # See https://nodejs.org/en/about/previous-releases.
 
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +25,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - name: Install Deps
+        run: npm ci
+      - name: Copy config sample to default
+        run: cp src/config.sample.json src/config.json
       - name: Execute Unit tests
-      - run: npm ci
-	    - run: npm test
+        run: npm test
