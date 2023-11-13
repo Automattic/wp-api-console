@@ -85,6 +85,7 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			endpoint: false,
+			endpointPathLabeledForURLSerialize: '',
 			url: '',
 		} );
 	},

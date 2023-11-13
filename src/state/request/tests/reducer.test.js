@@ -15,6 +15,7 @@ import {
 const endpoint = { pathLabeled: '/$site/posts' };
 const state = deepFreeze( {
 	endpoint,
+	endpointPathLabeledForURLSerialize: '/$site/posts',
 	method: 'GET',
 	queryParams: { context: 'view' },
 	bodyParams: { a: 'b' },
@@ -36,6 +37,7 @@ it( 'should set the new method', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint,
+		endpointPathLabeledForURLSerialize: '/$site/posts',
 		method: 'POST',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
@@ -53,6 +55,7 @@ it( 'should select a new endpoint and reset some params', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint: newEndpoint,
+		endpointPathLabeledForURLSerialize: '/$site/comments',
 		method: 'GET',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
@@ -69,6 +72,7 @@ it( 'should set a new URL', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint,
+		endpointPathLabeledForURLSerialize: '/$site/posts',
 		method: 'GET',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
@@ -85,6 +89,7 @@ it( 'should update path values', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint,
+		endpointPathLabeledForURLSerialize: '/$site/posts',
 		method: 'GET',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
@@ -101,6 +106,7 @@ it( 'should set query param', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint,
+		endpointPathLabeledForURLSerialize: '/$site/posts',
 		method: 'GET',
 		queryParams: { context: 'view', page: '2' },
 		bodyParams: { a: 'b' },
@@ -117,6 +123,7 @@ it( 'should set body param', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint,
+		endpointPathLabeledForURLSerialize: '/$site/posts',
 		method: 'GET',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b', title: 'my title' },
@@ -133,6 +140,7 @@ it( 'should reset the endpoint/url when switching versions', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint: false,
+		endpointPathLabeledForURLSerialize: '',
 		method: 'GET',
 		queryParams: { context: 'view' },
 		bodyParams: { a: 'b' },
@@ -149,6 +157,7 @@ it( 'should reset the state when switching APIs', () => {
 
 	expect( reducer( state, action ) ).toEqual( {
 		endpoint: false,
+		endpointPathLabeledForURLSerialize: '',
 		method: 'GET',
 		queryParams: {},
 		bodyParams: {},
