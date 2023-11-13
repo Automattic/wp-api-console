@@ -1,3 +1,4 @@
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 const objectCtorString = Function.prototype.toString.call( Object );
 
 export function isPlainObject( value ) {
@@ -23,30 +24,47 @@ export function isPlainObject( value ) {
 	);
 }
 
+// Use this to make the URL shorter
+const keyMap = {
+	method: 'me',
+	endpoint: 'ep',
+	pathValues: 'pv',
+	url: 'u',
+	queryParams: 'qp',
+	bodyParams: 'bp',
+	endpointPathLabeledForURLSerialize: 'epu',
+	version: 've',
+	api: 'ap',
+};
+
 // Filter and serialize part of the Redux state for URL encoding
 export const serializeStateForUrl = ( state, keysToKeep ) => {
 	const filteredState = keysToKeep.reduce( ( obj, key ) => {
+		const shortKey = keyMap[ key ] || key;
 		if ( state.hasOwnProperty( key ) ) {
-			obj[ key ] = state[ key ];
+			obj[ shortKey ] = state[ key ];
 		}
 		return obj;
 	}, {} );
 
 	const jsonString = JSON.stringify( filteredState );
-	const base64Encoded = btoa( jsonString );
-	return base64Encoded;
+	return compressToEncodedURIComponent( jsonString );
 };
 
-// Deserialize the Base64 encoded string back to state object
+// Deserialize the encoded string back to state object
 export const deserializeStateFromUrl = ( base64String, keysToKeep ) => {
 	try {
-		const jsonString = atob( base64String );
+		if ( typeof base64String !== 'string' ) {
+			return {};
+		}
+		const jsonString = decompressFromEncodedURIComponent( base64String );
 		const parsedState = JSON.parse( jsonString );
 
 		// Validate the parsed state contains only the keys we're interested in
 		return keysToKeep.reduce( ( obj, key ) => {
-			if ( parsedState.hasOwnProperty( key ) ) {
-				obj[ key ] = parsedState[ key ];
+			const shortKey = keyMap[ key ] || key;
+			if ( parsedState.hasOwnProperty( shortKey ) ) {
+				obj[ key ] = parsedState[ shortKey ];
 			}
 			return obj;
 		}, {} );
