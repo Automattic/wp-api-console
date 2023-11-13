@@ -7,6 +7,19 @@ import {
 import { getEndpoints } from '../../state/endpoints/selectors';
 import { loadEndpoints } from '../../state/endpoints/actions';
 
+/**
+ * This lets us serialize the state to the URL.
+ *
+ * Note: Serialization is only ran on REQUEST_TRIGGER actions.
+ *
+ * The entire state is not serialized. Reducers are responsible for implementing
+ * SERIALIZE_URL and DESERIALIZE_URL actions to handle their own state if they want to
+ * serialize it into the URL.  They don't have to serialize all keys as the results will
+ * be deep merged over the current state by cache.js.
+ *
+ **/
+
+// Given a state, return a string that can be used as a URL query string.
 export const serializeStateToURLString = ( state ) => {
 	const serializedState = reducers( state, { type: 'SERIALIZE_URL' } );
 
@@ -19,6 +32,7 @@ export const serializeStateToURLString = ( state ) => {
 	return urlParams.toString();
 };
 
+// Given URL Params, return a state enhancement object that can be used to enhance the state.
 export const deserializeURLParamsToStateEnhancement = ( urlParams ) => {
 	// Convert urlParams to a plain object
 	let paramsObject = {};
@@ -34,6 +48,8 @@ export const deserializeURLParamsToStateEnhancement = ( urlParams ) => {
 // On these actions, we compute the new URL and push it to the browser history
 const actionsThatUpdateUrl = [ REQUEST_TRIGGER ];
 
+// This middleware is responsible for serializing the state to the URL.
+// It also handles a special case of loading endpoints and setting the selected endpoint.
 export const serializeMiddleware = ( store ) => {
 	// Outer section of middleware, runs once when the middleware is created.
 
@@ -59,11 +75,11 @@ export const serializeMiddleware = ( store ) => {
 
 	// The actual middleware that runs on every request.
 	return ( next ) => ( action ) => {
-		const result = next( action ); // Let the action pass through all middleware and reducers
+		const result = next( action );
 
+		// Serialize and upate the URL.
 		if ( actionsThatUpdateUrl.includes( action.type ) ) {
 			const state = store.getState();
-
 			const serializedState = serializeStateToURLString( state );
 
 			const url = new URL( window.location );
@@ -71,6 +87,7 @@ export const serializeMiddleware = ( store ) => {
 			window.history.pushState( {}, '', url );
 		}
 
+		// Choose the correct endpoint once per load.
 		if ( isInitializingEndpoint && action.type === API_ENDPOINTS_RECEIVE ) {
 			const state = store.getState();
 			const endpoints = getEndpoints( state, state.ui.api, state.ui.version );
