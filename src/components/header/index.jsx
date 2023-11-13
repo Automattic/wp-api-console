@@ -6,6 +6,7 @@ import ApiSelector from '../api-selector';
 import UserMenu from '../user-menu';
 import VersionSelector from '../version-selector';
 import LookupContainer from '../lookup-container';
+import Share from '../share';
 import Submit from '../submit';
 
 const Header = () =>
@@ -14,6 +15,7 @@ const Header = () =>
 			<ApiSelector />
 			<VersionSelector />
 			<LookupContainer />
+			<Share />
 			<Submit />
 			<UserMenu />
 		</div>

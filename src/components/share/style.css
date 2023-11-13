@@ -1,0 +1,16 @@
+#share-button {
+	cursor: pointer;
+	min-width: 44px;
+	background-color: #fff;
+	border: 0;
+	color: rgb(133, 192, 224);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+#share-button:hover, #share-button:focus {
+	background-color: rgb(133, 192, 224);
+	color: #fff;
+}
+#share-button:active {
+	background-color: rgb(103, 162, 194);
+	color: #fff;
+}
