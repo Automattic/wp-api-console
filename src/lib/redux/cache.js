@@ -1,5 +1,5 @@
 import { SERIALIZE, DESERIALIZE } from './action-types';
-import { deserializeFullState } from '../../state/serialize-to-url-middleware';
+import { deserializeFullState } from './serialize-to-url-middleware';
 import { deepMerge } from '../utils';
 
 const DAY_IN_HOURS = 24;

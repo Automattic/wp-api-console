@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import reducer from './reducer';
 import { boot } from './security/actions';
 import { loadInitialState, persistState } from '../lib/redux/cache';
-import serializeToUrlMiddleware from './serialize-to-url-middleware';
+import serializeToUrlMiddleware from '../lib/redux/serialize-to-url-middleware';
 
 const store = createStore(
 	reducer,

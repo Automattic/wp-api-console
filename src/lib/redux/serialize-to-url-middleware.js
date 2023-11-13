@@ -1,5 +1,4 @@
-// serializeMiddleware.js
-import reducers from '../state/reducer';
+import reducers from '../../state/reducer';
 
 export const serializeFullState = ( state ) => {
 	const serializedState = reducers( state, { type: 'SERIALIZE_URL' } );
