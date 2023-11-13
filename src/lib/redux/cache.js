@@ -1,5 +1,5 @@
 import { SERIALIZE, DESERIALIZE } from './action-types';
-import { deserializeFullState } from './serialize-to-url-middleware';
+import { deserializeURLParamsToStateEnhancement } from './serialize-to-url-middleware';
 import { deepMerge } from '../utils';
 
 const DAY_IN_HOURS = 24;
@@ -31,7 +31,7 @@ export function loadInitialState( initialState, reducer ) {
 
 	// If possible, apply URL state 'over'
 	let urlParams = new URL( window.location.href ).searchParams;
-	let stateEnhancement = deserializeFullState( urlParams );
+	let stateEnhancement = deserializeURLParamsToStateEnhancement( urlParams );
 	if ( stateEnhancement ) {
 		state = deepMerge( state, stateEnhancement );
 	}
