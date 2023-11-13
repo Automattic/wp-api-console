@@ -21,5 +21,7 @@ jobs:
           cache: "npm"
       - name: Install Deps
         run: npm ci
+      - name: Copy config sample to default
+        run: cp src/config.sample.json src/config.json
       - name: Execute Unit tests
         run: npm test
