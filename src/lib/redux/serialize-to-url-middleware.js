@@ -100,19 +100,24 @@ export const serializeMiddleware = ( store ) => {
 
 		// Choose the correct endpoint once per load.
 		if ( isInitializing && action.type === API_ENDPOINTS_RECEIVE ) {
-			const state = store.getState();
-			const endpoints = getEndpoints( state, state.ui.api, state.ui.version );
-			const endpoint = endpoints.find(
-				( { pathLabeled } ) => pathLabeled === endpointPathLabeledInURL
-			);
-			if ( endpoint ) {
-				store.dispatch( { type: REQUEST_SELECT_ENDPOINT, payload: { endpoint } } );
-			}
+			selectCorrectEndpoint( store, endpointPathLabeledInURL );
 			isInitializing = false;
 		}
 
 		return result;
 	};
 };
+
+const selectCorrectEndpoint = ( store, endpointPathLabeledInURL ) => {
+	const state = store.getState();
+	const endpoints = getEndpoints( state, state.ui.api, state.ui.version );
+	const endpoint = endpoints.find(
+		( { pathLabeled } ) => pathLabeled === endpointPathLabeledInURL
+	);
+	if ( endpoint ) {
+		store.dispatch( { type: REQUEST_SELECT_ENDPOINT, payload: { endpoint } } );
+	}
+};
+
 
 export default serializeMiddleware;
