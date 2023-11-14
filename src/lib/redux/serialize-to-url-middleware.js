@@ -65,14 +65,14 @@ const initializeFromUrl = ( store, urlParams ) => {
 	const stateEnhancement = urlParamsToStateObj( urlParams );
 	const {
 		ui: { api: apiFromUrl, version: versionFromUrl },
-		request: { endpointPathLabeledForURLSerialize },
+		request: { endpointPathLabeledInURL },
 	} = stateEnhancement;
-	if ( endpointPathLabeledForURLSerialize && apiFromUrl && versionFromUrl ) {
+	if ( endpointPathLabeledInURL && apiFromUrl && versionFromUrl ) {
 		// They did send an endpointPath in the URL. In order to fill the entire 
 		// endpoint state, we need to load all endpoints, then we can find a match after load.
 		const { dispatch } = store;
 		loadEndpoints( apiFromUrl, versionFromUrl )( dispatch );
-		return { isInitializing: true, endpointPathLabeledForURLSerialize };
+		return { isInitializing: true, endpointPathLabeledInURL };
 	}
 	return { isInitializing: false };
 };
@@ -82,7 +82,7 @@ const initializeFromUrl = ( store, urlParams ) => {
 export const serializeMiddleware = ( store ) => {
 	// When first loading, check the URL params to see if we need to send a request to load endpoints.
 	const urlParams = new URL( window.location.href ).searchParams;
-	let { isInitializing, endpointPathLabeledForURLSerialize } = initializeFromUrl( store, urlParams );
+	let { isInitializing, endpointPathLabeledInURL } = initializeFromUrl( store, urlParams );
 
 	// The actual middleware that runs on every action.
 	return ( next ) => ( action ) => {
@@ -103,7 +103,7 @@ export const serializeMiddleware = ( store ) => {
 			const state = store.getState();
 			const endpoints = getEndpoints( state, state.ui.api, state.ui.version );
 			const endpoint = endpoints.find(
-				( { pathLabeled } ) => pathLabeled === endpointPathLabeledForURLSerialize
+				( { pathLabeled } ) => pathLabeled === endpointPathLabeledInURL
 			);
 			if ( endpoint ) {
 				store.dispatch( { type: REQUEST_SELECT_ENDPOINT, payload: { endpoint } } );

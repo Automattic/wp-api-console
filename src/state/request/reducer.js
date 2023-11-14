@@ -21,15 +21,15 @@ const defaultState = {
 	url: '',
 	queryParams: {},
 	bodyParams: {},
-	endpointPathLabeledForURLSerialize: '', // A key of which endpoint is selected, used for url serialization. This is a special case that requires coordination between reducers and is handled in middleware.
+	endpointPathLabeledInURL: '', // A key of which endpoint is selected, used for url serialization. This is a special case that requires coordination between reducers and is handled in middleware.
 };
 
 const reducer = createReducer( defaultState, {
 	[ SERIALIZE_URL ]: ( state ) =>
-		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] ),
+		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledInURL' ] ),
 	[ DESERIALIZE_URL ]: ( state ) => {
-		let newState = deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledForURLSerialize' ] );
-		if ( ! newState.endpointPathLabeledForURLSerialize ) {
+		let newState = deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledInURL' ] );
+		if ( ! newState.endpointPathLabeledInURL ) {
 			newState.endpoint = false;
 		}
 		return newState;
@@ -44,7 +44,7 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			endpoint,
-			endpointPathLabeledForURLSerialize: endpoint?.pathLabeled || '',
+			endpointPathLabeledInURL: endpoint?.pathLabeled || '',
 			url: '',
 		} );
 	},
@@ -85,7 +85,7 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			endpoint: false,
-			endpointPathLabeledForURLSerialize: '',
+			endpointPathLabeledInURL: '',
 			url: '',
 		} );
 	},

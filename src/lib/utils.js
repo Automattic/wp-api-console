@@ -32,7 +32,7 @@ const keyMap = {
 	url: 'u',
 	queryParams: 'qp',
 	bodyParams: 'bp',
-	endpointPathLabeledForURLSerialize: 'epu',
+	endpointPathLabeledInURL: 'epu',
 	version: 've',
 	api: 'ap',
 };
