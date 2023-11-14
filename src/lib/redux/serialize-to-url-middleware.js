@@ -60,32 +60,31 @@ const actionsThatUpdateUrl = [
 	REQUEST_SELECT_ENDPOINT,
 ];
 
-// This middleware is responsible for serializing the state to the URL.
-// It also handles a special case of loading endpoints and setting the selected endpoint.
-export const serializeMiddleware = ( store ) => {
-	// Outer section of middleware, runs once when the middleware is created.
-
-	// When first loading, check the URL params to see if we need to send a request to load endpoints.
-	const urlParams = new URL( window.location.href ).searchParams;
+// On our initial load, we check the URL params to see if we need to send a request to load endpoints.
+const initializeFromUrl = ( store, urlParams ) => {
 	const stateEnhancement = urlParamsToStateObj( urlParams );
-
-	let {
+	const {
 		ui: { api: apiFromUrl, version: versionFromUrl },
 		request: { endpointPathLabeledForURLSerialize },
 	} = stateEnhancement;
-
-	// In the case that the outer url provides a endpointPathLabeledForURLSerialize,
-	// we need to 1.) Fetch the entire list of endpoints, then 2.) Select the endpoint.
-	// This is a workaround we do because state.request.endpoint is too large to
-	// store in the URL.
-	let isInitializingEndpoint = false;
 	if ( endpointPathLabeledForURLSerialize && apiFromUrl && versionFromUrl ) {
+		// They did send an endpointPath in the URL. In order to fill the entire 
+		// endpoint state, we need to load all endpoints, then we can find a match after load.
 		const { dispatch } = store;
 		loadEndpoints( apiFromUrl, versionFromUrl )( dispatch );
-		isInitializingEndpoint = true;
+		return { isInitializing: true, endpointPathLabeledForURLSerialize };
 	}
+	return { isInitializing: false };
+};
 
-	// The actual middleware that runs on every request.
+// This middleware is responsible for serializing the state to the URL.
+// It also handles a special case of loading endpoints and setting the selected endpoint.
+export const serializeMiddleware = ( store ) => {
+	// When first loading, check the URL params to see if we need to send a request to load endpoints.
+	const urlParams = new URL( window.location.href ).searchParams;
+	let { isInitializing, endpointPathLabeledForURLSerialize } = initializeFromUrl( store, urlParams );
+
+	// The actual middleware that runs on every action.
 	return ( next ) => ( action ) => {
 		const result = next( action );
 
@@ -100,7 +99,7 @@ export const serializeMiddleware = ( store ) => {
 		}
 
 		// Choose the correct endpoint once per load.
-		if ( isInitializingEndpoint && action.type === API_ENDPOINTS_RECEIVE ) {
+		if ( isInitializing && action.type === API_ENDPOINTS_RECEIVE ) {
 			const state = store.getState();
 			const endpoints = getEndpoints( state, state.ui.api, state.ui.version );
 			const endpoint = endpoints.find(
@@ -109,7 +108,7 @@ export const serializeMiddleware = ( store ) => {
 			if ( endpoint ) {
 				store.dispatch( { type: REQUEST_SELECT_ENDPOINT, payload: { endpoint } } );
 			}
-			isInitializingEndpoint = false;
+			isInitializing = false;
 		}
 
 		return result;
