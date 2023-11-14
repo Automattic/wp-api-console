@@ -79,7 +79,7 @@ const initializeFromUrl = ( store, urlParams ) => {
 
 // This middleware is responsible for serializing the state to the URL.
 // It also handles a special case of loading endpoints and setting the selected endpoint.
-export const serializeMiddleware = ( store ) => {
+export const serializeToUrlMiddleware = ( store ) => {
 	// When first loading, check the URL params to see if we need to send a request to load endpoints.
 	const urlParams = new URL( window.location.href ).searchParams;
 	let { isInitializing, endpointPathLabeledInURL } = initializeFromUrl( store, urlParams );
@@ -120,4 +120,4 @@ const selectCorrectEndpoint = ( store, endpointPathLabeledInURL ) => {
 };
 
 
-export default serializeMiddleware;
+export default serializeToUrlMiddleware;
