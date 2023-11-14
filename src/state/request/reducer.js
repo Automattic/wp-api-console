@@ -1,5 +1,7 @@
 import { createReducer } from '../../lib/redux/create-reducer';
 import {
+	SERIALIZE_URL,
+	DESERIALIZE_URL,
 	REQUEST_SET_METHOD,
 	REQUEST_SELECT_ENDPOINT,
 	REQUEST_UPDATE_URL,
@@ -10,6 +12,7 @@ import {
 	UI_SELECT_VERSION,
 } from '../actions';
 import schema from './schema';
+import { serializeStateForUrl, deserializeStateFromUrl } from '../../lib/utils';
 
 const defaultState = {
 	method: 'GET',
@@ -18,9 +21,19 @@ const defaultState = {
 	url: '',
 	queryParams: {},
 	bodyParams: {},
+	endpointPathLabeledInURL: '', // A key of which endpoint is selected, used for url serialization. This is a special case that requires coordination between reducers and is handled in middleware.
 };
 
 const reducer = createReducer( defaultState, {
+	[ SERIALIZE_URL ]: ( state ) =>
+		serializeStateForUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledInURL' ] ),
+	[ DESERIALIZE_URL ]: ( state ) => {
+		let newState = deserializeStateFromUrl( state, [ 'url', 'queryParams', 'pathValues', 'method', 'bodyParams', 'endpointPathLabeledInURL' ] );
+		if ( ! newState.endpointPathLabeledInURL ) {
+			newState.endpoint = false;
+		}
+		return newState;
+	},
 	[ REQUEST_SET_METHOD ]: ( state, { payload } ) => {
 		return ( {
 			...state,
@@ -31,6 +44,7 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			endpoint,
+			endpointPathLabeledInURL: endpoint?.pathLabeled || '',
 			url: '',
 		} );
 	},
@@ -71,6 +85,7 @@ const reducer = createReducer( defaultState, {
 		return ( {
 			...state,
 			endpoint: false,
+			endpointPathLabeledInURL: '',
 			url: '',
 		} );
 	},
