@@ -18,6 +18,7 @@
     "classnames": "^2.2.5",
     "hash.js": "^1.1.7",
     "is-my-json-valid": "^2.20.6",
+    "lz-string": "^1.5.0",
     "oauth-1.0a": "^2.0.0",
     "qs": "^6.3.0",
     "react": "^16.14.0",
