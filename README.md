@@ -12,7 +12,7 @@ To setup the environment on your local system with WordPress.com APIs:
 
 1. Clone the repository `git clone https://github.com/Automattic/wp-api-console.git`.
 
-2. Install dependencies `npm ci --legacy-peer-deps`. Switch to Node v16 - If you use `nvm`, add a `.nvmrc` file with the version `16.20.2` on it as this project can't run on higher node version.
+2. Install dependencies `npm ci --legacy-peer-deps`. Use Node 18 or newer.
 
 3. Open [WordPress.com Developer Resources](https://developer.wordpress.com/apps/)
 
@@ -106,11 +106,6 @@ bWU6bXlwYSBzc3dvIHJk
 To create a static package you can use anywhere (e.g. Github pages): `npm run build`
 
 The static site is located in `build`
-
-
-## Deploying
-
-If you want to quickly deploy the console to [Surge](https://surge.sh), just run `npm run deploy`.
 
 
 ## Deploying to WordPress.com
