@@ -1,6 +1,5 @@
 {
 	"wordpress.com": {
-		"client_id": "12345",
-		"redirect_uri": "http://example.com/path/to/app"
+		"client_id": "12345"
 	}
 }

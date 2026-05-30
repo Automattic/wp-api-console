@@ -18,7 +18,13 @@ function deserialize( state, reducer ) {
 	return reducer( state, { type: DESERIALIZE } );
 }
 
-export function loadInitialState( initialState, reducer ) {
+export function loadInitialState( initialState, initialStateFromUrl, reducer ) {
+
+	// URL state overrides local storage state
+	if ( initialStateFromUrl ) {
+		return reducer( initialStateFromUrl, { type: DESERIALIZE } );
+	}
+
 	const localStorageState = JSON.parse( localStorage.getItem( STORAGE_KEY ) ) || {};
 	if ( localStorageState._timestamp && localStorageState._timestamp + MAX_AGE < Date.now() ) {
 		return initialState;

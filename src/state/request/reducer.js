@@ -11,7 +11,7 @@ import {
 } from '../actions';
 import schema from './schema';
 
-const defaultState = {
+export const defaultState = {
 	method: 'GET',
 	endpoint: false,
 	pathValues: {},
