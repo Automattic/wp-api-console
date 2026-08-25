@@ -44,6 +44,20 @@
 	outline: none;
 }
 
+.request-config-editor__code textarea:focus-visible,
+.request-config-editor__actions button:focus-visible {
+	outline: 2px solid #2e92cc;
+	outline-offset: 2px;
+}
+
+@supports not selector(:focus-visible) {
+	.request-config-editor__code textarea:focus,
+	.request-config-editor__actions button:focus {
+		outline: 2px solid #2e92cc;
+		outline-offset: 2px;
+	}
+}
+
 .request-config-editor__textarea {
 	color: #1f2d38;
 }

@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
@@ -10,12 +13,14 @@ vi.mock( 'react-simple-code-editor', () => ( {
 			className={ props.textareaClassName }
 			disabled={ props.disabled }
 			value={ props.value }
-			onChange={ event => props.onValueChange( event.target.value ) }
+			onChange={ ( event ) => props.onValueChange( event.target.value ) }
 			onPaste={ props.onPaste }
 		/>
 	),
 } ) );
-vi.mock( '../../../state/request-config/actions', () => ( { applyRequestConfiguration: vi.fn() } ) );
+vi.mock( '../../../state/request-config/actions', () => ( {
+	applyRequestConfiguration: vi.fn(),
+} ) );
 
 import { createRequestConfig, formatRequestConfig } from '../../../request-config/codec';
 import { RequestConfigEditor } from '../index';
@@ -33,8 +38,10 @@ const source = {
 	bodyParams: {},
 };
 
-const findButton = ( container, label ) => Array.from( container.querySelectorAll( 'button' ) )
-	.find( button => button.textContent === label );
+const findButton = ( container, label ) =>
+	Array.from( container.querySelectorAll( 'button' ) ).find(
+		( button ) => button.textContent === label
+	);
 
 const setTextAreaValue = ( textarea, value ) => {
 	Object.defineProperty( textarea, 'value', {
@@ -74,6 +81,14 @@ const renderEditor = ( props = {} ) => {
 		);
 	} );
 };
+
+it( 'defines a visible keyboard focus style for the editor and actions', () => {
+const css = fs.readFileSync( path.resolve( 'src/components/request-config-editor/style.css' ), 'utf8' );
+
+	expect( css ).toContain( '.request-config-editor__code textarea:focus-visible' );
+	expect( css ).toContain( '.request-config-editor__actions button:focus-visible' );
+	expect( css ).toContain( '@supports not selector(:focus-visible)' );
+} );
 
 it( 'generates request JSON and does not autosync later source changes', () => {
 	renderEditor();
@@ -136,7 +151,9 @@ it( 'preserves invalid pasted text and shows a parse error', () => {
 
 	expect( event.defaultPrevented ).toBe( true );
 	expect( textarea.value ).toBe( '{' );
-	expect( container.querySelector( '[role="alert"]' ).textContent ).toMatch( /Unexpected end|JSON/ );
+	expect( container.querySelector( '[role="alert"]' ).textContent ).toMatch(
+		/Unexpected end|JSON/
+	);
 } );
 
 it( 'copies deterministic formatted JSON and updates the draft before clipboard write', async () => {
@@ -162,7 +179,9 @@ it( 'does not copy invalid JSON and reports a parse error', async () => {
 	} );
 
 	expect( navigator.clipboard.writeText ).not.toHaveBeenCalled();
-	expect( container.querySelector( '[role="alert"]' ).textContent ).toMatch( /Unexpected end|JSON/ );
+	expect( container.querySelector( '[role="alert"]' ).textContent ).toMatch(
+		/Unexpected end|JSON/
+	);
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{' );
 } );
 
@@ -181,12 +200,43 @@ it( 'reports clipboard failures without copying invalid data', async () => {
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{\n  "a": 1\n}\n' );
 } );
 
+it( 'does not warn when copy completes after unmount', async () => {
+	const errorSpy = vi.spyOn( console, 'error' ).mockImplementation( () => {} );
+	let resolveCopy;
+	navigator.clipboard.writeText.mockImplementationOnce(
+		() =>
+			new Promise( ( resolve ) => {
+				resolveCopy = resolve;
+			} )
+	);
+
+	renderEditor();
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
+
+	await act( async () => {
+		findButton( container, 'Copy JSON' ).click();
+		await Promise.resolve();
+	} );
+	ReactDOM.unmountComponentAtNode( container );
+
+	await act( async () => {
+		resolveCopy();
+		await Promise.resolve();
+	} );
+
+	expect( errorSpy ).not.toHaveBeenCalled();
+	errorSpy.mockRestore();
+} );
+
 it( 'applies the current draft, disables duplicate applies while pending, and does not trigger submit', async () => {
 	const request = vi.fn();
 	let resolveApply;
-	const applyRequestConfiguration = vi.fn( () => new Promise( resolve => {
-		resolveApply = resolve;
-	} ) );
+	const applyRequestConfiguration = vi.fn(
+		() =>
+			new Promise( ( resolve ) => {
+				resolveApply = resolve;
+			} )
+	);
 
 	renderEditor( { applyRequestConfiguration, request } );
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
@@ -215,6 +265,34 @@ it( 'applies the current draft, disables duplicate applies while pending, and do
 
 	expect( applyButton.disabled ).toBe( false );
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{"a":1}' );
+} );
+
+it( 'does not warn when apply completes after unmount', async () => {
+	const errorSpy = vi.spyOn( console, 'error' ).mockImplementation( () => {} );
+	let resolveApply;
+	const applyRequestConfiguration = vi.fn(
+		() =>
+			new Promise( ( resolve ) => {
+				resolveApply = resolve;
+			} )
+	);
+
+	renderEditor( { applyRequestConfiguration } );
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
+
+	await act( async () => {
+		findButton( container, 'Apply to request' ).click();
+		await Promise.resolve();
+	} );
+	ReactDOM.unmountComponentAtNode( container );
+
+	await act( async () => {
+		resolveApply();
+		await Promise.resolve();
+	} );
+
+	expect( errorSpy ).not.toHaveBeenCalled();
+	errorSpy.mockRestore();
 } );
 
 it( 'reports apply failures and keeps the draft intact', async () => {
