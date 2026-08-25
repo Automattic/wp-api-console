@@ -66,21 +66,21 @@ Schema version 1 has this shape:
 
 ```json
 {
-  "schemaVersion": 1,
-  "request": {
-    "api": "WP.COM API",
-    "version": "v1.1",
-    "method": "GET",
-    "endpoint": "/sites/$site/comments/$comment_ID",
-    "pathValues": {
-      "$site": "example.wordpress.com",
-      "$comment_ID": "42"
-    },
-    "queryParams": {
-      "context": "display"
-    },
-    "bodyParams": {}
-  }
+	"schemaVersion": 1,
+	"request": {
+		"api": "WP.COM API",
+		"version": "v1.1",
+		"method": "GET",
+		"endpoint": "/sites/$site/comments/$comment_ID",
+		"pathValues": {
+			"$site": "example.wordpress.com",
+			"$comment_ID": "42"
+		},
+		"queryParams": {
+			"context": "display"
+		},
+		"bodyParams": {}
+	}
 }
 ```
 
