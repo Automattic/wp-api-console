@@ -122,6 +122,21 @@ describe( 'resolveRequestConfig', () => {
 		expect( dependencies.fetchEndpoints ).not.toHaveBeenCalled();
 	} );
 
+	it.each( [ null, {}, { versions: null } ] )(
+		'rejects malformed version discovery results: %j',
+		async ( versionData ) => {
+			const dependencies = createDependencies( {
+				findApi: vi.fn( () => createApi( versionData ) ),
+			} );
+
+			await expect( resolveRequestConfig( config, dependencies ) ).rejects.toMatchObject( {
+				code: 'VERSION_DISCOVERY_FAILED',
+				message: 'Version discovery did not return a list.',
+			} );
+			expect( dependencies.fetchEndpoints ).not.toHaveBeenCalled();
+		}
+	);
+
 	it( 'rejects an unavailable version', async () => {
 		const dependencies = createDependencies( {
 			findApi: vi.fn( () => createApi( { versions: [ 'v1' ] } ) ),

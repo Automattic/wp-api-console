@@ -44,7 +44,10 @@ const resolveApi = async ( request, findApi ) => {
 		throw makeError( 'VERSION_DISCOVERY_FAILED', error && error.message ? error.message : String( error ) );
 	}
 
-	if ( ! Array.isArray( versions ) || ! versions.includes( request.version ) ) {
+	if ( ! Array.isArray( versions ) ) {
+		throw makeError( 'VERSION_DISCOVERY_FAILED', 'Version discovery did not return a list.' );
+	}
+	if ( ! versions.includes( request.version ) ) {
 		throw makeError( 'UNKNOWN_VERSION', `Unknown version: ${ request.version }.` );
 	}
 
