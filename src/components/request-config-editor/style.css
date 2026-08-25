@@ -1,0 +1,96 @@
+.request-config-editor {
+	background: #fff;
+	border-left: 1px solid #d5e2ec;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.request-config-editor__title {
+	background: #f8fafb;
+	border-bottom: 1px solid #d5e2ec;
+	color: #48718d;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	padding: 10px 12px;
+	text-transform: uppercase;
+}
+
+.request-config-editor__code {
+	background: #f7f9fa;
+	flex: 1 1 auto;
+	min-height: 320px;
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 20px;
+	min-width: 0;
+}
+
+.request-config-editor__code textarea,
+.request-config-editor__code pre,
+.request-config-editor__textarea,
+.request-config-editor__highlight {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	white-space: pre !important;
+}
+
+.request-config-editor__code textarea,
+.request-config-editor__highlight {
+	outline: none;
+}
+
+.request-config-editor__textarea {
+	color: #1f2d38;
+}
+
+.request-config-editor__highlight {
+	color: #1f2d38;
+}
+
+.request-config-editor__error {
+	background: #ffe4e4;
+	color: #a42828;
+	font-size: 12px;
+	padding: 10px 12px;
+}
+
+.request-config-editor__warning {
+	background: #fff8e8;
+	border-left: 3px solid #d9a441;
+	color: #7d6229;
+	font-size: 12px;
+	margin: 12px;
+	padding: 10px;
+}
+
+.request-config-editor__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: flex-end;
+	padding: 0 12px 12px;
+}
+
+.request-config-editor__actions button {
+	background: #fff;
+	border: 1px solid #9bb5c6;
+	color: #356d8e;
+	cursor: pointer;
+	padding: 8px 10px;
+}
+
+.request-config-editor__actions button:last-child {
+	background: #2e92cc;
+	border-color: #2e92cc;
+	color: #fff;
+}
+
+.request-config-editor__actions button:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
