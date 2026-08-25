@@ -82,12 +82,15 @@ const renderEditor = ( props = {} ) => {
 	} );
 };
 
-it( 'defines a visible keyboard focus style for the editor and actions', () => {
-const css = fs.readFileSync( path.resolve( 'src/components/request-config-editor/style.css' ), 'utf8' );
+it( 'defines a visible keyboard focus fallback and suppresses mouse-only focus when supported', () => {
+	const css = fs.readFileSync( path.resolve( 'src/components/request-config-editor/style.css' ), 'utf8' );
 
-	expect( css ).toContain( '.request-config-editor__code textarea:focus-visible' );
-	expect( css ).toContain( '.request-config-editor__actions button:focus-visible' );
-	expect( css ).toContain( '@supports not selector(:focus-visible)' );
+	expect( css ).toContain( '.request-config-editor__code textarea:focus,' );
+	expect( css ).toContain( '.request-config-editor__actions button:focus {' );
+	expect( css ).toContain( '@supports selector(:focus-visible)' );
+	expect( css ).toContain( 'textarea:focus:not(:focus-visible)' );
+	expect( css ).toContain( 'button:focus:not(:focus-visible)' );
+	expect( css ).not.toContain( '@supports not selector(:focus-visible)' );
 } );
 
 it( 'generates request JSON and does not autosync later source changes', () => {

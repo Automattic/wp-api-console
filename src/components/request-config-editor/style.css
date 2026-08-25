@@ -39,22 +39,16 @@
 	white-space: pre !important;
 }
 
-.request-config-editor__code textarea,
-.request-config-editor__highlight {
-	outline: none;
-}
-
-.request-config-editor__code textarea:focus-visible,
-.request-config-editor__actions button:focus-visible {
+.request-config-editor__code textarea:focus,
+.request-config-editor__actions button:focus {
 	outline: 2px solid #2e92cc;
 	outline-offset: 2px;
 }
 
-@supports not selector(:focus-visible) {
-	.request-config-editor__code textarea:focus,
-	.request-config-editor__actions button:focus {
-		outline: 2px solid #2e92cc;
-		outline-offset: 2px;
+@supports selector(:focus-visible) {
+	.request-config-editor__code textarea:focus:not(:focus-visible),
+	.request-config-editor__actions button:focus:not(:focus-visible) {
+		outline: none;
 	}
 }
 
