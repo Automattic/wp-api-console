@@ -145,6 +145,17 @@ describe( 'resolveRequestConfig', () => {
 		} );
 	} );
 
+	it.each( [ null, {} ] )( 'rejects resolved non-array discovery results: %j', async ( discoveryResult ) => {
+		const dependencies = createDependencies( {
+			fetchEndpoints: vi.fn( () => Promise.resolve( discoveryResult ) ),
+		} );
+
+		await expect( resolveRequestConfig( config, dependencies ) ).rejects.toMatchObject( {
+			code: 'DISCOVERY_FAILED',
+			message: 'Endpoint discovery did not return a list.',
+		} );
+	} );
+
 	it( 'rejects unknown endpoints', async () => {
 		const dependencies = createDependencies( {
 			fetchEndpoints: vi.fn( () => Promise.resolve( [] ) ),
