@@ -154,9 +154,18 @@ const pickDefinedValues = ( definitions = {}, values = {} ) =>
 	Object.keys( definitions )
 		.sort()
 		.reduce( ( selected, key ) => {
-			if ( values && hasOwn( values, key ) && undefined !== values[ key ] ) {
-				assertJsonValue( values[ key ], new Set(), `$.${ key }` );
-				assignJsonProperty( selected, key, sortJsonValue( values[ key ] ) );
+			if ( values && hasOwn( values, key ) ) {
+				const descriptor = Object.getOwnPropertyDescriptor( values, key );
+				if ( ! descriptor.enumerable ) {
+					nonSerializable( `$.${ key }`, 'is a non-enumerable property.' );
+				}
+				if ( descriptor.get || descriptor.set ) {
+					nonSerializable( `$.${ key }`, 'is an accessor property.' );
+				}
+				if ( undefined !== descriptor.value ) {
+					assertJsonValue( descriptor.value, new Set(), `$.${ key }` );
+					assignJsonProperty( selected, key, sortJsonValue( descriptor.value ) );
+				}
 			}
 			return selected;
 		}, {} );

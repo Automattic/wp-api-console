@@ -72,6 +72,44 @@ it( 'includes only defined endpoint-declared parameters', () => {
 	expect( config.request.bodyParams ).not.toHaveProperty( 'content' );
 } );
 
+it.each( [
+	[ 'a hidden allowlisted path value', 'pathValues', '$site' ],
+	[ 'an accessor allowlisted query value', 'queryParams', 'count' ],
+] )( 'rejects %s', ( _label, parameterName, key ) => {
+	const parameters = { ...source[ parameterName ] };
+	if ( 'pathValues' === parameterName ) {
+		Object.defineProperty( parameters, key, {
+			configurable: true,
+			enumerable: false,
+			value: 'example.wordpress.com',
+			writable: true,
+		} );
+	} else {
+		Object.defineProperty( parameters, key, {
+			configurable: true,
+			enumerable: true,
+			get: () => 0,
+		} );
+	}
+
+	expect( () =>
+		createRequestConfig( {
+			...source,
+			[ parameterName ]: parameters,
+		} )
+	).toThrowError( RequestConfigError );
+
+	try {
+		createRequestConfig( {
+			...source,
+			[ parameterName ]: parameters,
+		} );
+		throw new Error( 'Expected createRequestConfig to throw' );
+	} catch ( error ) {
+		expect( error ).toMatchObject( { code: 'NON_SERIALIZABLE_VALUE' } );
+	}
+} );
+
 it( 'formats deterministically with fixed contract order and one trailing newline', () => {
 	const config = createRequestConfig( source );
 	const formatted = formatRequestConfig( config );
