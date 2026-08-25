@@ -33,7 +33,7 @@ const state = {
 		method: 'GET',
 	},
 	results: {
-		1: { id: 1, status: 200 },
+		1: { id: 1, status: 200, leakSentinel: 'results-leak-sentinel' },
 	},
 	history: {
 		wpcom: {
@@ -67,6 +67,7 @@ it( 'returns only the request config source fields and no unrelated state', () =
 		'bodyParams',
 	] );
 	expect( JSON.stringify( source ) ).not.toContain( 'sentinel-security-token' );
+	expect( JSON.stringify( source ) ).not.toContain( 'results-leak-sentinel' );
 	expect( JSON.stringify( source ) ).not.toContain( 'historical-endpoint' );
 	expect( JSON.stringify( source ) ).not.toContain( '/should/not/leak' );
 	expect( JSON.stringify( source ) ).not.toContain( 'do-not-leak' );
