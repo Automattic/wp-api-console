@@ -84,3 +84,31 @@ body {
 	 50%  { opacity: 1; border-width: 7px;}
 	 100% { opacity: 0; transform: scale(1,1); border-width: 0px; }
  }
+
+.request-workspace {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	padding-top: 60px;
+	background: #fff;
+	border-bottom: 1px solid #eaf1f6;
+	overflow: hidden;
+}
+
+.request-workspace > * {
+	min-width: 0;
+}
+
+.request-workspace > .builder {
+	padding: 0 16px 24px;
+}
+
+@media ( max-width: 900px ) {
+	.request-workspace {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.request-config-editor {
+		border-left: 0;
+		border-top: 1px solid #d5e2ec;
+	}
+}

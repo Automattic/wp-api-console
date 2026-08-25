@@ -6,6 +6,7 @@ import './app.css';
 import store from './state';
 import QueryBuilder from './components/query-builder';
 import Header from './components/header';
+import RequestConfigEditor from './components/request-config-editor';
 import Results from './components/results';
 
 const App = () =>
@@ -13,7 +14,10 @@ const App = () =>
 		<Provider store={ store }>
 			<div className="App">
 				<Header />
-				<QueryBuilder />
+				<div className="request-workspace">
+					<QueryBuilder />
+					<RequestConfigEditor />
+				</div>
 				<Results />
 			</div>
 		</Provider>
