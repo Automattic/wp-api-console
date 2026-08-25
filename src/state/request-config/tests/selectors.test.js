@@ -49,6 +49,7 @@ const state = {
 
 it( 'returns only the request config source fields and no unrelated state', () => {
 	const source = getRequestConfigSource( state );
+	const sourceJson = JSON.stringify( source );
 
 	expect( source ).toEqual( {
 		api: 'WP.COM API',
@@ -66,9 +67,9 @@ it( 'returns only the request config source fields and no unrelated state', () =
 		'queryParams',
 		'bodyParams',
 	] );
-	expect( JSON.stringify( source ) ).not.toContain( 'sentinel-security-token' );
-	expect( JSON.stringify( source ) ).not.toContain( 'results-leak-sentinel' );
-	expect( JSON.stringify( source ) ).not.toContain( 'historical-endpoint' );
-	expect( JSON.stringify( source ) ).not.toContain( '/should/not/leak' );
-	expect( JSON.stringify( source ) ).not.toContain( 'do-not-leak' );
+	expect( sourceJson ).not.toContain( 'sentinel-security-token' );
+	expect( sourceJson ).not.toContain( 'results-leak-sentinel' );
+	expect( sourceJson ).not.toContain( 'historical-endpoint' );
+	expect( sourceJson ).not.toContain( '/should/not/leak' );
+	expect( sourceJson ).not.toContain( 'do-not-leak' );
 } );
