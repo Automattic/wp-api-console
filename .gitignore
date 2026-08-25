@@ -17,3 +17,6 @@ npm-debug.log
 
 #config
 src/config.json
+
+# local agent worktrees
+.worktrees/
