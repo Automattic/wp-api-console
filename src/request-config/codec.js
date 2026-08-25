@@ -170,12 +170,30 @@ const pickDefinedValues = ( definitions = {}, values = {} ) =>
 			return selected;
 		}, {} );
 
+const schemaErrorCode = ( errors ) => {
+	const error = errors[ 0 ] || {};
+	if ( 'data.schemaVersion' === error.field ) {
+		return 'is required' === error.message
+			? 'MISSING_SCHEMA_VERSION'
+			: 'UNSUPPORTED_SCHEMA_VERSION';
+	}
+	if ( 'has additional properties' === error.message ) {
+		return 'UNKNOWN_PROPERTY';
+	}
+	if ( 'is required' === error.message ) {
+		return 'MISSING_REQUIRED_PROPERTY';
+	}
+	if ( 'is the wrong type' === error.message ) {
+		return 'INVALID_PROPERTY_TYPE';
+	}
+	return 'INVALID_SCHEMA';
+};
+
 const schemaError = () => {
-	const details = ( validate.errors || [] ).map(
-		( error ) => `${ error.field || 'data' } ${ error.message }`
-	);
+	const errors = validate.errors || [];
+	const details = errors.map( ( error ) => `${ error.field || 'data' } ${ error.message }` );
 	return new RequestConfigError(
-		'INVALID_SCHEMA',
+		schemaErrorCode( errors ),
 		details.join( '; ' ) || 'Request configuration does not match schema version 1.',
 		details
 	);

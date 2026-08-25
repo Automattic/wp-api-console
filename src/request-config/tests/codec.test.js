@@ -169,15 +169,24 @@ it( 'rejects malformed JSON with a distinct typed error', () => {
 } );
 
 describe.each( [
-	[ 'an extra top-level property', ( value ) => ( { ...value, extra: true } ) ],
+	[
+		'an extra top-level property',
+		( value ) => ( { ...value, extra: true } ),
+		'UNKNOWN_PROPERTY',
+	],
 	[
 		'an extra request property',
 		( value ) => ( {
 			...value,
 			request: { ...value.request, auth: 'secret' },
 		} ),
+		'UNKNOWN_PROPERTY',
 	],
-	[ 'a missing top-level property', ( value ) => ( { request: value.request } ) ],
+	[
+		'a missing schema version',
+		( value ) => ( { request: value.request } ),
+		'MISSING_SCHEMA_VERSION',
+	],
 	[
 		'a missing request property',
 		( value ) => {
@@ -185,6 +194,7 @@ describe.each( [
 			delete request.bodyParams;
 			return { ...value, request };
 		},
+		'MISSING_REQUIRED_PROPERTY',
 	],
 	[
 		'a wrong field type',
@@ -192,16 +202,21 @@ describe.each( [
 			...value,
 			request: { ...value.request, method: false },
 		} ),
+		'INVALID_PROPERTY_TYPE',
 	],
-	[ 'an unsupported version', ( value ) => ( { ...value, schemaVersion: 2 } ) ],
-] )( 'schema validation', ( label, change ) => {
+	[
+		'an unsupported version',
+		( value ) => ( { ...value, schemaVersion: 2 } ),
+		'UNSUPPORTED_SCHEMA_VERSION',
+	],
+] )( 'schema validation', ( label, change, code ) => {
 	it( `rejects ${ label } with a typed schema error`, () => {
 		try {
 			parseRequestConfig( JSON.stringify( change( expectedConfig ) ) );
 			throw new Error( 'Expected parseRequestConfig to throw' );
 		} catch ( error ) {
 			expect( error ).toBeInstanceOf( RequestConfigError );
-			expect( error.code ).toBe( 'INVALID_SCHEMA' );
+			expect( error.code ).toBe( code );
 			expect( error.details.length ).toBeGreaterThan( 0 );
 		}
 	} );
