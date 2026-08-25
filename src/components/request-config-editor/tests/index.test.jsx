@@ -159,7 +159,7 @@ it( 'preserves invalid pasted text and shows a parse error', () => {
 	);
 } );
 
-it( 'copies deterministic formatted JSON and updates the draft before clipboard write', async () => {
+it( 'copies deterministic formatted JSON and updates the draft after success', async () => {
 	renderEditor();
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"b":2,"a":1}' );
 
@@ -188,7 +188,7 @@ it( 'does not copy invalid JSON and reports a parse error', async () => {
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{' );
 } );
 
-it( 'reports clipboard failures without copying invalid data', async () => {
+it( 'reports clipboard failures and preserves the exact editor text', async () => {
 	navigator.clipboard.writeText.mockRejectedValueOnce( new Error( 'blocked' ) );
 	renderEditor();
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
@@ -198,9 +198,9 @@ it( 'reports clipboard failures without copying invalid data', async () => {
 		await Promise.resolve();
 	} );
 
-	expect( navigator.clipboard.writeText ).toHaveBeenCalledTimes( 1 );
+	expect( navigator.clipboard.writeText ).toHaveBeenCalledWith( '{\n  "a": 1\n}\n' );
 	expect( container.querySelector( '[role="alert"]' ).textContent ).toBe( 'blocked' );
-	expect( container.querySelector( 'textarea' ).value ).toBe( '{\n  "a": 1\n}\n' );
+	expect( container.querySelector( 'textarea' ).value ).toBe( '{"a":1}' );
 } );
 
 it( 'does not warn when copy completes after unmount', async () => {

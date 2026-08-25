@@ -83,8 +83,8 @@ export class RequestConfigEditor extends Component {
 	copyJson = async () => {
 		try {
 			const draft = formatJsonText( this.state.draft );
-			this.safeSetState( { draft, error: '' } );
 			await navigator.clipboard.writeText( draft );
+			this.safeSetState( { draft, error: '' } );
 		} catch ( error ) {
 			this.setError( error );
 		}
