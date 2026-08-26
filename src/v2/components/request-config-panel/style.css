@@ -1,0 +1,22 @@
+.v2-request-config-panel {
+	min-width: 0;
+}
+
+.v2-request-config-panel .components-card__header h2 {
+	font-size: 16px;
+	margin: 0;
+}
+
+.v2-request-config-panel__body {
+	display: flex;
+	padding: 0;
+}
+
+.v2-request-config-panel .request-config-editor {
+	border-left: 0;
+	flex: 1 1 auto;
+}
+
+.v2-request-config-panel .request-config-editor__title {
+	display: none;
+}
