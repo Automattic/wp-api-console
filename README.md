@@ -29,10 +29,10 @@ To setup the environment on your local system with WordPress.com APIs:
 The request workspace can generate and apply a versioned JSON representation of the selected API request.
 
 1. Select an API, version, and endpoint, then fill the path, query, and body values.
-2. Click **From request** in **Request configuration JSON**.
+2. The JSON updates automatically; use **From request** to restore it manually if needed.
 3. Review query and body values for sensitive data.
 4. Click **Copy JSON** and paste the JSON into pull request testing instructions.
-5. A reviewer can paste the JSON into the editor and click **Apply to request**.
+5. A reviewer can paste or edit the JSON; after a 500 ms pause, it applies automatically.
 6. Applying a configuration fills the console but never sends the request automatically; the existing submit control is still required.
 
 Authentication tokens, cookies, user data, response data, and request history are never included. Schema version 1 does include explicit path, query, and body values, so review them before sharing.

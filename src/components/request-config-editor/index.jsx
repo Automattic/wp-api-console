@@ -21,11 +21,12 @@ const getRequestDraft = ( source ) =>
 
 export class RequestConfigEditor extends Component {
 	mounted = false;
+	autoApplyTimer = null;
+	autoApplyGeneration = 0;
 
 	state = {
 		draft: '',
 		error: '',
-		applying: false,
 	};
 
 	componentDidMount() {
@@ -41,6 +42,7 @@ export class RequestConfigEditor extends Component {
 
 	componentWillUnmount() {
 		this.mounted = false;
+		this.cancelAutoApply();
 	}
 
 	safeSetState = ( nextState, callback ) => {
@@ -55,8 +57,41 @@ export class RequestConfigEditor extends Component {
 		this.safeSetState( { error: getErrorMessage( error ) } );
 	};
 
+	cancelAutoApply = () => {
+		if ( this.autoApplyTimer ) {
+			clearTimeout( this.autoApplyTimer );
+			this.autoApplyTimer = null;
+		}
+		this.autoApplyGeneration += 1;
+	};
+
+	scheduleAutoApply = ( draft ) => {
+		this.cancelAutoApply();
+		const generation = this.autoApplyGeneration;
+		this.autoApplyTimer = setTimeout( () => {
+			this.autoApplyTimer = null;
+			this.applyDraft( draft, generation );
+		}, 500 );
+	};
+
+	applyDraft = async ( draft, generation ) => {
+		try {
+			await this.props.applyRequestConfiguration(
+				draft,
+				() => generation === this.autoApplyGeneration
+			);
+			if ( generation === this.autoApplyGeneration ) {
+				this.safeSetState( { error: '' } );
+			}
+		} catch ( error ) {
+			if ( generation === this.autoApplyGeneration ) {
+				this.setError( error );
+			}
+		}
+	};
+
 	handleChange = ( draft ) => {
-		this.safeSetState( { draft, error: '' } );
+		this.safeSetState( { draft, error: '' }, () => this.scheduleAutoApply( draft ) );
 	};
 
 	syncFromRequest = ( previousSource ) => {
@@ -76,6 +111,7 @@ export class RequestConfigEditor extends Component {
 				return;
 			}
 
+			this.cancelAutoApply();
 			this.safeSetState( { draft, error: '' } );
 		} catch ( error ) {
 			this.setError( error );
@@ -99,12 +135,13 @@ export class RequestConfigEditor extends Component {
 
 		const pasted =
 			event.clipboardData.getData( 'text/plain' ) || event.clipboardData.getData( 'text' );
+		let draft = pasted;
 		try {
-			this.safeSetState( { draft: formatJsonText( pasted ), error: '' } );
+			draft = formatJsonText( pasted );
 		} catch ( error ) {
-			this.safeSetState( { draft: pasted } );
-			this.setError( error );
+			// Validation after the debounce reports incomplete pasted JSON.
 		}
+		this.safeSetState( { draft, error: '' }, () => this.scheduleAutoApply( draft ) );
 	};
 
 	copyJson = async () => {
@@ -117,22 +154,10 @@ export class RequestConfigEditor extends Component {
 		}
 	};
 
-	applyToRequest = async () => {
-		this.safeSetState( { applying: true, error: '' } );
-		try {
-			await this.props.applyRequestConfiguration( this.state.draft );
-		} catch ( error ) {
-			this.setError( error );
-		} finally {
-			this.safeSetState( { applying: false } );
-		}
-	};
-
 	render() {
-		const { draft, error, applying } = this.state;
+		const { draft, error } = this.state;
 		const { requestConfigSource = {} } = this.props;
 		const hasDraft = '' !== draft;
-		const disabled = applying;
 
 		return (
 			<section className="request-config-editor" aria-label="Request configuration JSON editor">
@@ -143,7 +168,6 @@ export class RequestConfigEditor extends Component {
 					onPaste={ this.handlePaste }
 					highlight={ this.highlight }
 					padding={ 16 }
-					disabled={ disabled }
 					textareaClassName="request-config-editor__textarea"
 					preClassName="request-config-editor__highlight"
 					className="request-config-editor__code"
@@ -158,18 +182,15 @@ export class RequestConfigEditor extends Component {
 					<button
 						type="button"
 						onClick={ this.fromRequest }
-						disabled={ disabled || ! requestConfigSource.endpoint }
+						disabled={ ! requestConfigSource.endpoint }
 					>
 						From request
 					</button>
-					<button type="button" onClick={ this.formatJson } disabled={ disabled || ! hasDraft }>
+					<button type="button" onClick={ this.formatJson } disabled={ ! hasDraft }>
 						Format JSON
 					</button>
-					<button type="button" onClick={ this.copyJson } disabled={ disabled || ! hasDraft }>
+					<button type="button" onClick={ this.copyJson } disabled={ ! hasDraft }>
 						Copy JSON
-					</button>
-					<button type="button" onClick={ this.applyToRequest } disabled={ disabled || ! hasDraft }>
-						{ applying ? 'Applying…' : 'Apply to request' }
 					</button>
 				</div>
 			</section>

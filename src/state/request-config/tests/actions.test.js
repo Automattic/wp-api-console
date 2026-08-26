@@ -60,6 +60,93 @@ describe( 'createApplyRequestConfiguration', () => {
 		expect( dispatch.mock.calls.map( ( [ action ] ) => action.type ) ).not.toContain( REQUEST_TRIGGER );
 	} );
 
+	it( 'does not dispatch when the caller invalidates an in-flight apply', async () => {
+		const resolved = { api: 'WP.COM API' };
+		const parseRequestConfig = vi.fn( () => ( { schemaVersion: 1 } ) );
+		const resolveRequestConfig = vi.fn( () => Promise.resolve( resolved ) );
+		const boot = vi.fn();
+		const dispatch = vi.fn();
+		const isCurrent = vi.fn( () => false );
+		const apply = createApplyRequestConfiguration( {
+			parseRequestConfig,
+			resolveRequestConfig,
+			boot,
+		} );
+
+		await expect( apply( '{}', isCurrent )( dispatch ) ).resolves.toBeUndefined();
+
+		expect( isCurrent ).toHaveBeenCalledTimes( 1 );
+		expect( boot ).not.toHaveBeenCalled();
+		expect( dispatch ).not.toHaveBeenCalled();
+	} );
+
+	it( 'allows only the latest async apply to dispatch', async () => {
+		let resolveFirst;
+		const firstResolved = { api: 'FIRST API' };
+		const secondResolved = { api: 'SECOND API' };
+		const parseRequestConfig = vi.fn( text => ( { text } ) );
+		const resolveRequestConfig = vi.fn( config =>
+			'first' === config.text
+				? new Promise( resolve => {
+					resolveFirst = resolve;
+				} )
+				: Promise.resolve( secondResolved )
+		);
+		const boot = vi.fn( api => ( { type: 'BOOT_AUTH', payload: api } ) );
+		const dispatch = vi.fn();
+		const apply = createApplyRequestConfiguration( {
+			parseRequestConfig,
+			resolveRequestConfig,
+			boot,
+		} );
+
+		const firstApply = apply( 'first' )( dispatch );
+		await expect( apply( 'second' )( dispatch ) ).resolves.toBe( secondResolved );
+		resolveFirst( firstResolved );
+		await expect( firstApply ).resolves.toBeUndefined();
+
+		expect( dispatch ).toHaveBeenCalledTimes( 2 );
+		expect( dispatch ).toHaveBeenNthCalledWith( 1, {
+			type: REQUEST_CONFIG_APPLY,
+			payload: secondResolved,
+		} );
+		expect( dispatch ).toHaveBeenNthCalledWith( 2, {
+			type: 'BOOT_AUTH',
+			payload: 'SECOND API',
+		} );
+		expect( boot ).toHaveBeenCalledTimes( 1 );
+	} );
+
+	it( 'prevents an older valid apply after a newer parse failure', async () => {
+		let resolveFirst;
+		const parseError = new Error( 'invalid latest configuration' );
+		const parseRequestConfig = vi.fn( text => {
+			if ( 'invalid' === text ) {
+				throw parseError;
+			}
+			return { text };
+		} );
+		const resolveRequestConfig = vi.fn(
+			() =>
+				new Promise( resolve => {
+					resolveFirst = resolve;
+				} )
+		);
+		const dispatch = vi.fn();
+		const apply = createApplyRequestConfiguration( {
+			parseRequestConfig,
+			resolveRequestConfig,
+			boot: vi.fn(),
+		} );
+
+		const firstApply = apply( 'first' )( dispatch );
+		await expect( apply( 'invalid' )( dispatch ) ).rejects.toBe( parseError );
+		resolveFirst( { api: 'FIRST API' } );
+		await expect( firstApply ).resolves.toBeUndefined();
+
+		expect( dispatch ).not.toHaveBeenCalled();
+	} );
+
 	it( 'dispatches nothing when parsing fails', async () => {
 		const error = new Error( 'invalid configuration' );
 		const parseRequestConfig = vi.fn( () => {

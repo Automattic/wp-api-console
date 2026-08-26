@@ -7,10 +7,15 @@ export const createApplyRequestConfiguration = ( dependencies = {} ) => {
 	const parse = dependencies.parseRequestConfig || parseRequestConfig;
 	const resolve = dependencies.resolveRequestConfig || resolveRequestConfig;
 	const bootRequest = dependencies.boot || boot;
+	let latestApply = 0;
 
-	return text => async dispatch => {
+	return ( text, isCurrent = () => true ) => async dispatch => {
+		const applyId = ++latestApply;
 		const config = parse( text );
 		const resolved = await resolve( config );
+		if ( applyId !== latestApply || ! isCurrent() ) {
+			return undefined;
+		}
 
 		dispatch( {
 			type: REQUEST_CONFIG_APPLY,

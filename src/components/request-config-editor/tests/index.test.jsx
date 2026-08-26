@@ -68,6 +68,13 @@ const setTextAreaValue = ( textarea, value ) => {
 	textarea.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 };
 
+const advanceTimers = async ( milliseconds ) => {
+	await act( async () => {
+		vi.advanceTimersByTime( milliseconds );
+		await Promise.resolve();
+	} );
+};
+
 let container;
 
 beforeEach( () => {
@@ -83,6 +90,7 @@ afterEach( () => {
 	ReactDOM.unmountComponentAtNode( container );
 	container.remove();
 	vi.clearAllMocks();
+	vi.useRealTimers();
 } );
 
 const renderEditor = ( props = {} ) => {
@@ -151,7 +159,7 @@ it.each( [
 		'body value',
 		( value ) => ( { ...value, bodyParams: { ...value.bodyParams, title: 'Changed' } } ),
 	],
-] )( 'regenerates request JSON after a %s change', ( label, change ) => {
+] )( 'regenerates request JSON after a %s change', ( _label, change ) => {
 	renderEditor( { requestConfigSource: syncSource } );
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"manual":true}' );
 
@@ -161,6 +169,23 @@ it.each( [
 	expect( container.querySelector( 'textarea' ).value ).toBe(
 		formatRequestConfig( createRequestConfig( changedSource ) )
 	);
+} );
+
+it( 'does not automatically apply drafts generated from request state', async () => {
+	vi.useFakeTimers();
+	const applyRequestConfiguration = vi.fn( () => Promise.resolve() );
+	renderEditor( { requestConfigSource: syncSource, applyRequestConfiguration } );
+
+	renderEditor( {
+		requestConfigSource: {
+			...syncSource,
+			queryParams: { ...syncSource.queryParams, context: 'edit' },
+		},
+		applyRequestConfiguration,
+	} );
+	await advanceTimers( 500 );
+
+	expect( applyRequestConfiguration ).not.toHaveBeenCalled();
 } );
 
 it( 'formats valid JSON from the editor manually', () => {
@@ -173,8 +198,10 @@ it( 'formats valid JSON from the editor manually', () => {
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{\n  "a": 1,\n  "b": 2\n}\n' );
 } );
 
-it( 'pastes valid JSON as formatted text and prevents the browser default', () => {
-	renderEditor();
+it( 'pastes valid JSON as formatted text and applies it after 500 ms', async () => {
+	vi.useFakeTimers();
+	const applyRequestConfiguration = vi.fn( () => Promise.resolve() );
+	renderEditor( { applyRequestConfiguration } );
 	const textarea = container.querySelector( 'textarea' );
 	const event = new Event( 'paste', { bubbles: true, cancelable: true } );
 	Object.defineProperty( event, 'clipboardData', {
@@ -187,11 +214,19 @@ it( 'pastes valid JSON as formatted text and prevents the browser default', () =
 
 	expect( event.defaultPrevented ).toBe( true );
 	expect( textarea.value ).toBe( '{\n  "a": 1,\n  "b": 2\n}\n' );
-	expect( container.querySelector( '[role="alert"]' ) ).toBeNull();
+	expect( applyRequestConfiguration ).not.toHaveBeenCalled();
+
+	await advanceTimers( 500 );
+	expect( applyRequestConfiguration ).toHaveBeenCalledWith(
+		'{\n  "a": 1,\n  "b": 2\n}\n',
+		expect.any( Function )
+	);
 } );
 
-it( 'preserves invalid pasted text and shows a parse error', () => {
-	renderEditor();
+it( 'preserves invalid pasted text and shows its apply error after 500 ms', async () => {
+	vi.useFakeTimers();
+	const applyRequestConfiguration = vi.fn( () => Promise.reject( new Error( 'Invalid JSON' ) ) );
+	renderEditor( { applyRequestConfiguration } );
 	const textarea = container.querySelector( 'textarea' );
 	const event = new Event( 'paste', { bubbles: true, cancelable: true } );
 	Object.defineProperty( event, 'clipboardData', {
@@ -204,9 +239,11 @@ it( 'preserves invalid pasted text and shows a parse error', () => {
 
 	expect( event.defaultPrevented ).toBe( true );
 	expect( textarea.value ).toBe( '{' );
-	expect( container.querySelector( '[role="alert"]' ).textContent ).toMatch(
-		/Unexpected end|JSON/
-	);
+	expect( container.querySelector( '[role="alert"]' ) ).toBeNull();
+
+	await advanceTimers( 500 );
+	expect( container.querySelector( '[role="alert"]' ).textContent ).toBe( 'Invalid JSON' );
+	expect( textarea.value ).toBe( '{' );
 } );
 
 it( 'copies deterministic formatted JSON and updates the draft after success', async () => {
@@ -281,84 +318,131 @@ it( 'does not warn when copy completes after unmount', async () => {
 	errorSpy.mockRestore();
 } );
 
-it( 'applies the current draft, disables duplicate applies while pending, and does not trigger submit', async () => {
+it( 'debounces manual edits for 500 ms without submitting or disabling the editor', async () => {
+	vi.useFakeTimers();
+	const applyRequestConfiguration = vi.fn( () => Promise.resolve() );
 	const request = vi.fn();
-	let resolveApply;
-	const applyRequestConfiguration = vi.fn(
-		() =>
-			new Promise( ( resolve ) => {
-				resolveApply = resolve;
-			} )
-	);
-
 	renderEditor( { applyRequestConfiguration, request } );
-	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
+	const textarea = container.querySelector( 'textarea' );
 
-	const applyButton = findButton( container, 'Apply to request' );
-	await act( async () => {
-		applyButton.click();
-		await Promise.resolve();
-	} );
+	setTextAreaValue( textarea, '{"first":true}' );
+	await advanceTimers( 400 );
+	setTextAreaValue( textarea, '{"second":true}' );
+	await advanceTimers( 100 );
+	expect( applyRequestConfiguration ).not.toHaveBeenCalled();
 
+	await advanceTimers( 400 );
 	expect( applyRequestConfiguration ).toHaveBeenCalledTimes( 1 );
-	expect( applyRequestConfiguration ).toHaveBeenCalledWith( '{"a":1}' );
-	expect( applyButton.disabled ).toBe( true );
-
-	await act( async () => {
-		applyButton.click();
-		await Promise.resolve();
-	} );
-	expect( applyRequestConfiguration ).toHaveBeenCalledTimes( 1 );
+	expect( applyRequestConfiguration ).toHaveBeenCalledWith(
+		'{"second":true}',
+		expect.any( Function )
+	);
 	expect( request ).not.toHaveBeenCalled();
-
-	await act( async () => {
-		resolveApply();
-		await Promise.resolve();
-	} );
-
-	expect( applyButton.disabled ).toBe( false );
-	expect( container.querySelector( 'textarea' ).value ).toBe( '{"a":1}' );
+	expect( textarea.disabled ).toBe( false );
 } );
 
-it( 'does not warn when apply completes after unmount', async () => {
-	const errorSpy = vi.spyOn( console, 'error' ).mockImplementation( () => {} );
-	let resolveApply;
-	const applyRequestConfiguration = vi.fn(
-		() =>
-			new Promise( ( resolve ) => {
-				resolveApply = resolve;
-			} )
-	);
+it( 'invalidates an in-flight apply as soon as a newer edit is typed', async () => {
+	vi.useFakeTimers();
+	let resolveFirst;
+	const applyRequestConfiguration = vi
+		.fn()
+		.mockImplementationOnce(
+			() =>
+				new Promise( resolve => {
+					resolveFirst = resolve;
+				} )
+		)
+		.mockResolvedValueOnce();
+	renderEditor( { applyRequestConfiguration } );
+	const textarea = container.querySelector( 'textarea' );
 
+	setTextAreaValue( textarea, '{"first":true}' );
+	await advanceTimers( 500 );
+	const isFirstCurrent = applyRequestConfiguration.mock.calls[ 0 ][ 1 ];
+	expect( isFirstCurrent() ).toBe( true );
+
+	setTextAreaValue( textarea, '{"second":true}' );
+	expect( isFirstCurrent() ).toBe( false );
+	expect( applyRequestConfiguration ).toHaveBeenCalledTimes( 1 );
+
+	await act( async () => {
+		resolveFirst();
+		await Promise.resolve();
+	} );
+	await advanceTimers( 500 );
+
+	expect( applyRequestConfiguration ).toHaveBeenCalledTimes( 2 );
+	expect( applyRequestConfiguration ).toHaveBeenLastCalledWith(
+		'{"second":true}',
+		expect.any( Function )
+	);
+} );
+
+it( 'ignores stale apply errors after a newer edit succeeds', async () => {
+	vi.useFakeTimers();
+	let rejectFirst;
+	const applyRequestConfiguration = vi
+		.fn()
+		.mockImplementationOnce(
+			() =>
+				new Promise( ( _resolve, reject ) => {
+					rejectFirst = reject;
+				} )
+		)
+		.mockResolvedValueOnce();
+	renderEditor( { applyRequestConfiguration } );
+	const textarea = container.querySelector( 'textarea' );
+
+	setTextAreaValue( textarea, '{"first":true}' );
+	await advanceTimers( 500 );
+	setTextAreaValue( textarea, '{"second":true}' );
+	await advanceTimers( 500 );
+
+	await act( async () => {
+		rejectFirst( new Error( 'stale failure' ) );
+		await Promise.resolve();
+	} );
+
+	expect( applyRequestConfiguration ).toHaveBeenCalledTimes( 2 );
+	expect( container.querySelector( '[role="alert"]' ) ).toBeNull();
+	expect( textarea.value ).toBe( '{"second":true}' );
+} );
+
+it( 'clears pending automatic apply work when unmounted', async () => {
+	vi.useFakeTimers();
+	const errorSpy = vi.spyOn( console, 'error' ).mockImplementation( () => {} );
+	const applyRequestConfiguration = vi.fn( () => Promise.resolve() );
 	renderEditor( { applyRequestConfiguration } );
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
 
-	await act( async () => {
-		findButton( container, 'Apply to request' ).click();
-		await Promise.resolve();
-	} );
+	ReactDOM.unmountComponentAtNode( container );
+	await advanceTimers( 500 );
+
+	expect( applyRequestConfiguration ).not.toHaveBeenCalled();
+	expect( errorSpy ).not.toHaveBeenCalled();
+	errorSpy.mockRestore();
+} );
+
+it( 'ignores an in-flight automatic apply failure after unmount', async () => {
+	vi.useFakeTimers();
+	const errorSpy = vi.spyOn( console, 'error' ).mockImplementation( () => {} );
+	let rejectApply;
+	const applyRequestConfiguration = vi.fn(
+		() =>
+			new Promise( ( _resolve, reject ) => {
+				rejectApply = reject;
+			} )
+	);
+	renderEditor( { applyRequestConfiguration } );
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
+	await advanceTimers( 500 );
 	ReactDOM.unmountComponentAtNode( container );
 
 	await act( async () => {
-		resolveApply();
+		rejectApply( new Error( 'late failure' ) );
 		await Promise.resolve();
 	} );
 
 	expect( errorSpy ).not.toHaveBeenCalled();
 	errorSpy.mockRestore();
-} );
-
-it( 'reports apply failures and keeps the draft intact', async () => {
-	const applyRequestConfiguration = vi.fn( () => Promise.reject( new Error( 'apply failed' ) ) );
-
-	renderEditor( { applyRequestConfiguration } );
-	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
-
-	await act( async () => {
-		findButton( container, 'Apply to request' ).click();
-		await Promise.resolve();
-	} );
-
-	expect( container.querySelector( '[role="alert"]' ).textContent ).toBe( 'apply failed' );
-	expect( container.querySelector( 'textarea' ).value ).toBe( '{"a":1}' );
 } );
