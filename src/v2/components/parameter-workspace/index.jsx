@@ -83,8 +83,25 @@ export const ParameterValueControl = ( { name, parameter, value, onChange } ) =>
 		case 'boolean':
 			return <ToggleControl checked={ Boolean( value ) } label={ label } onChange={ onChange } />;
 		case 'integer':
-		case 'number':
-			return <NumberControl label={ label } onChange={ onChange } value={ value ?? '' } />;
+		case 'number': {
+			const updateNumericValue = ( nextValue ) => {
+				if ( '' === nextValue ) {
+					onChange();
+					return;
+				}
+
+				const numericValue = Number( nextValue );
+				if (
+					Number.isFinite( numericValue ) &&
+					( 'number' === parameter.type || Number.isInteger( numericValue ) )
+				) {
+					onChange( numericValue );
+				}
+			};
+			return (
+				<NumberControl label={ label } onChange={ updateNumericValue } value={ value ?? '' } />
+			);
+		}
 		case 'array':
 		case 'object':
 			return (

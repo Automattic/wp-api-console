@@ -58,14 +58,17 @@ it( 'getMethod should return the selected method', () => {
 	expect( getMethod( state ) ).toEqual( method );
 } );
 
-it( 'getQueryParams should return the defined queryParams', () => {
-	const queryParams = { context: 'view', toto: 'tata' };
+it( 'getQueryParams should return defined values including false and zero', () => {
+	const queryParams = { context: 'view', enabled: false, count: 0, empty: '', toto: 'tata' };
 	const state = {
 		request: {
 			endpoint: {
 				request: {
 					query: {
 						context: {},
+						enabled: {},
+						count: {},
+						empty: {},
 					},
 				},
 			},
@@ -73,7 +76,11 @@ it( 'getQueryParams should return the defined queryParams', () => {
 		},
 	};
 
-	expect( getQueryParams( state ) ).toEqual( { context: 'view' } );
+	expect( getQueryParams( state ) ).toEqual( {
+		context: 'view',
+		enabled: false,
+		count: 0,
+	} );
 } );
 
 it( 'getQueryParamValues preserves real falsy and structured values but omits unset values', () => {
@@ -173,7 +180,7 @@ describe( 'getCompleteQueryUrl', () => {
 					pathLabeled: '/site/$site/posts/slug:$slug',
 					request: {
 						path: { $site: {}, $slug: {} },
-						query: { context: {}, page: {} },
+						query: { context: {}, page: {}, enabled: {}, count: {} },
 					},
 				},
 				pathValues: {
@@ -183,11 +190,15 @@ describe( 'getCompleteQueryUrl', () => {
 				queryParams: {
 					context: 'view',
 					page: '',
+					enabled: false,
+					count: 0,
 				},
 			},
 		};
 
-		expect( getCompleteQueryUrl( state ) ).toEqual( '/site/testsite.wordpress.com/posts/slug:10?context=view' );
+		expect( getCompleteQueryUrl( state ) ).toEqual(
+			'/site/testsite.wordpress.com/posts/slug:10?context=view&enabled=false&count=0'
+		);
 	} );
 } );
 

@@ -57,17 +57,13 @@ export const getQueryParams = state => {
 	const queryArgs = Object.keys( endpoint.request.query || {} );
 
 	return queryArgs.reduce( ( ret, arg ) => {
-		if (
-			! state.request.queryParams[ arg ] || (
-				Array.isArray( state.request.queryParams[ arg ] ) &&
-				! state.request.queryParams[ arg ].length
-			)
-		) {
+		const value = state.request.queryParams[ arg ];
+		if ( undefined === value || '' === value || ( Array.isArray( value ) && ! value.length ) ) {
 			return ret;
 		}
 		return {
 			...ret,
-			[ arg ]: state.request.queryParams[ arg ],
+			[ arg ]: value,
 		};
 	}, {} );
 };

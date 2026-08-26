@@ -197,6 +197,16 @@ it( 'renders static type badges and preserves false, zero, object, and mixed-arr
 	expect( container.querySelector( '[data-parameter-type] input' ) ).toBeNull();
 } );
 
+it( 'normalizes edited integer and number controls to numeric values', () => {
+	const { setQueryParam } = renderWorkspace();
+
+	changeInput( container.querySelector( '[aria-label="count"]' ), '7' );
+	changeInput( container.querySelector( '[aria-label="ratio"]' ), '2.25' );
+
+	expect( setQueryParam ).toHaveBeenNthCalledWith( 1, 'count', 7 );
+	expect( setQueryParam ).toHaveBeenNthCalledWith( 2, 'ratio', 2.25 );
+} );
+
 it( 'dispatches query changes and clears a present value with the parameter name only', () => {
 	const { setQueryParam } = renderWorkspace();
 

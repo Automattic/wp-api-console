@@ -307,26 +307,16 @@ Expected: FAIL because the component does not exist.
 
 - [ ] **Step 3: Implement type-specific controls and tabs**
 
-Create the component using `Card`, `CardHeader`, `CardBody`, `TabPanel`, `TextControl`, `NumberControl`, `ToggleControl`, `FormTokenField`, and `Button` from `@wordpress/components`. Export the unconnected component for tests and connect the default export to existing selectors/actions.
+Create the component using `Card`, `CardHeader`, `CardBody`, `TabPanel`, `TextControl`, `NumberControl`, `ToggleControl`, `TextareaControl`, `Tooltip`, and `Button` from `@wordpress/components`. Export the unconnected component for tests and connect the default export to existing selectors/actions.
 
-The control mapping must be exactly:
+The control mapping is:
 
-```jsx
-const ParameterValueControl = ( { name, parameter, value, onChange } ) => {
-	const common = { label: name, hideLabelFromVision: true };
-	switch ( parameter.type ) {
-		case 'boolean':
-			return <ToggleControl { ...common } checked={ Boolean( value ) } onChange={ onChange } />;
-		case 'integer':
-		case 'number':
-			return <NumberControl { ...common } value={ value ?? '' } onChange={ onChange } />;
-		case 'array':
-			return <FormTokenField { ...common } value={ Array.isArray( value ) ? value : [] } onChange={ onChange } />;
-		default:
-			return <TextControl { ...common } value={ value ?? '' } onChange={ onChange } />;
-	}
-};
-```
+- `boolean` → `ToggleControl` preserving `false`;
+- `integer`/`number` → `NumberControl`, normalizing finite edits back to JavaScript numbers;
+- `array`/`object` → `TextareaControl` with JSON parsing and type validation, preserving mixed JSON arrays and objects;
+- all other types → `TextControl`.
+
+Invalid intermediate JSON stays local to the textarea and is not dispatched. Empty numeric values clear the parameter; non-finite values are not dispatched.
 
 Each row includes a static `<span data-parameter-type={ parameter.type || 'string' }>` and a tertiary clear `Button` that calls `onChange( name )`. Build tabs only for Query and Body; do not read or dispatch path values.
 

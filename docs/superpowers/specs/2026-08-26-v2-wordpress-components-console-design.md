@@ -55,7 +55,7 @@ The V2 workspace has two columns on desktop and one column on narrow screens:
    - Controls map discovered types to WordPress controls:
      - `boolean` → `ToggleControl`
      - `integer`/`number` → `NumberControl`
-     - `array` → `FormTokenField`
+     - `array`/`object` → `TextareaControl` with JSON validation, preserving mixed JSON values
      - other values → `TextControl`
    - Values dispatch the existing `setQueryParam` or `setBodyParam` actions.
    - Empty tabs display an explicit empty state.
