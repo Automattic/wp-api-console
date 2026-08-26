@@ -1,7 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import React, { act } from 'react';
+import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
+
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock( './state', () => ( {
 	default: {
@@ -26,20 +27,22 @@ vi.mock( './components/results', () => ( {
 import App from './app';
 
 let container;
+let root;
 
 beforeEach( () => {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
+	root = createRoot( container );
 } );
 
 afterEach( () => {
-	ReactDOM.unmountComponentAtNode( container );
+	act( () => root.unmount() );
 	container.remove();
 } );
 
 it( 'places the request workspace between the header and results', () => {
 	act( () => {
-		ReactDOM.render( <App />, container );
+		root.render( <App /> );
 	} );
 
 	const app = container.querySelector( '.App' );

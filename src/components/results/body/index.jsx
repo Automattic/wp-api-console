@@ -1,6 +1,6 @@
 import React from 'react';
 import { TREE_VIEW, JSON_VIEW } from '../results-view-selector';
-import JSONTree from 'react-json-tree';
+import { JSONTree } from 'react-json-tree';
 import { escapeLikeJSON, stringify } from '../utils';
 
 import './style.css';

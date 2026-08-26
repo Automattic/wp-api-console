@@ -1,10 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import React, { act } from 'react';
+import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
+
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock( 'react-simple-code-editor', () => ( {
 	default: ( props ) => (
@@ -60,12 +61,14 @@ const findButton = ( container, label ) =>
 	);
 
 const setTextAreaValue = ( textarea, value ) => {
-	Object.defineProperty( textarea, 'value', {
-		configurable: true,
-		value,
-		writable: true,
+	act( () => {
+		Object.defineProperty( textarea, 'value', {
+			configurable: true,
+			value,
+			writable: true,
+		} );
+		textarea.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 	} );
-	textarea.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 };
 
 const advanceTimers = async ( milliseconds ) => {
@@ -76,10 +79,21 @@ const advanceTimers = async ( milliseconds ) => {
 };
 
 let container;
+let root;
+
+const unmountEditor = () => {
+	if ( ! root ) {
+		return;
+	}
+
+	act( () => root.unmount() );
+	root = null;
+};
 
 beforeEach( () => {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
+	root = createRoot( container );
 	Object.defineProperty( navigator, 'clipboard', {
 		configurable: true,
 		value: { writeText: vi.fn( () => Promise.resolve() ) },
@@ -87,7 +101,7 @@ beforeEach( () => {
 } );
 
 afterEach( () => {
-	ReactDOM.unmountComponentAtNode( container );
+	unmountEditor();
 	container.remove();
 	vi.clearAllMocks();
 	vi.useRealTimers();
@@ -95,13 +109,12 @@ afterEach( () => {
 
 const renderEditor = ( props = {} ) => {
 	act( () => {
-		ReactDOM.render(
+		root.render(
 			<RequestConfigEditor
 				requestConfigSource={ source }
 				applyRequestConfiguration={ vi.fn( () => Promise.resolve() ) }
 				{ ...props }
-			/>,
-			container
+			/>
 		);
 	} );
 };
@@ -316,7 +329,7 @@ it( 'does not warn when copy completes after unmount', async () => {
 		findButton( container, 'Copy JSON' ).click();
 		await Promise.resolve();
 	} );
-	ReactDOM.unmountComponentAtNode( container );
+	unmountEditor();
 
 	await act( async () => {
 		resolveCopy();
@@ -424,7 +437,7 @@ it( 'clears pending automatic apply work when unmounted', async () => {
 	renderEditor( { applyRequestConfiguration } );
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
 
-	ReactDOM.unmountComponentAtNode( container );
+	unmountEditor();
 	await advanceTimers( 500 );
 
 	expect( applyRequestConfiguration ).not.toHaveBeenCalled();
@@ -445,7 +458,7 @@ it( 'ignores an in-flight automatic apply failure after unmount', async () => {
 	renderEditor( { applyRequestConfiguration } );
 	setTextAreaValue( container.querySelector( 'textarea' ), '{"a":1}' );
 	await advanceTimers( 500 );
-	ReactDOM.unmountComponentAtNode( container );
+	unmountEditor();
 
 	await act( async () => {
 		rejectApply( new Error( 'late failure' ) );
