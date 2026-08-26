@@ -10,6 +10,7 @@ import {
 	TextControl,
 	TextareaControl,
 	ToggleControl,
+	Tooltip,
 } from '@wordpress/components';
 
 import './style.css';
@@ -125,7 +126,21 @@ const ParameterTable = ( { kind, params = {}, values = {}, onChange } ) => {
 
 				return (
 					<div className="v2-parameter-workspace__row" key={ name }>
-						<code className="v2-parameter-workspace__name">{ name }</code>
+						<div className="v2-parameter-workspace__name-cell">
+							<code className="v2-parameter-workspace__name">{ name }</code>
+							{ parameter.description && (
+								<Tooltip text={ parameter.description }>
+									<Button
+										aria-label={ `About ${ name }` }
+										className="v2-parameter-workspace__help"
+										size="compact"
+										variant="tertiary"
+									>
+										<span aria-hidden="true">?</span>
+									</Button>
+								</Tooltip>
+							) }
+						</div>
 						<span className="v2-parameter-workspace__type" data-parameter-type={ type }>
 							{ type }
 						</span>

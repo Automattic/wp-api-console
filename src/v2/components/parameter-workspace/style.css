@@ -2,9 +2,19 @@
 	min-width: 0;
 }
 
+.v2-parameter-workspace .components-card__header {
+	min-height: 36px;
+	padding: 6px 12px;
+}
+
 .v2-parameter-workspace .components-card__header h2 {
-	font-size: 16px;
+	font-size: 13px;
 	margin: 0;
+}
+
+.v2-parameter-workspace .components-tab-panel__tabs button {
+	font-size: 13px;
+	min-height: 32px;
 }
 
 .v2-parameter-workspace__body {
@@ -23,22 +33,40 @@
 
 .v2-parameter-workspace__control textarea {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-	min-height: 80px;
+	min-height: 36px;
+}
+
+.v2-parameter-workspace__control input:not( [type="checkbox"] ),
+.v2-parameter-workspace__control textarea,
+.v2-parameter-workspace__control .components-input-control__container {
+	font-size: 13px;
+	min-height: 32px;
+}
+
+.v2-parameter-workspace__table {
+	font-size: 13px;
+	max-height: 222px;
+	overflow-y: auto;
+	position: relative;
 }
 
 .v2-parameter-workspace__table-header,
 .v2-parameter-workspace__row {
 	align-items: center;
 	display: grid;
-	gap: 12px;
-	grid-template-columns: minmax( 110px, 0.7fr ) 90px minmax( 180px, 1.5fr ) auto;
-	padding: 10px 16px;
+	gap: 8px;
+	grid-template-columns: minmax( 110px, 0.7fr ) 72px minmax( 180px, 1.5fr ) auto;
+	padding: 4px 12px;
 }
 
 .v2-parameter-workspace__table-header {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: #fff;
 	border-bottom: 1px solid #ddd;
 	color: #646970;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
@@ -46,26 +74,42 @@
 
 .v2-parameter-workspace__row {
 	border-bottom: 1px solid #e8e8e8;
-	min-height: 48px;
+	min-height: 36px;
 }
 
 .v2-parameter-workspace__row:last-child {
 	border-bottom: 0;
 }
 
+.v2-parameter-workspace__name-cell {
+	align-items: center;
+	display: flex;
+	gap: 4px;
+	min-width: 0;
+}
+
 .v2-parameter-workspace__name {
 	color: #1e1e1e;
+	font-size: 13px;
 	overflow-wrap: anywhere;
+}
+
+.v2-parameter-workspace__help.components-button {
+	flex: 0 0 24px;
+	height: 24px;
+	justify-content: center;
+	min-width: 24px;
+	padding: 0;
 }
 
 .v2-parameter-workspace__type {
 	background: #f0f6fc;
 	border-radius: 12px;
 	color: #3858e9;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 600;
 	justify-self: start;
-	padding: 3px 8px;
+	padding: 2px 6px;
 }
 
 .v2-parameter-workspace__control,
@@ -76,8 +120,14 @@
 }
 
 .v2-parameter-workspace__clear {
-	min-width: 52px;
+	min-width: 44px;
 	text-align: right;
+}
+
+.v2-parameter-workspace__clear .components-button {
+	font-size: 12px;
+	min-height: 32px;
+	padding: 0 4px;
 }
 
 .v2-parameter-workspace__empty {

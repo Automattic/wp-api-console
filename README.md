@@ -24,11 +24,19 @@ To setup the environment on your local system with WordPress.com APIs:
 
 7. Click on the key to authenticate.
 
+## Console versions
+
+- `/` renders the original V1 composition: the endpoint-selection header, parameter builder, and newest-first request results.
+- `/v2` renders the React 18 request workspace using `@wordpress/components`.
+- Both routes directly reuse the same endpoint-selection `Header` and the same newest-first V1 `Results` component.
+- Path parameters stay in the shared endpoint-selection header. The V2 workspace provides Query and Body tabs.
+- The shareable request configuration JSON editor is available only in `/v2`.
+
 ## Sharing a configured request
 
-The request workspace can generate and apply a versioned JSON representation of the selected API request.
+The V2 request workspace can generate and apply a versioned JSON representation of the selected API request.
 
-1. Select an API, version, and endpoint, then fill the path, query, and body values.
+1. Select an API, version, and endpoint, fill path values in the shared header, then fill query and body values in the V2 workspace.
 2. The JSON updates automatically; use **From request** to restore it manually if needed.
 3. Review query and body values for sensitive data.
 4. Click **Copy JSON** and paste the JSON into pull request testing instructions.

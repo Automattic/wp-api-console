@@ -1,10 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { vi } from 'vitest';
 
 vi.mock( '@wordpress/components', () => ( {
-	Button: ( { children, ...props } ) => <button { ...props }>{ children }</button>,
+	Button: ( { children, size, variant, ...props } ) => <button { ...props }>{ children }</button>,
 	Card: ( { children, ...props } ) => <section { ...props }>{ children }</section>,
 	CardBody: ( { children, ...props } ) => <div { ...props }>{ children }</div>,
 	CardHeader: ( { children, ...props } ) => <header { ...props }>{ children }</header>,
@@ -38,6 +41,7 @@ vi.mock( '@wordpress/components', () => ( {
 			</div>
 		);
 	},
+	Tooltip: ( { children, text } ) => <span data-tooltip-text={ text }>{ children }</span>,
 	TextControl: ( { label, value, onChange } ) => (
 		<input
 			aria-label={ label.props?.children || label }
@@ -73,7 +77,7 @@ const endpoint = {
 	request: {
 		path: { $site: { type: 'string' } },
 		query: {
-			enabled: { type: 'boolean' },
+			enabled: { type: 'boolean', description: 'Whether the feature is enabled.' },
 			count: { type: 'integer' },
 			ratio: { type: 'number' },
 			tags: { type: 'array' },
@@ -137,6 +141,36 @@ it( 'shows only Query and Body tabs because Path remains in the V1 header', () =
 		Array.from( container.querySelectorAll( '[role="tab"]' ), ( tab ) => tab.textContent )
 	).toEqual( [ 'Query', 'Body' ] );
 	expect( container.textContent ).not.toContain( 'Path' );
+} );
+
+it( 'exposes discovery descriptions through a keyboard-focusable tooltip control', () => {
+	renderWorkspace();
+
+	const helpButton = container.querySelector( '[aria-label="About enabled"]' );
+	expect( helpButton.tagName ).toBe( 'BUTTON' );
+	expect( helpButton.tabIndex ).toBe( 0 );
+	expect( helpButton.closest( '[data-tooltip-text]' ).dataset.tooltipText ).toBe(
+		'Whether the feature is enabled.'
+	);
+} );
+
+it( 'keeps the parameter list compact, scrolling internally under a sticky header', () => {
+	const css = fs.readFileSync(
+		path.resolve( 'src/v2/components/parameter-workspace/style.css' ),
+		'utf8'
+	);
+
+	expect( css ).toMatch(
+		/\.v2-parameter-workspace__table\s*\{[^}]*max-height:\s*222px;[^}]*overflow-y:\s*auto;/s
+	);
+	expect( css ).toMatch(
+		/\.v2-parameter-workspace__table-header\s*\{[^}]*position:\s*sticky;[^}]*top:\s*0;/s
+	);
+	expect( css ).toMatch(
+		/\.v2-parameter-workspace__table-header,[\s\S]*?\.v2-parameter-workspace__row\s*\{[^}]*gap:\s*8px;[^}]*padding:\s*4px 12px;/s
+	);
+	expect( css ).toMatch( /\.v2-parameter-workspace__row\s*\{[^}]*min-height:\s*36px;/s );
+	expect( css ).toMatch( /\.v2-parameter-workspace__table\s*\{[^}]*font-size:\s*13px;/s );
 } );
 
 it( 'renders static type badges and preserves false, zero, object, and mixed-array values', () => {

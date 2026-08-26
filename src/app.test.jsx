@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
@@ -40,19 +43,22 @@ afterEach( () => {
 	container.remove();
 } );
 
-it( 'places the request workspace between the header and results', () => {
+it( 'renders the original V1 header, query builder, and results sequence', () => {
 	act( () => {
 		root.render( <App /> );
 	} );
 
-	const app = container.querySelector( '.App' );
-	const children = Array.from( app.children );
-	const workspace = children[ 1 ];
+	expect(
+		Array.from( container.querySelector( '.App' ).children ).map( ( child ) =>
+			child.getAttribute( 'data-testid' )
+		)
+	).toEqual( [ 'header', 'query-builder', 'results' ] );
+} );
 
-	expect(
-		children.map( ( child ) => child.getAttribute( 'data-testid' ) || child.className )
-	).toEqual( [ 'header', 'request-workspace', 'results' ] );
-	expect(
-		Array.from( workspace.children ).map( ( child ) => child.getAttribute( 'data-testid' ) )
-	).toEqual( [ 'query-builder', 'request-config-editor' ] );
+it( 'keeps the original V1 builder below the fixed endpoint header', () => {
+	const css = fs.readFileSync( path.resolve( 'src/components/query-builder/style.css' ), 'utf8' );
+
+	expect( css ).toContain( 'padding: 60px 16px 24px 16px;' );
+	expect( css ).toContain( 'flex-direction: row;' );
+	expect( css ).toContain( 'border-bottom: 1px solid #eaf1f6;' );
 } );
