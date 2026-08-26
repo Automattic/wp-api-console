@@ -17,6 +17,12 @@ vi.mock( '../../components/header', () => ( {
 vi.mock( '../../components/results', () => ( {
 	default: () => <div data-testid="v1-results" />,
 } ) );
+vi.mock( '../components/parameter-workspace', () => ( {
+	default: () => <div data-testid="parameter-workspace" />,
+} ) );
+vi.mock( '../components/request-config-panel', () => ( {
+	default: () => <div data-testid="request-config-panel" />,
+} ) );
 
 import { V2Layout } from '../app';
 
@@ -47,7 +53,10 @@ it( 'reuses the V1 header and results around the V2 workspace', () => {
 	expect(
 		Array.from( main.children ).map( ( node ) => node.dataset.testid || node.className )
 	).toEqual( [ 'v2-console__workspace', 'v1-results' ] );
-	expect( workspace.children ).toHaveLength( 2 );
+	expect( workspace.getAttribute( 'aria-label' ) ).toBe( 'Request workspace' );
+	expect(
+		Array.from( workspace.children ).map( ( node ) => node.dataset.testid )
+	).toEqual( [ 'parameter-workspace', 'request-config-panel' ] );
 	expect( container.querySelectorAll( '[data-testid="v1-header"]' ) ).toHaveLength( 1 );
 	expect( container.querySelectorAll( '[data-testid="v1-results"]' ) ).toHaveLength( 1 );
 } );

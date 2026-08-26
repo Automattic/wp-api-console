@@ -15,7 +15,7 @@ export const V2Layout = () => (
 	<div className="App v2-console">
 		<Header />
 		<main className="v2-console__main">
-			<section className="v2-console__workspace">
+			<section className="v2-console__workspace" aria-label="Request workspace">
 				<ParameterWorkspace />
 				<RequestConfigPanel />
 			</section>
