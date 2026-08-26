@@ -38,6 +38,22 @@ const source = {
 	bodyParams: {},
 };
 
+const syncSource = {
+	...source,
+	endpoint: {
+		...source.endpoint,
+		pathLabeled: '/sites/$site/posts',
+		request: {
+			path: { $site: {} },
+			query: { context: {} },
+			body: { title: {} },
+		},
+	},
+	pathValues: { $site: '123' },
+	queryParams: { context: 'display' },
+	bodyParams: { title: 'Hello' },
+};
+
 const findButton = ( container, label ) =>
 	Array.from( container.querySelectorAll( 'button' ) ).find(
 		( button ) => button.textContent === label
@@ -93,24 +109,58 @@ it( 'defines a visible keyboard focus fallback and suppresses mouse-only focus w
 	expect( css ).not.toContain( '@supports not selector(:focus-visible)' );
 } );
 
-it( 'generates request JSON and does not autosync later source changes', () => {
-	renderEditor();
-	const fromRequest = findButton( container, 'From request' );
-	act( () => fromRequest.click() );
+it( 'generates request JSON initially and ignores semantically equivalent rerenders', () => {
+	renderEditor( { requestConfigSource: syncSource } );
+	expect( container.querySelector( 'textarea' ).value ).toBe(
+		formatRequestConfig( createRequestConfig( syncSource ) )
+	);
 
-	const expected = formatRequestConfig( createRequestConfig( source ) );
-	expect( container.querySelector( 'textarea' ).value ).toBe( expected );
-
-	const changedSource = {
-		...source,
-		version: 'v2',
-		endpoint: {
-			...source.endpoint,
-			pathLabeled: '/changed',
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"manual":true}' );
+	renderEditor( {
+		requestConfigSource: {
+			...syncSource,
+			pathValues: { ...syncSource.pathValues },
 		},
-	};
+	} );
+
+	expect( container.querySelector( 'textarea' ).value ).toBe( '{"manual":true}' );
+} );
+
+it.each( [
+	[ 'API', ( value ) => ( { ...value, api: 'WP.ORG API' } ) ],
+	[ 'version', ( value ) => ( { ...value, version: 'v2' } ) ],
+	[
+		'endpoint',
+		( value ) => ( {
+			...value,
+			endpoint: { ...value.endpoint, pathLabeled: '/sites/$site/pages' },
+		} ),
+	],
+	[
+		'path value',
+		( value ) => ( { ...value, pathValues: { ...value.pathValues, $site: '456' } } ),
+	],
+	[
+		'query value',
+		( value ) => ( {
+			...value,
+			queryParams: { ...value.queryParams, context: 'edit' },
+		} ),
+	],
+	[
+		'body value',
+		( value ) => ( { ...value, bodyParams: { ...value.bodyParams, title: 'Changed' } } ),
+	],
+] )( 'regenerates request JSON after a %s change', ( label, change ) => {
+	renderEditor( { requestConfigSource: syncSource } );
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"manual":true}' );
+
+	const changedSource = change( syncSource );
 	renderEditor( { requestConfigSource: changedSource } );
-	expect( container.querySelector( 'textarea' ).value ).toBe( expected );
+
+	expect( container.querySelector( 'textarea' ).value ).toBe(
+		formatRequestConfig( createRequestConfig( changedSource ) )
+	);
 } );
 
 it( 'formats valid JSON from the editor manually', () => {

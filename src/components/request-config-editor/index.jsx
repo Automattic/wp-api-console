@@ -16,6 +16,8 @@ import { applyRequestConfiguration } from '../../state/request-config/actions';
 import { getRequestConfigSource } from '../../state/request-config/selectors';
 
 const getErrorMessage = ( error ) => ( error && error.message ? error.message : String( error ) );
+const getRequestDraft = ( source ) =>
+	source && source.endpoint ? formatRequestConfig( createRequestConfig( source ) ) : '';
 
 export class RequestConfigEditor extends Component {
 	mounted = false;
@@ -28,6 +30,13 @@ export class RequestConfigEditor extends Component {
 
 	componentDidMount() {
 		this.mounted = true;
+		this.syncFromRequest();
+	}
+
+	componentDidUpdate( previousProps ) {
+		if ( previousProps.requestConfigSource !== this.props.requestConfigSource ) {
+			this.syncFromRequest( previousProps.requestConfigSource );
+		}
 	}
 
 	componentWillUnmount() {
@@ -50,13 +59,31 @@ export class RequestConfigEditor extends Component {
 		this.safeSetState( { draft, error: '' } );
 	};
 
-	fromRequest = () => {
+	syncFromRequest = ( previousSource ) => {
 		try {
-			const draft = formatRequestConfig( createRequestConfig( this.props.requestConfigSource ) );
+			const draft = getRequestDraft( this.props.requestConfigSource );
+			if ( ! draft ) {
+				return;
+			}
+
+			let previousDraft = '';
+			try {
+				previousDraft = getRequestDraft( previousSource );
+			} catch ( error ) {
+				// A newly valid request should replace a previously incomplete one.
+			}
+			if ( previousSource && draft === previousDraft ) {
+				return;
+			}
+
 			this.safeSetState( { draft, error: '' } );
 		} catch ( error ) {
 			this.setError( error );
 		}
+	};
+
+	fromRequest = () => {
+		this.syncFromRequest();
 	};
 
 	formatJson = () => {
