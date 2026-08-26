@@ -40,6 +40,7 @@
 .v2-parameter-workspace__control textarea,
 .v2-parameter-workspace__control .components-input-control__container {
 	font-size: 13px;
+	height: 32px;
 	min-height: 32px;
 }
 

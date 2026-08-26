@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
@@ -41,6 +44,23 @@ afterEach( () => {
 	act( () => root.unmount() );
 	container.remove();
 	vi.clearAllMocks();
+} );
+
+it( 'uses the same compact heading and content height as the parameter panel', () => {
+	const css = fs.readFileSync(
+		path.resolve( 'src/v2/components/request-config-panel/style.css' ),
+		'utf8'
+	);
+
+	expect( css ).toMatch(
+		/\.v2-request-config-panel \.components-card__header\s*\{[^}]*min-height:\s*36px;[^}]*padding:\s*6px 12px;/s
+	);
+	expect( css ).toMatch(
+		/\.v2-request-config-panel \.components-card__header h2\s*\{[^}]*font-size:\s*13px;/s
+	);
+	expect( css ).toMatch(
+		/\.v2-request-config-panel \.request-config-editor__code\s*\{[^}]*min-height:\s*222px;/s
+	);
 } );
 
 it( 'renders the existing request configuration editor once inside a WordPress card', () => {

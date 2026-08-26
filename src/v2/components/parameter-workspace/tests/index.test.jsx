@@ -7,7 +7,11 @@ import { act } from 'react';
 import { vi } from 'vitest';
 
 vi.mock( '@wordpress/components', () => ( {
-	Button: ( { children, size, variant, ...props } ) => <button { ...props }>{ children }</button>,
+	Button: ( { children, icon, label, size, variant, ...props } ) => (
+		<button aria-label={ props[ 'aria-label' ] || label } data-icon={ icon || undefined } { ...props }>
+			{ children }
+		</button>
+	),
 	Card: ( { children, ...props } ) => <section { ...props }>{ children }</section>,
 	CardBody: ( { children, ...props } ) => <div { ...props }>{ children }</div>,
 	CardHeader: ( { children, ...props } ) => <header { ...props }>{ children }</header>,
@@ -149,9 +153,46 @@ it( 'exposes discovery descriptions through a keyboard-focusable tooltip control
 	const helpButton = container.querySelector( '[aria-label="About enabled"]' );
 	expect( helpButton.tagName ).toBe( 'BUTTON' );
 	expect( helpButton.tabIndex ).toBe( 0 );
+	expect( helpButton.dataset.icon ).toBe( 'info-outline' );
 	expect( helpButton.closest( '[data-tooltip-text]' ).dataset.tooltipText ).toBe(
 		'Whether the feature is enabled.'
 	);
+} );
+
+it( 'normalizes legacy discovery types and object descriptions', () => {
+	renderWorkspace( {
+		endpoint: {
+			request: {
+				path: {},
+				query: {
+					enabled: { type: '(bool)' },
+					count: { type: '(int)' },
+					ratio: { type: '(float)' },
+					context: {
+						type: '(string)',
+						description: {
+							display: 'Use the display context.',
+							edit: 'Use the edit context.',
+						},
+					},
+				},
+				body: {},
+			},
+		},
+		queryParams: { enabled: false, count: 0, ratio: 1.5, context: 'display' },
+	} );
+
+	expect( container.querySelector( '[aria-label="enabled"]' ).dataset.control ).toBe( 'boolean' );
+	expect( container.querySelector( '[aria-label="count"]' ).dataset.control ).toBe( 'number' );
+	expect( container.querySelector( '[aria-label="ratio"]' ).dataset.control ).toBe( 'number' );
+	expect( container.querySelector( '[aria-label="context"]' ).dataset.control ).toBe( 'text' );
+	expect(
+		Array.from( container.querySelectorAll( '[data-parameter-type]' ), ( badge ) => badge.textContent )
+	).toEqual( [ 'boolean', 'integer', 'number', 'string' ] );
+	expect(
+		container.querySelector( '[aria-label="About context"]' ).closest( '[data-tooltip-text]' )
+			.dataset.tooltipText
+	).toBe( 'display: Use the display context.\nedit: Use the edit context.' );
 } );
 
 it( 'keeps the parameter list compact, scrolling internally under a sticky header', () => {
@@ -171,6 +212,9 @@ it( 'keeps the parameter list compact, scrolling internally under a sticky heade
 	);
 	expect( css ).toMatch( /\.v2-parameter-workspace__row\s*\{[^}]*min-height:\s*36px;/s );
 	expect( css ).toMatch( /\.v2-parameter-workspace__table\s*\{[^}]*font-size:\s*13px;/s );
+	expect( css ).toMatch(
+		/\.v2-parameter-workspace__control input:not\( \[type="checkbox"\] \),[\s\S]*?\{[^}]*height:\s*32px;/s
+	);
 } );
 
 it( 'renders static type badges and preserves false, zero, object, and mixed-array values', () => {

@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
@@ -38,6 +41,12 @@ beforeEach( () => {
 afterEach( () => {
 	act( () => root.unmount() );
 	container.remove();
+} );
+
+it( 'aligns workspace panels to their content instead of stretching their heights', () => {
+	const css = fs.readFileSync( path.resolve( 'src/v2/style.css' ), 'utf8' );
+
+	expect( css ).toMatch( /\.v2-console__workspace\s*\{[^}]*align-items:\s*start;/s );
 } );
 
 it( 'reuses the V1 header and results around the V2 workspace', () => {

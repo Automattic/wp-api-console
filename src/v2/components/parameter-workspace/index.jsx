@@ -29,6 +29,29 @@ const PARAMETER_TABS = [
 
 const hasOwn = ( object, property ) => Object.prototype.hasOwnProperty.call( object, property );
 
+export const normalizeParameterType = ( type = 'string' ) => {
+	const normalized = type.trim().toLowerCase().replace( /^\(|\)$/g, '' );
+	const aliases = {
+		bool: 'boolean',
+		int: 'integer',
+		float: 'number',
+		double: 'number',
+	};
+	return aliases[ normalized ] || normalized || 'string';
+};
+
+export const formatParameterDescription = ( description ) => {
+	if ( 'string' === typeof description ) {
+		return description;
+	}
+	if ( description && 'object' === typeof description ) {
+		return Object.keys( description )
+			.map( ( key ) => `${ key }: ${ description[ key ] }` )
+			.join( '\n' );
+	}
+	return '';
+};
+
 const getControlLabel = ( name ) => (
 	<span className="v2-parameter-workspace__control-label">{ name }</span>
 );
@@ -137,24 +160,25 @@ const ParameterTable = ( { kind, params = {}, values = {}, onChange } ) => {
 				<span />
 			</div>
 			{ parameterNames.map( ( name ) => {
-				const parameter = params[ name ];
-				const type = parameter.type || 'string';
+				const sourceParameter = params[ name ];
+				const type = normalizeParameterType( sourceParameter.type );
+				const parameter = { ...sourceParameter, type };
+				const description = formatParameterDescription( sourceParameter.description );
 				const isPresent = hasOwn( values, name );
 
 				return (
 					<div className="v2-parameter-workspace__row" key={ name }>
 						<div className="v2-parameter-workspace__name-cell">
 							<code className="v2-parameter-workspace__name">{ name }</code>
-							{ parameter.description && (
-								<Tooltip text={ parameter.description }>
+							{ description && (
+								<Tooltip text={ description }>
 									<Button
-										aria-label={ `About ${ name }` }
 										className="v2-parameter-workspace__help"
-										size="compact"
+										icon="info-outline"
+										label={ `About ${ name }` }
+										size="small"
 										variant="tertiary"
-									>
-										<span aria-hidden="true">?</span>
-									</Button>
+									/>
 								</Tooltip>
 							) }
 						</div>
