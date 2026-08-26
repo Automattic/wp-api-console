@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import { vi } from 'vitest';
@@ -8,18 +8,9 @@ vi.mock( '@wordpress/components', () => ( {
 	Card: ( { children, ...props } ) => <section { ...props }>{ children }</section>,
 	CardBody: ( { children, ...props } ) => <div { ...props }>{ children }</div>,
 	CardHeader: ( { children, ...props } ) => <header { ...props }>{ children }</header>,
-	FormTokenField: ( { label, value, onChange } ) => (
-		<input
-			aria-label={ label }
-			data-control="tokens"
-			data-value={ JSON.stringify( value ) }
-			value={ value.join( ', ' ) }
-			onChange={ ( event ) => onChange( event.target.value.split( ', ' ).filter( Boolean ) ) }
-		/>
-	),
 	__experimentalNumberControl: ( { label, value, onChange } ) => (
 		<input
-			aria-label={ label }
+			aria-label={ label.props?.children || label }
 			data-control="number"
 			type="number"
 			value={ value }
@@ -49,15 +40,23 @@ vi.mock( '@wordpress/components', () => ( {
 	},
 	TextControl: ( { label, value, onChange } ) => (
 		<input
-			aria-label={ label }
+			aria-label={ label.props?.children || label }
 			data-control="text"
+			value={ value }
+			onChange={ ( event ) => onChange( event.target.value ) }
+		/>
+	),
+	TextareaControl: ( { label, value, onChange } ) => (
+		<textarea
+			aria-label={ label.props?.children || label }
+			data-control="json"
 			value={ value }
 			onChange={ ( event ) => onChange( event.target.value ) }
 		/>
 	),
 	ToggleControl: ( { checked, label, onChange } ) => (
 		<input
-			aria-label={ label }
+			aria-label={ label.props?.children || label }
 			checked={ checked }
 			data-control="boolean"
 			type="checkbox"
@@ -66,7 +65,7 @@ vi.mock( '@wordpress/components', () => ( {
 	),
 } ) );
 
-import { ParameterWorkspace } from '../index';
+import { getParameterWorkspaceProps, ParameterWorkspace } from '../index';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -78,6 +77,7 @@ const endpoint = {
 			count: { type: 'integer' },
 			ratio: { type: 'number' },
 			tags: { type: 'array' },
+			settings: { type: 'object' },
 			context: { type: 'string' },
 		},
 		body: { title: { type: 'string' } },
@@ -107,7 +107,8 @@ const renderWorkspace = ( props = {} ) => {
 			enabled: false,
 			count: 0,
 			ratio: 1.5,
-			tags: [ 'one', 'two' ],
+			tags: [ 'one', 2, false, { nested: true } ],
+			settings: { answer: 42 },
 			context: 'display',
 		},
 		setBodyParam: vi.fn(),
@@ -120,7 +121,11 @@ const renderWorkspace = ( props = {} ) => {
 
 const changeInput = ( input, value ) => {
 	act( () => {
-		Object.getOwnPropertyDescriptor( HTMLInputElement.prototype, 'value' ).set.call( input, value );
+		const prototype =
+			input instanceof HTMLTextAreaElement
+				? HTMLTextAreaElement.prototype
+				: HTMLInputElement.prototype;
+		Object.getOwnPropertyDescriptor( prototype, 'value' ).set.call( input, value );
 		input.dispatchEvent( new Event( 'change', { bubbles: true } ) );
 	} );
 };
@@ -134,20 +139,24 @@ it( 'shows only Query and Body tabs because Path remains in the V1 header', () =
 	expect( container.textContent ).not.toContain( 'Path' );
 } );
 
-it( 'renders static type badges and preserves false, zero, and array values', () => {
+it( 'renders static type badges and preserves false, zero, object, and mixed-array values', () => {
 	renderWorkspace();
 
 	const booleanControl = container.querySelector( '[data-control="boolean"]' );
 	const integerControl = container.querySelector( '[aria-label="count"]' );
 	const numberControl = container.querySelector( '[aria-label="ratio"]' );
-	const arrayControl = container.querySelector( '[data-control="tokens"]' );
+	const arrayControl = container.querySelector( '[aria-label="tags"]' );
+	const objectControl = container.querySelector( '[aria-label="settings"]' );
 
 	expect( booleanControl.checked ).toBe( false );
 	expect( integerControl.dataset.control ).toBe( 'number' );
 	expect( integerControl.value ).toBe( '0' );
 	expect( numberControl.dataset.control ).toBe( 'number' );
 	expect( numberControl.value ).toBe( '1.5' );
-	expect( arrayControl.dataset.value ).toBe( '["one","two"]' );
+	expect( arrayControl.dataset.control ).toBe( 'json' );
+	expect( JSON.parse( arrayControl.value ) ).toEqual( [ 'one', 2, false, { nested: true } ] );
+	expect( objectControl.dataset.control ).toBe( 'json' );
+	expect( JSON.parse( objectControl.value ) ).toEqual( { answer: 42 } );
 	expect( container.querySelector( '[data-parameter-type="boolean"]' ).textContent ).toBe(
 		'boolean'
 	);
@@ -159,13 +168,28 @@ it( 'dispatches query changes and clears a present value with the parameter name
 
 	changeInput( container.querySelector( '[aria-label="context"]' ), 'edit' );
 	act( () => container.querySelector( '[aria-label="enabled"]' ).click() );
-	changeInput( container.querySelector( '[aria-label="tags"]' ), 'three, four' );
+	changeInput( container.querySelector( '[aria-label="tags"]' ), '["three",4,false,{"ok":true}]' );
+	changeInput( container.querySelector( '[aria-label="settings"]' ), '{"answer":84}' );
 	act( () => container.querySelector( '[aria-label="Clear count"]' ).click() );
 
 	expect( setQueryParam ).toHaveBeenNthCalledWith( 1, 'context', 'edit' );
 	expect( setQueryParam ).toHaveBeenNthCalledWith( 2, 'enabled', true );
-	expect( setQueryParam ).toHaveBeenNthCalledWith( 3, 'tags', [ 'three', 'four' ] );
-	expect( setQueryParam ).toHaveBeenNthCalledWith( 4, 'count' );
+	expect( setQueryParam ).toHaveBeenNthCalledWith( 3, 'tags', [ 'three', 4, false, { ok: true } ] );
+	expect( setQueryParam ).toHaveBeenNthCalledWith( 4, 'settings', { answer: 84 } );
+	expect( setQueryParam ).toHaveBeenNthCalledWith( 5, 'count' );
+} );
+
+it( 'maps connected state without dropping real falsy values or inventing body presence', () => {
+	const props = getParameterWorkspaceProps( {
+		request: {
+			endpoint,
+			queryParams: { enabled: false, count: 0, search: '', tags: [], unset: undefined },
+			bodyParams: { title: undefined, published: false },
+		},
+	} );
+
+	expect( props.queryParams ).toEqual( { enabled: false, count: 0, search: '', tags: [] } );
+	expect( props.bodyParams ).toEqual( { published: false } );
 } );
 
 it( 'dispatches body changes through the Body tab', () => {

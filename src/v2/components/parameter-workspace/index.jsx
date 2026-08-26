@@ -1,22 +1,22 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
 	Button,
 	Card,
 	CardBody,
 	CardHeader,
-	FormTokenField,
 	__experimentalNumberControl as NumberControl,
 	TabPanel,
 	TextControl,
+	TextareaControl,
 	ToggleControl,
 } from '@wordpress/components';
 
 import './style.css';
 
 import {
-	getBodyParams,
-	getQueryParams,
+	getBodyParamValues,
+	getQueryParamValues,
 	getSelectedEndpoint,
 } from '../../../state/request/selectors';
 import { setBodyParam, setQueryParam } from '../../../state/request/actions';
@@ -28,32 +28,74 @@ const PARAMETER_TABS = [
 
 const hasOwn = ( object, property ) => Object.prototype.hasOwnProperty.call( object, property );
 
-const ParameterValueControl = ( { name, parameter, value, onChange } ) => {
-	const commonProps = {
-		__next40pxDefaultSize: true,
-		__nextHasNoMarginBottom: true,
-		hideLabelFromVision: true,
-		label: name,
+const getControlLabel = ( name ) => (
+	<span className="v2-parameter-workspace__control-label">{ name }</span>
+);
+
+const serializeJsonValue = ( value ) =>
+	undefined === value ? '' : JSON.stringify( value, null, 2 );
+
+const isExpectedJsonType = ( value, type ) =>
+	'array' === type
+		? Array.isArray( value )
+		: null !== value && 'object' === typeof value && ! Array.isArray( value );
+
+const JsonValueControl = ( { name, onChange, type, value } ) => {
+	const serializedValue = serializeJsonValue( value );
+	const [ draft, setDraft ] = useState( serializedValue );
+	const [ error, setError ] = useState();
+
+	useEffect( () => {
+		setDraft( serializedValue );
+		setError();
+	}, [ serializedValue ] );
+
+	const updateDraft = ( nextDraft ) => {
+		setDraft( nextDraft );
+
+		try {
+			const parsedValue = JSON.parse( nextDraft );
+			if ( ! isExpectedJsonType( parsedValue, type ) ) {
+				throw new TypeError( `Expected a JSON ${ type }.` );
+			}
+			setError();
+			onChange( parsedValue );
+		} catch {
+			setError( `Enter a valid JSON ${ type }.` );
+		}
 	};
+
+	return (
+		<TextareaControl
+			help={ error }
+			label={ getControlLabel( name ) }
+			onChange={ updateDraft }
+			value={ draft }
+		/>
+	);
+};
+
+export const ParameterValueControl = ( { name, parameter, value, onChange } ) => {
+	const label = getControlLabel( name );
 
 	switch ( parameter.type ) {
 		case 'boolean':
-			return (
-				<ToggleControl { ...commonProps } checked={ Boolean( value ) } onChange={ onChange } />
-			);
+			return <ToggleControl checked={ Boolean( value ) } label={ label } onChange={ onChange } />;
 		case 'integer':
 		case 'number':
-			return <NumberControl { ...commonProps } onChange={ onChange } value={ value ?? '' } />;
+			return <NumberControl label={ label } onChange={ onChange } value={ value ?? '' } />;
 		case 'array':
+		case 'object':
 			return (
-				<FormTokenField
-					{ ...commonProps }
+				<JsonValueControl
+					name={ name }
 					onChange={ onChange }
-					value={ Array.isArray( value ) ? value : [] }
+					type={ parameter.type }
+					value={ value }
 				/>
 			);
 		default:
-			return <TextControl { ...commonProps } onChange={ onChange } value={ value ?? '' } />;
+			return <TextControl label={ label } onChange={ onChange } value={ value ?? '' } />;
 	}
 };
 
@@ -175,11 +217,12 @@ export const ParameterWorkspace = ( {
 	);
 };
 
-export default connect(
-	( state ) => ( {
-		bodyParams: getBodyParams( state ),
-		endpoint: getSelectedEndpoint( state ),
-		queryParams: getQueryParams( state ),
-	} ),
-	{ setBodyParam, setQueryParam }
-)( ParameterWorkspace );
+export const getParameterWorkspaceProps = ( state ) => ( {
+	bodyParams: getBodyParamValues( state ),
+	endpoint: getSelectedEndpoint( state ),
+	queryParams: getQueryParamValues( state ),
+} );
+
+export default connect( getParameterWorkspaceProps, { setBodyParam, setQueryParam } )(
+	ParameterWorkspace
+);

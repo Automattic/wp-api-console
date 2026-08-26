@@ -11,18 +11,19 @@
 	padding: 0;
 }
 
-.v2-parameter-workspace__tabs .components-tab-panel__tabs {
-	border-bottom: 1px solid #ddd;
-	display: flex;
-	padding: 0 12px;
+.v2-parameter-workspace__control-label {
+	clip: rect( 0 0 0 0 );
+	clip-path: inset( 50% );
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
 }
 
-.v2-parameter-workspace__tabs .components-tab-panel__tabs-item {
-	border-radius: 0;
-}
-
-.v2-parameter-workspace__tabs .components-tab-panel__tabs-item.is-active {
-	box-shadow: inset 0 -3px var( --wp-admin-theme-color, #3858e9 );
+.v2-parameter-workspace__control textarea {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	min-height: 80px;
 }
 
 .v2-parameter-workspace__table-header,

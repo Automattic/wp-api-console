@@ -34,6 +34,21 @@ export const getPathValues = state => {
 
 export const getMethod = state => state.request.method;
 
+const getDefinedParamValues = values => Object.keys( values || {} ).reduce( ( defined, name ) => {
+	if ( undefined === values[ name ] ) {
+		return defined;
+	}
+
+	return {
+		...defined,
+		[ name ]: values[ name ],
+	};
+}, {} );
+
+export const getQueryParamValues = state => getDefinedParamValues( state.request.queryParams );
+
+export const getBodyParamValues = state => getDefinedParamValues( state.request.bodyParams );
+
 export const getQueryParams = state => {
 	const endpoint = getSelectedEndpoint( state );
 	if ( ! endpoint ) {

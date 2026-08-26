@@ -4,7 +4,9 @@ import {
 	getPathValues,
 	getMethod,
 	getQueryParams,
+	getQueryParamValues,
 	getBodyParams,
+	getBodyParamValues,
 	getEndpointPathParts,
 	getCompleteQueryUrl,
 	getRequestMethod,
@@ -72,6 +74,43 @@ it( 'getQueryParams should return the defined queryParams', () => {
 	};
 
 	expect( getQueryParams( state ) ).toEqual( { context: 'view' } );
+} );
+
+it( 'getQueryParamValues preserves real falsy and structured values but omits unset values', () => {
+	const values = {
+		enabled: false,
+		count: 0,
+		search: '',
+		tags: [],
+		settings: { answer: 42 },
+		unset: undefined,
+	};
+	const state = { request: { queryParams: values } };
+
+	expect( getQueryParamValues( state ) ).toEqual( {
+		enabled: false,
+		count: 0,
+		search: '',
+		tags: [],
+		settings: { answer: 42 },
+	} );
+} );
+
+it( 'getBodyParamValues returns only values explicitly set in request state', () => {
+	const state = {
+		request: {
+			bodyParams: {
+				title: undefined,
+				published: false,
+				metadata: { featured: true },
+			},
+		},
+	};
+
+	expect( getBodyParamValues( state ) ).toEqual( {
+		published: false,
+		metadata: { featured: true },
+	} );
 } );
 
 it( 'getBodyParams should return the defined bodyParams', () => {
