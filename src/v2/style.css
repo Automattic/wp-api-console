@@ -1,0 +1,20 @@
+.v2-console__main {
+	padding-top: 60px;
+}
+
+.v2-console__workspace {
+	display: grid;
+	grid-template-columns: minmax( 0, 1fr ) minmax( 0, 1fr );
+	gap: 16px;
+	padding: 16px;
+}
+
+.v2-console__workspace > * {
+	min-width: 0;
+}
+
+@media ( max-width: 900px ) {
+	.v2-console__workspace {
+		grid-template-columns: minmax( 0, 1fr );
+	}
+}
