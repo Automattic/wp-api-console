@@ -67,15 +67,6 @@
 	padding: 10px 12px;
 }
 
-.request-config-editor__warning {
-	background: #fff8e8;
-	border-left: 3px solid #d9a441;
-	color: #7d6229;
-	font-size: 12px;
-	margin: 12px;
-	padding: 10px;
-}
-
 .request-config-editor__actions {
 	display: flex;
 	flex-wrap: wrap;

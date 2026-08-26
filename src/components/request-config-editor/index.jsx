@@ -127,9 +127,6 @@ export class RequestConfigEditor extends Component {
 						{ error }
 					</div>
 				) }
-				<div className="request-config-editor__warning">
-					Review query and body values for sensitive data before publishing.
-				</div>
 				<div className="request-config-editor__actions">
 					<button
 						type="button"
