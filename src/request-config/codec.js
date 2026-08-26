@@ -216,16 +216,13 @@ export const createRequestConfig = ( source ) => {
 	const requestDefinition = source.endpoint.request || {};
 	const pathDefinitions = requestDefinition.path || {};
 	const pathValues = pickDefinedValues( pathDefinitions, source.pathValues );
-	const missingPathValues = Object.keys( pathDefinitions ).filter(
-		( key ) => ! hasOwn( pathValues, key )
-	);
-	if ( missingPathValues.length ) {
-		throw new RequestConfigError(
-			'MISSING_PATH_VALUE',
-			`Missing path value: ${ missingPathValues.join( ', ' ) }.`,
-			missingPathValues
-		);
-	}
+	Object.keys( pathDefinitions )
+		.sort()
+		.forEach( key => {
+			if ( ! hasOwn( pathValues, key ) ) {
+				assignJsonProperty( pathValues, key, '' );
+			}
+		} );
 
 	const config = {
 		schemaVersion: 1,

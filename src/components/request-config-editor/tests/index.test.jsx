@@ -134,6 +134,15 @@ it( 'generates request JSON initially and ignores semantically equivalent rerend
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{"manual":true}' );
 } );
 
+it( 'generates JSON without an error when path values are missing', () => {
+	renderEditor( { requestConfigSource: { ...syncSource, pathValues: {} } } );
+
+	expect( JSON.parse( container.querySelector( 'textarea' ).value ).request.pathValues ).toEqual( {
+		$site: '',
+	} );
+	expect( container.querySelector( '[role="alert"]' ) ).toBeNull();
+} );
+
 it.each( [
 	[ 'API', ( value ) => ( { ...value, api: 'WP.ORG API' } ) ],
 	[ 'version', ( value ) => ( { ...value, version: 'v2' } ) ],

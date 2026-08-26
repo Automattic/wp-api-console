@@ -248,13 +248,16 @@ it( 'requires a selected endpoint', () => {
 it.each( [
 	[ 'absent', {} ],
 	[ 'undefined', { $site: undefined } ],
-] )( 'rejects an %s required path value', ( label, pathValues ) => {
-	try {
-		createRequestConfig( { ...source, pathValues } );
-		throw new Error( 'Expected createRequestConfig to throw' );
-	} catch ( error ) {
-		expect( error ).toMatchObject( { code: 'MISSING_PATH_VALUE' } );
-	}
+] )( 'defaults an %s required path value to an empty string', ( _label, pathValues ) => {
+	expect( createRequestConfig( { ...source, pathValues } ).request.pathValues ).toEqual( {
+		$site: '',
+	} );
+} );
+
+it.each( [ '', 0, false, null ] )( 'preserves an explicit path value: %j', pathValue => {
+	expect(
+		createRequestConfig( { ...source, pathValues: { $site: pathValue } } ).request.pathValues
+	).toEqual( { $site: pathValue } );
 } );
 
 it.each( [
