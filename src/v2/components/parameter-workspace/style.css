@@ -1,0 +1,109 @@
+.v2-parameter-workspace {
+	min-width: 0;
+}
+
+.v2-parameter-workspace .components-card__header h2 {
+	font-size: 16px;
+	margin: 0;
+}
+
+.v2-parameter-workspace__body {
+	padding: 0;
+}
+
+.v2-parameter-workspace__tabs .components-tab-panel__tabs {
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	padding: 0 12px;
+}
+
+.v2-parameter-workspace__tabs .components-tab-panel__tabs-item {
+	border-radius: 0;
+}
+
+.v2-parameter-workspace__tabs .components-tab-panel__tabs-item.is-active {
+	box-shadow: inset 0 -3px var( --wp-admin-theme-color, #3858e9 );
+}
+
+.v2-parameter-workspace__table-header,
+.v2-parameter-workspace__row {
+	align-items: center;
+	display: grid;
+	gap: 12px;
+	grid-template-columns: minmax( 110px, 0.7fr ) 90px minmax( 180px, 1.5fr ) auto;
+	padding: 10px 16px;
+}
+
+.v2-parameter-workspace__table-header {
+	border-bottom: 1px solid #ddd;
+	color: #646970;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.v2-parameter-workspace__row {
+	border-bottom: 1px solid #e8e8e8;
+	min-height: 48px;
+}
+
+.v2-parameter-workspace__row:last-child {
+	border-bottom: 0;
+}
+
+.v2-parameter-workspace__name {
+	color: #1e1e1e;
+	overflow-wrap: anywhere;
+}
+
+.v2-parameter-workspace__type {
+	background: #f0f6fc;
+	border-radius: 12px;
+	color: #3858e9;
+	font-size: 11px;
+	font-weight: 600;
+	justify-self: start;
+	padding: 3px 8px;
+}
+
+.v2-parameter-workspace__control,
+.v2-parameter-workspace__control .components-base-control,
+.v2-parameter-workspace__control .components-base-control__field {
+	margin-bottom: 0;
+	min-width: 0;
+}
+
+.v2-parameter-workspace__clear {
+	min-width: 52px;
+	text-align: right;
+}
+
+.v2-parameter-workspace__empty {
+	color: #646970;
+	margin: 0;
+	padding: 24px 16px;
+}
+
+@media ( max-width: 600px ) {
+	.v2-parameter-workspace__table-header {
+		display: none;
+	}
+
+	.v2-parameter-workspace__row {
+		grid-template-columns: minmax( 0, 1fr ) auto;
+	}
+
+	.v2-parameter-workspace__type {
+		justify-self: end;
+	}
+
+	.v2-parameter-workspace__control {
+		grid-column: 1 / -1;
+	}
+
+	.v2-parameter-workspace__clear {
+		grid-column: 1 / -1;
+		text-align: left;
+	}
+}
