@@ -59,6 +59,9 @@ it( 'uses the same compact heading and content height as the parameter panel', (
 		/\.v2-request-config-panel \.components-card__header h2\s*\{[^}]*font-size:\s*13px;/s
 	);
 	expect( css ).toMatch(
+		/\.v2-request-config-panel \.v2-request-config-panel__body\s*\{[^}]*padding:\s*0;/s
+	);
+	expect( css ).toMatch(
 		/\.v2-request-config-panel \.request-config-editor__code\s*\{[^}]*min-height:\s*222px;/s
 	);
 } );

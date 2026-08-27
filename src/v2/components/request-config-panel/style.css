@@ -12,7 +12,7 @@
 	margin: 0;
 }
 
-.v2-request-config-panel__body {
+.v2-request-config-panel .v2-request-config-panel__body {
 	display: flex;
 	padding: 0;
 }

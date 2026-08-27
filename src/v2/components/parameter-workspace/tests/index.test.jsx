@@ -211,6 +211,9 @@ it( 'keeps the parameter list compact, scrolling internally under a sticky heade
 		/\.v2-parameter-workspace__table-header,[\s\S]*?\.v2-parameter-workspace__row\s*\{[^}]*gap:\s*8px;[^}]*padding:\s*4px 12px;/s
 	);
 	expect( css ).toMatch( /\.v2-parameter-workspace__row\s*\{[^}]*min-height:\s*36px;/s );
+	expect( css ).toMatch(
+		/\.v2-parameter-workspace \.v2-parameter-workspace__body\s*\{[^}]*padding:\s*0;/s
+	);
 	expect( css ).toMatch( /\.v2-parameter-workspace__table\s*\{[^}]*font-size:\s*13px;/s );
 	expect( css ).toMatch(
 		/\.v2-parameter-workspace__control input:not\( \[type="checkbox"\] \),[\s\S]*?\{[^}]*height:\s*32px;/s

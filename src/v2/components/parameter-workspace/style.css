@@ -17,7 +17,7 @@
 	min-height: 32px;
 }
 
-.v2-parameter-workspace__body {
+.v2-parameter-workspace .v2-parameter-workspace__body {
 	padding: 0;
 }
 
