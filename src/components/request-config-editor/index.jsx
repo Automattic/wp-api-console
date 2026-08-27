@@ -157,7 +157,10 @@ export class RequestConfigEditor extends Component {
 	copyMarkdown = async () => {
 		try {
 			const draft = formatJsonText( this.state.draft );
-			await navigator.clipboard.writeText( `\`\`\`json\n${ draft }\`\`\`\n` );
+			await navigator.clipboard.writeText(
+				'### Go to https://developer.wordpress.com/docs/api/console/ and copy and paste this json\n\n' +
+					`\`\`\`json\n${ draft }\`\`\`\n`
+			);
 			this.safeSetState( { error: '' } );
 		} catch ( error ) {
 			this.setError( error );

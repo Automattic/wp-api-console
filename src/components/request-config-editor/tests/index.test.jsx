@@ -277,7 +277,8 @@ it( 'copies deterministic formatted JSON as a GitHub Markdown code fence', async
 	} );
 
 	expect( navigator.clipboard.writeText ).toHaveBeenCalledWith(
-		'```json\n{\n  "a": 1,\n  "b": 2\n}\n```\n'
+		'### Go to https://developer.wordpress.com/docs/api/console/ and copy and paste this json\n\n' +
+			'```json\n{\n  "a": 1,\n  "b": 2\n}\n```\n'
 	);
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{"b":2,"a":1}' );
 } );
