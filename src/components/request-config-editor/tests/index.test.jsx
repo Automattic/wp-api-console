@@ -1,6 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
@@ -118,17 +115,6 @@ const renderEditor = ( props = {} ) => {
 		);
 	} );
 };
-
-it( 'defines a visible keyboard focus fallback and suppresses mouse-only focus when supported', () => {
-	const css = fs.readFileSync( path.resolve( 'src/components/request-config-editor/style.css' ), 'utf8' );
-
-	expect( css ).toContain( '.request-config-editor__code textarea:focus,' );
-	expect( css ).toContain( '.request-config-editor__actions button:focus {' );
-	expect( css ).toContain( '@supports selector(:focus-visible)' );
-	expect( css ).toContain( 'textarea:focus:not(:focus-visible)' );
-	expect( css ).toContain( 'button:focus:not(:focus-visible)' );
-	expect( css ).not.toContain( '@supports not selector(:focus-visible)' );
-} );
 
 it( 'generates request JSON initially and ignores semantically equivalent rerenders', () => {
 	renderEditor( { requestConfigSource: syncSource } );

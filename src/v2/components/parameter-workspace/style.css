@@ -46,7 +46,7 @@
 
 .v2-parameter-workspace__table {
 	font-size: 13px;
-	max-height: 222px;
+	max-height: 320px;
 	overflow-y: auto;
 	position: relative;
 }

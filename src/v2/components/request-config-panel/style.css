@@ -27,9 +27,12 @@
 }
 
 .v2-request-config-panel .request-config-editor__code {
+	flex: 0 0 320px;
 	font-size: 12px;
 	line-height: 18px;
-	min-height: 222px;
+	max-height: 320px;
+	min-height: 320px;
+	overflow: auto;
 }
 
 .v2-request-config-panel .request-config-editor__actions {

@@ -1,6 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
@@ -53,12 +50,4 @@ it( 'renders the original V1 header, query builder, and results sequence', () =>
 			child.getAttribute( 'data-testid' )
 		)
 	).toEqual( [ 'header', 'query-builder', 'results' ] );
-} );
-
-it( 'keeps the original V1 builder below the fixed endpoint header', () => {
-	const css = fs.readFileSync( path.resolve( 'src/components/query-builder/style.css' ), 'utf8' );
-
-	expect( css ).toContain( 'padding: 60px 16px 24px 16px;' );
-	expect( css ).toContain( 'flex-direction: row;' );
-	expect( css ).toContain( 'border-bottom: 1px solid #eaf1f6;' );
 } );

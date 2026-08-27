@@ -3,7 +3,7 @@
 }
 
 .v2-console__workspace {
-	align-items: start;
+	align-items: stretch;
 	display: grid;
 	grid-template-columns: minmax( 0, 1fr ) minmax( 0, 1fr );
 	gap: 16px;

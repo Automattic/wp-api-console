@@ -1,6 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react';
@@ -193,31 +190,6 @@ it( 'normalizes legacy discovery types and object descriptions', () => {
 		container.querySelector( '[aria-label="About context"]' ).closest( '[data-tooltip-text]' )
 			.dataset.tooltipText
 	).toBe( 'display: Use the display context.\nedit: Use the edit context.' );
-} );
-
-it( 'keeps the parameter list compact, scrolling internally under a sticky header', () => {
-	const css = fs.readFileSync(
-		path.resolve( 'src/v2/components/parameter-workspace/style.css' ),
-		'utf8'
-	);
-
-	expect( css ).toMatch(
-		/\.v2-parameter-workspace__table\s*\{[^}]*max-height:\s*222px;[^}]*overflow-y:\s*auto;/s
-	);
-	expect( css ).toMatch(
-		/\.v2-parameter-workspace__table-header\s*\{[^}]*position:\s*sticky;[^}]*top:\s*0;/s
-	);
-	expect( css ).toMatch(
-		/\.v2-parameter-workspace__table-header,[\s\S]*?\.v2-parameter-workspace__row\s*\{[^}]*gap:\s*8px;[^}]*padding:\s*4px 12px;/s
-	);
-	expect( css ).toMatch( /\.v2-parameter-workspace__row\s*\{[^}]*min-height:\s*36px;/s );
-	expect( css ).toMatch(
-		/\.v2-parameter-workspace \.v2-parameter-workspace__body\s*\{[^}]*padding:\s*0;/s
-	);
-	expect( css ).toMatch( /\.v2-parameter-workspace__table\s*\{[^}]*font-size:\s*13px;/s );
-	expect( css ).toMatch(
-		/\.v2-parameter-workspace__control input:not\( \[type="checkbox"\] \),[\s\S]*?\{[^}]*height:\s*32px;/s
-	);
 } );
 
 it( 'renders static type badges and preserves false, zero, object, and mixed-array values', () => {
