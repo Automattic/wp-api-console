@@ -267,6 +267,21 @@ it( 'copies deterministic formatted JSON and updates the draft after success', a
 	expect( container.querySelector( 'textarea' ).value ).toBe( '{\n  "a": 1,\n  "b": 2\n}\n' );
 } );
 
+it( 'copies deterministic formatted JSON as a GitHub Markdown code fence', async () => {
+	renderEditor();
+	setTextAreaValue( container.querySelector( 'textarea' ), '{"b":2,"a":1}' );
+
+	await act( async () => {
+		findButton( container, 'Copy Markdown' ).click();
+		await Promise.resolve();
+	} );
+
+	expect( navigator.clipboard.writeText ).toHaveBeenCalledWith(
+		'```json\n{\n  "a": 1,\n  "b": 2\n}\n```\n'
+	);
+	expect( container.querySelector( 'textarea' ).value ).toBe( '{"b":2,"a":1}' );
+} );
+
 it( 'does not copy invalid JSON and reports a parse error', async () => {
 	renderEditor();
 	setTextAreaValue( container.querySelector( 'textarea' ), '{' );

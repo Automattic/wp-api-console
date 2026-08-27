@@ -154,6 +154,16 @@ export class RequestConfigEditor extends Component {
 		}
 	};
 
+	copyMarkdown = async () => {
+		try {
+			const draft = formatJsonText( this.state.draft );
+			await navigator.clipboard.writeText( `\`\`\`json\n${ draft }\`\`\`\n` );
+			this.safeSetState( { error: '' } );
+		} catch ( error ) {
+			this.setError( error );
+		}
+	};
+
 	render() {
 		const { draft, error } = this.state;
 		const { requestConfigSource = {} } = this.props;
@@ -191,6 +201,9 @@ export class RequestConfigEditor extends Component {
 					</button>
 					<button type="button" onClick={ this.copyJson } disabled={ ! hasDraft }>
 						Copy JSON
+					</button>
+					<button type="button" onClick={ this.copyMarkdown } disabled={ ! hasDraft }>
+						Copy Markdown
 					</button>
 				</div>
 			</section>
