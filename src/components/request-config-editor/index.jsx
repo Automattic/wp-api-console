@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import Editor from 'react-simple-code-editor';
 import Prism from 'prismjs';
@@ -171,6 +171,16 @@ export class RequestConfigEditor extends Component {
 		const { draft, error } = this.state;
 		const { requestConfigSource = {} } = this.props;
 		const hasDraft = '' !== draft;
+
+		if ( ! requestConfigSource.endpoint ) {
+			return (
+				<section className="request-config-editor" aria-label="Request configuration JSON editor">
+					<div className="v2-card-empty-state" role="status">
+						<p>Select an endpoint to generate a request configuration.</p>
+					</div>
+				</section>
+			);
+		}
 
 		return (
 			<section className="request-config-editor" aria-label="Request configuration JSON editor">

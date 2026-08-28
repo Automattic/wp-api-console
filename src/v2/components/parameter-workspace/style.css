@@ -12,6 +12,10 @@
 	margin: 0;
 }
 
+.v2-parameter-workspace .components-tab-panel__tabs {
+	margin-bottom: 8px;
+}
+
 .v2-parameter-workspace .components-tab-panel__tabs button {
 	font-size: 13px;
 	min-height: 32px;
@@ -36,7 +40,7 @@
 	min-height: 36px;
 }
 
-.v2-parameter-workspace__control input:not( [type="checkbox"] ),
+.v2-parameter-workspace__control input:not( [type='checkbox'] ),
 .v2-parameter-workspace__control textarea,
 .v2-parameter-workspace__control .components-input-control__container {
 	font-size: 13px;

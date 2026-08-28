@@ -1,4 +1,4 @@
-import React, { act } from 'react';
+import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { vi } from 'vitest';
 
@@ -115,6 +115,19 @@ const renderEditor = ( props = {} ) => {
 		);
 	} );
 };
+
+it( 'shows a consistent empty state before endpoint selection', () => {
+	renderEditor( { requestConfigSource: { ...source, endpoint: null } } );
+
+	const emptyState = container.querySelector( '.v2-card-empty-state' );
+
+	expect( emptyState.getAttribute( 'role' ) ).toBe( 'status' );
+	expect( emptyState.textContent ).toBe(
+		'Select an endpoint to generate a request configuration.'
+	);
+	expect( container.querySelector( 'textarea' ) ).toBeNull();
+	expect( container.querySelector( '.request-config-editor__actions' ) ).toBeNull();
+} );
 
 it( 'generates request JSON initially and ignores semantically equivalent rerenders', () => {
 	renderEditor( { requestConfigSource: syncSource } );
@@ -372,7 +385,7 @@ it( 'invalidates an in-flight apply as soon as a newer edit is typed', async () 
 		.fn()
 		.mockImplementationOnce(
 			() =>
-				new Promise( resolve => {
+				new Promise( ( resolve ) => {
 					resolveFirst = resolve;
 				} )
 		)

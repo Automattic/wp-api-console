@@ -6,7 +6,7 @@ import Result from './response';
 
 import './style.css';
 
-class Results extends React.Component {
+export class Results extends React.Component {
 	componentWillMount() {
 		document.addEventListener( 'click', this.overrideClickIfSelected, true );
 	}
@@ -15,34 +15,41 @@ class Results extends React.Component {
 		document.removeEventListener( 'click', this.overrideClickIfSelected, true );
 	}
 
-	overrideClickIfSelected = event => {
+	overrideClickIfSelected = ( event ) => {
 		if ( window.getSelection().toString().length ) {
 			event.stopPropagation();
 		}
 	};
 
 	render() {
-		const { results } = this.props;
+		const { emptyMessage, results } = this.props;
+
+		if ( ! results.length && emptyMessage ) {
+			return (
+				<div className="results results--empty v2-card-empty-state" role="status">
+					<p className="results__empty-message">{ emptyMessage }</p>
+				</div>
+			);
+		}
 
 		return (
 			<div className="results">
-				{ results.map( result =>
+				{ results.map( ( result ) => (
 					<Result
 						key={ result.id }
 						result={ result }
-						className={ classnames( 'request', { error: result.response && !! result.response.error } ) }
-
+						className={ classnames( 'request', {
+							error: result.response && !! result.response.error,
+						} ) }
 					/>
-				)}
+				) ) }
 			</div>
 		);
 	}
 }
 
-export default connect(
-	state => {
-		return {
-			results: getResults( state ),
-		};
-	}
-)( Results );
+export default connect( ( state ) => {
+	return {
+		results: getResults( state ),
+	};
+} )( Results );

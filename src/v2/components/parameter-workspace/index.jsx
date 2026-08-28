@@ -30,7 +30,10 @@ const PARAMETER_TABS = [
 const hasOwn = ( object, property ) => Object.prototype.hasOwnProperty.call( object, property );
 
 export const normalizeParameterType = ( type = 'string' ) => {
-	const normalized = type.trim().toLowerCase().replace( /^\(|\)$/g, '' );
+	const normalized = type
+		.trim()
+		.toLowerCase()
+		.replace( /^\(|\)$/g, '' );
 	const aliases = {
 		bool: 'boolean',
 		int: 'integer',
@@ -225,10 +228,8 @@ export const ParameterWorkspace = ( {
 				<CardHeader>
 					<h2>Request parameters</h2>
 				</CardHeader>
-				<CardBody>
-					<p className="v2-parameter-workspace__empty" role="status">
-						Select an endpoint to configure request parameters.
-					</p>
+				<CardBody className="v2-card-empty-state" role="status">
+					<p>Select an endpoint to configure request parameters.</p>
 				</CardBody>
 			</Card>
 		);

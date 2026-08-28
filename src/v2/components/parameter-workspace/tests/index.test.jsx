@@ -5,7 +5,11 @@ import { vi } from 'vitest';
 
 vi.mock( '@wordpress/components', () => ( {
 	Button: ( { children, icon, label, size, variant, ...props } ) => (
-		<button aria-label={ props[ 'aria-label' ] || label } data-icon={ icon || undefined } { ...props }>
+		<button
+			aria-label={ props[ 'aria-label' ] || label }
+			data-icon={ icon || undefined }
+			{ ...props }
+		>
 			{ children }
 		</button>
 	),
@@ -184,7 +188,10 @@ it( 'normalizes legacy discovery types and object descriptions', () => {
 	expect( container.querySelector( '[aria-label="ratio"]' ).dataset.control ).toBe( 'number' );
 	expect( container.querySelector( '[aria-label="context"]' ).dataset.control ).toBe( 'text' );
 	expect(
-		Array.from( container.querySelectorAll( '[data-parameter-type]' ), ( badge ) => badge.textContent )
+		Array.from(
+			container.querySelectorAll( '[data-parameter-type]' ),
+			( badge ) => badge.textContent
+		)
 	).toEqual( [ 'boolean', 'integer', 'number', 'string' ] );
 	expect(
 		container.querySelector( '[aria-label="About context"]' ).closest( '[data-tooltip-text]' )
@@ -268,12 +275,13 @@ it( 'dispatches body changes through the Body tab', () => {
 	expect( setBodyParam ).toHaveBeenCalledWith( 'title', 'New title' );
 } );
 
-it( 'shows an endpoint state before selection', () => {
+it( 'shows a consistent card empty state before endpoint selection', () => {
 	renderWorkspace( { endpoint: false } );
 
-	expect( container.querySelector( '[role="status"]' ).textContent ).toBe(
-		'Select an endpoint to configure request parameters.'
-	);
+	const emptyState = container.querySelector( '.v2-card-empty-state' );
+
+	expect( emptyState.getAttribute( 'role' ) ).toBe( 'status' );
+	expect( emptyState.textContent ).toBe( 'Select an endpoint to configure request parameters.' );
 } );
 
 it( 'shows explicit empty states for Query and Body tabs', () => {
