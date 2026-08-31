@@ -148,16 +148,16 @@ it( 'shows only Query and Body tabs because Path remains in the V1 header', () =
 	expect( container.textContent ).not.toContain( 'Path' );
 } );
 
-it( 'exposes discovery descriptions through a keyboard-focusable tooltip control', () => {
+it( 'shows discovery descriptions in a visible column without tooltip controls', () => {
 	renderWorkspace();
 
-	const helpButton = container.querySelector( '[aria-label="About enabled"]' );
-	expect( helpButton.tagName ).toBe( 'BUTTON' );
-	expect( helpButton.tabIndex ).toBe( 0 );
-	expect( helpButton.dataset.icon ).toBe( 'info-outline' );
-	expect( helpButton.closest( '[data-tooltip-text]' ).dataset.tooltipText ).toBe(
-		'Whether the feature is enabled.'
+	expect(
+		container.querySelector( '[data-parameter-description="enabled"]' ).textContent
+	).toBe( 'Whether the feature is enabled.' );
+	expect( container.querySelector( '[data-parameter-description="count"]' ).textContent ).toBe(
+		'—'
 	);
+	expect( container.querySelector( '[aria-label="About enabled"]' ) ).toBeNull();
 } );
 
 it( 'normalizes legacy discovery types and object descriptions', () => {
@@ -193,10 +193,9 @@ it( 'normalizes legacy discovery types and object descriptions', () => {
 			( badge ) => badge.textContent
 		)
 	).toEqual( [ 'boolean', 'integer', 'number', 'string' ] );
-	expect(
-		container.querySelector( '[aria-label="About context"]' ).closest( '[data-tooltip-text]' )
-			.dataset.tooltipText
-	).toBe( 'display: Use the display context.\nedit: Use the edit context.' );
+	expect( container.querySelector( '[data-parameter-description="context"]' ).textContent ).toBe(
+		'display: Use the display context.\nedit: Use the edit context.'
+	);
 } );
 
 it( 'renders static type badges and preserves false, zero, object, and mixed-array values', () => {

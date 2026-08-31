@@ -5,7 +5,7 @@
 .v2-console__workspace {
 	align-items: stretch;
 	display: grid;
-	grid-template-columns: minmax( 0, 1fr ) minmax( 0, 1fr );
+	grid-template-columns: minmax( 0, 7fr ) minmax( 280px, 3fr );
 	gap: 16px;
 	padding: 16px;
 }

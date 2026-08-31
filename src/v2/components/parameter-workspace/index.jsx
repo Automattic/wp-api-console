@@ -10,7 +10,6 @@ import {
 	TextControl,
 	TextareaControl,
 	ToggleControl,
-	Tooltip,
 } from '@wordpress/components';
 
 import './style.css';
@@ -160,6 +159,7 @@ const ParameterTable = ( { kind, params = {}, values = {}, onChange } ) => {
 				<span>Parameter</span>
 				<span>Type</span>
 				<span>Value</span>
+				<span>Description</span>
 				<span />
 			</div>
 			{ parameterNames.map( ( name ) => {
@@ -173,17 +173,6 @@ const ParameterTable = ( { kind, params = {}, values = {}, onChange } ) => {
 					<div className="v2-parameter-workspace__row" key={ name }>
 						<div className="v2-parameter-workspace__name-cell">
 							<code className="v2-parameter-workspace__name">{ name }</code>
-							{ description && (
-								<Tooltip text={ description }>
-									<Button
-										className="v2-parameter-workspace__help"
-										icon="info-outline"
-										label={ `About ${ name }` }
-										size="small"
-										variant="tertiary"
-									/>
-								</Tooltip>
-							) }
 						</div>
 						<span className="v2-parameter-workspace__type" data-parameter-type={ type }>
 							{ type }
@@ -196,6 +185,12 @@ const ParameterTable = ( { kind, params = {}, values = {}, onChange } ) => {
 								value={ values[ name ] }
 							/>
 						</div>
+						<p
+							className="v2-parameter-workspace__description"
+							data-parameter-description={ name }
+						>
+							{ description || '—' }
+						</p>
 						<div className="v2-parameter-workspace__clear">
 							{ isPresent && (
 								<Button

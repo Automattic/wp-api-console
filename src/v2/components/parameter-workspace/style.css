@@ -60,7 +60,12 @@
 	align-items: center;
 	display: grid;
 	gap: 8px;
-	grid-template-columns: minmax( 110px, 0.7fr ) 72px minmax( 180px, 1.5fr ) auto;
+	grid-template-columns:
+		minmax( 110px, 0.75fr )
+		72px
+		minmax( 180px, 1.25fr )
+		minmax( 180px, 1.5fr )
+		auto;
 	padding: 4px 12px;
 }
 
@@ -99,12 +104,13 @@
 	overflow-wrap: anywhere;
 }
 
-.v2-parameter-workspace__help.components-button {
-	flex: 0 0 24px;
-	height: 24px;
-	justify-content: center;
-	min-width: 24px;
-	padding: 0;
+.v2-parameter-workspace__description {
+	color: #646970;
+	line-height: 1.4;
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	white-space: pre-line;
 }
 
 .v2-parameter-workspace__type {
@@ -154,7 +160,8 @@
 		justify-self: end;
 	}
 
-	.v2-parameter-workspace__control {
+	.v2-parameter-workspace__control,
+	.v2-parameter-workspace__description {
 		grid-column: 1 / -1;
 	}
 
