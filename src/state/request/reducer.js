@@ -1,5 +1,6 @@
 import { createReducer } from '../../lib/redux/create-reducer';
 import {
+	REQUEST_CONFIG_APPLY,
 	REQUEST_SET_METHOD,
 	REQUEST_SELECT_ENDPOINT,
 	REQUEST_UPDATE_URL,
@@ -66,6 +67,16 @@ const reducer = createReducer( defaultState, {
 				[ param ]: value,
 			},
 		} );
+	},
+	[ REQUEST_CONFIG_APPLY ]: ( state, { payload } ) => {
+		return {
+			method: payload.endpoint.method,
+			endpoint: payload.endpoint,
+			pathValues: payload.pathValues,
+			url: '',
+			queryParams: payload.queryParams,
+			bodyParams: payload.bodyParams,
+		};
 	},
 	[ UI_SELECT_VERSION ]: ( state, { payload: { param, value } } ) => {
 		return ( {
