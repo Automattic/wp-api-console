@@ -2,6 +2,7 @@ import deepFreeze from 'deep-freeze';
 
 import reducer from '../reducer';
 import {
+	REQUEST_CONFIG_APPLY,
 	REQUEST_SET_METHOD,
 	REQUEST_SELECT_ENDPOINT,
 	REQUEST_UPDATE_URL,
@@ -154,5 +155,37 @@ it( 'should reset the state when switching APIs', () => {
 		bodyParams: {},
 		pathValues: {},
 		url: '',
+	} );
+} );
+
+it( 'atomically replaces the complete request configuration without merging old values', () => {
+	const importedEndpoint = {
+		method: 'POST',
+		pathLabeled: '/sites/$site/comments/new',
+		request: {
+			path: { $site: {} },
+			query: { status: {} },
+			body: { content: {} },
+		},
+	};
+	const action = {
+		type: REQUEST_CONFIG_APPLY,
+		payload: {
+			api: 'WP.COM API',
+			version: 'v1.1',
+			endpoint: importedEndpoint,
+			pathValues: { $site: '' },
+			queryParams: { status: false, page: 0 },
+			bodyParams: { content: '' },
+		},
+	};
+
+	expect( reducer( state, action ) ).toEqual( {
+		method: 'POST',
+		endpoint: importedEndpoint,
+		pathValues: { $site: '' },
+		url: '',
+		queryParams: { status: false, page: 0 },
+		bodyParams: { content: '' },
 	} );
 } );
