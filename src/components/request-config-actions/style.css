@@ -1,0 +1,96 @@
+.request-config-actions {
+	display: flex;
+	flex: 0 0 auto;
+}
+
+.request-config-actions__trigger {
+	appearance: none;
+	background: #fff;
+	border: 0;
+	border-left: 1px solid #e6eff4;
+	color: #2487bc;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 14px;
+	min-width: 64px;
+	padding: 0 12px;
+}
+
+.request-config-actions__trigger:hover,
+.request-config-actions__trigger:focus-visible {
+	background: hsl( 201, 60%, 94% );
+	outline: none;
+}
+
+.request-config-actions__trigger:disabled {
+	color: #9ab4c3;
+	cursor: default;
+}
+
+.request-config-actions__trigger:disabled:hover {
+	background: #fff;
+}
+
+.request-config-dialog__editor-label {
+	clip: rect( 0 0 0 0 );
+	clip-path: inset( 50% );
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.request-config-dialog__editor {
+	background: #f7f9fa;
+	border: 1px solid #c3c4c7;
+	box-sizing: border-box;
+	font-family: SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+	font-size: 13px;
+	line-height: 20px;
+	max-height: 50vh;
+	min-height: 320px;
+	overflow: auto;
+	width: min( 680px, calc( 100vw - 96px ) );
+}
+
+.request-config-dialog__editor textarea,
+.request-config-dialog__editor pre,
+.request-config-dialog__textarea,
+.request-config-dialog__highlight {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.request-config-dialog__editor textarea:focus {
+	outline: 2px solid #2e92cc;
+	outline-offset: -2px;
+}
+
+.request-config-dialog__error {
+	background: #ffe4e4;
+	color: #a42828;
+	font-size: 13px;
+	margin: 12px 0 0;
+	padding: 10px 12px;
+}
+
+.request-config-dialog__actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 16px;
+}
+
+@media ( max-width: 600px ) {
+	.request-config-actions__trigger {
+		min-width: 52px;
+		padding: 0 8px;
+	}
+
+	.request-config-dialog__editor {
+		min-height: 240px;
+		width: calc( 100vw - 64px );
+	}
+}
